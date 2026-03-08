@@ -1,0 +1,121 @@
+// ── Navbar ────────────────────────────────────────
+@use 'variables' as *;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: transparent;
+  transition: background $ease, box-shadow $ease, padding $ease;
+  padding: 0;
+
+  &.scrolled {
+    background: rgba($blue-deepest, 0.97);
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(12px);
+  }
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-logo {
+  font-family: var(--font-sans);
+  font-weight: 900;
+  font-size: 1.35rem;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+  cursor: pointer;
+  line-height: 1;
+
+  .logo-meta { color: $white; }
+
+  .logo-body {
+    background: linear-gradient(90deg, $green-light 0%, $cyan-mid 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .logo-club {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    display: block;
+    margin-top: 1px;
+    background: linear-gradient(90deg, $green-light 0%, $cyan-mid 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.8rem;
+  margin-left: auto;
+
+  // O botão de login existe apenas no menu mobile; esconder no desktop
+  .nav-login-mobile { display: none; }
+
+  a {
+    color: rgba($white, 0.75);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color $ease;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: $green-light;
+      transition: width $ease;
+      border-radius: 1px;
+    }
+
+    &:hover,
+    &.active {
+      color: $white;
+      &::after { width: 100%; }
+    }
+  }
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 4px;
+  margin-left: auto;
+
+  span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: $white;
+    border-radius: 2px;
+    transition: $ease;
+  }
+
+  &.active {
+    span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    span:nth-child(2) { opacity: 0; }
+    span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+  }
+}

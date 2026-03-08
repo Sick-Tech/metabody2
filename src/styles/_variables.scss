@@ -1,0 +1,51 @@
+// ============================================================
+// METABODY CLUB — Design Tokens (SCSS Variables)
+// Cores extraídas do logo oficial MetaBody Club
+// Regra 60-30-10:
+//   60% → Azul escuro/petróleo (estrutural)
+//   30% → Verde vibrante (identidade)
+//   10% → Ciano/Verde-limão (destaque e ação)
+// ============================================================
+
+// ── Azul escuro (60%) ──
+$blue-deepest:  #07131C;
+$blue-dark:     #0D2233;
+$blue-mid:      #1A3A52;
+$blue-base:     #2A5470;
+$blue-soft:     #4A7A9B;
+$blue-pale:     #C8DDE8;
+
+// ── Verde (30%) ──
+$green-dark:    #1B5E20;
+$green-mid:     #2E7D32;
+$green-base:    #4CAF50;
+$green-light:   #76C442;
+$green-pale:    #E8F5E9;
+
+// ── Ciano / Verde-limão (10%) ──
+$cyan-dark:     #065F7A;
+$cyan-base:     #0B7EA8;
+$cyan-mid:      #29A8D4;
+$cyan-light:    #A8E63D;
+$cyan-pale:     #D4F56A;
+
+// ── Neutros ──
+$white:         #FFFFFF;
+$ink:           #0A1F2E;
+$ink-soft:      #2A4A5E;
+$surface:       #F4F9FB;
+$surface-dark:  #EAF2F6;
+
+// ── Typography ──
+$font-sans:     'Montserrat', sans-serif;
+$font-serif:    'Playfair Display', serif;
+
+// ── Spacing & Radius ──
+$radius:        12px;
+$radius-lg:     20px;
+$radius-xl:     32px;
+$section-pad:   5rem;
+
+// ── Transitions ──
+$ease:          0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$ease-bounce:   0.5s cubic-bezier(0.34, 1.56, 0.64, 1);

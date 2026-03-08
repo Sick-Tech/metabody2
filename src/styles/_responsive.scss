@@ -1,0 +1,568 @@
+// ── Responsive ────────────────────────────────────
+@use 'variables' as *;
+
+// Tablet (≤ 1024px)
+@media (max-width: 1024px) {
+  // results-photo-grid já é 2×2 por padrão — sem override necessário
+
+  .services-grid,
+  .plans-grid { grid-template-columns: 1fr 1fr; }
+
+  .plans-grid {
+    .plan-card:last-child {
+      grid-column: 1 / -1;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .plan-card--best { transform: none; }
+  }
+
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .team-card:last-child {
+    grid-column: 1 / -1;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .footer-container { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+
+// Mobile (≤ 768px)
+@media (max-width: 768px) {
+  // Navbar
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 75vw;
+    max-width: 300px;
+    height: 100vh;
+    background: $blue-deepest;
+    flex-direction: column;
+    padding: 6rem 2rem 2rem;
+    gap: 1.5rem;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.4);
+    z-index: 999;
+
+    &.open { right: 0; }
+
+    a {
+      font-size: 1.05rem;
+      color: $white;
+    }
+
+    // ── Botão de login exclusivo do menu mobile ──
+    .nav-login-mobile {
+      display: flex !important;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: auto;
+      padding: 0.8rem 1.25rem;
+      background: linear-gradient(135deg, $green-base 0%, $cyan-mid 100%);
+      color: $blue-deepest !important;
+      font-size: 0.9rem !important;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      border-radius: 10px;
+      text-transform: uppercase;
+      justify-content: center;
+      box-shadow: 0 4px 18px rgba($green-base, 0.35);
+      transition: opacity 0.2s, transform 0.2s;
+
+      svg {
+        flex-shrink: 0;
+        stroke: $blue-deepest;
+      }
+
+      &::after { display: none; }
+
+      &:hover,
+      &:active {
+        opacity: 0.88;
+        transform: translateY(-1px);
+        color: $blue-deepest !important;
+      }
+    }
+  }
+
+  .btn-nav  { display: none; }
+  .hamburger { display: flex; }
+
+  // Hero
+  .br-desktop { display: none; }
+  .hero-cta-group { flex-direction: column; align-items: center; }
+  .btn-primary,
+  .btn-ghost {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+  }
+
+  // Proof
+  .proof-divider { display: none; }
+  .proof-item { padding: 0.75rem 1.5rem; width: 50%; }
+
+  // Results — grid já é responsivo via media no próprio _sections.scss
+
+  // Services
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .service-card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.1rem;
+    padding: 1.4rem 1.25rem;
+    border-left: 3px solid $green-base;
+    border-top: 1px solid rgba($blue-pale, 0.8);
+    border-right: 1px solid rgba($blue-pale, 0.8);
+    border-bottom: 1px solid rgba($blue-pale, 0.8);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    background: var(--surface);
+
+    &--accent {
+      border-left-color: $cyan-mid;
+    }
+
+    &::before {
+      display: none;
+    }
+
+    .service-icon {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 0;
+    }
+  }
+
+  .service-card-body {
+    display: block; // sobrepõe o display:contents do desktop
+    flex: 1;
+
+    h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      font-size: 0.86rem;
+      line-height: 1.65;
+    }
+  }
+
+  // Pain
+  .pain-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  // — Bloco "Está Cansado De" —
+  .pain-col {
+    padding-bottom: 2.75rem;
+    position: relative;
+
+    // linha divisória entre os dois blocos
+    &:first-child::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, $cyan-mid, transparent);
+      margin-top: 2.75rem;
+    }
+  }
+
+  .pain-list {
+    gap: 0;
+    margin-top: 1.5rem;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(#a8cfe0, 0.15);
+      font-size: 0.9rem;
+
+      &:last-child { border-bottom: none; }
+
+      // garante que o texto (span) nunca herde cor de gradiente
+      span:last-child {
+        color: #d4eaf5 !important;
+        -webkit-text-fill-color: #d4eaf5 !important;
+        background: none !important;
+        font-weight: 500;
+        line-height: 1.55;
+      }
+    }
+  }
+
+  .icon-x {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    background: rgba($cyan-mid, 0.15);
+    border: 1px solid rgba($cyan-mid, 0.35);
+    border-radius: 50%;
+
+    svg {
+      width: 10px;
+      height: 10px;
+      stroke: $cyan-mid;
+    }
+  }
+
+  // — Bloco "Aqui é Diferente" —
+  .pain-col--right {
+    padding: 0;
+    background: transparent;
+    border-top: none;
+    border-radius: 0;
+  }
+
+  // card premium mobile
+  .pain-col--right .benefit-card-header {
+    background: linear-gradient(135deg, $blue-mid 0%, $blue-dark 100%);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 1.6rem 1.5rem 1.4rem;
+    border-top: 3px solid transparent;
+    border-image: linear-gradient(90deg, $green-base, $cyan-mid) 1;
+    border-image-slice: 1;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+
+    .section-eyebrow {
+      color: #5dd4f5;     // ciano claro — leitura imediata sobre escuro
+      opacity: 1;
+      letter-spacing: 0.12em;
+    }
+
+    .section-title {
+      color: #f0f8ff;     // branco-azulado suave — conforto visual máximo
+      margin-bottom: 0;
+    }
+  }
+
+  .benefit-list {
+    background: #ffffff;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    padding: 0.5rem 1.5rem 1.5rem;
+    gap: 0;
+    margin-top: 0;
+    box-shadow: 0 12px 40px rgba($blue-deepest, 0.22);
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba($blue-mid, 0.12);
+      font-size: 0.9rem;
+
+      &:last-child { border-bottom: none; }
+
+      // texto sempre legível — força cor escura sobre fundo branco
+      span:last-child {
+        color: #1e3a4a !important;
+        -webkit-text-fill-color: #1e3a4a !important;
+        background: none !important;
+        font-weight: 500;
+        line-height: 1.55;
+      }
+    }
+  }
+
+  .icon-check {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    background: rgba($green-base, 0.12);
+    border: 1px solid rgba($green-base, 0.3);
+    border-radius: 50%;
+
+    svg {
+      width: 10px;
+      height: 10px;
+      stroke: $green-mid;
+    }
+  }
+
+  // Journey
+  .journey-steps {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .step {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
+    padding: 0;
+    gap: 1.25rem;
+    width: 100%;
+    padding-bottom: 2rem;
+    position: relative;
+
+    &:last-child { padding-bottom: 0; }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 58px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, $green-mid, $green-light);
+    }
+
+    &:last-child::after { display: none; }
+  }
+
+  .step-connector { display: none; }
+  .step-number    { flex-shrink: 0; margin-bottom: 0; }
+  .step-content   { padding-top: 12px; }
+
+  // Team
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .team-card:last-child { grid-column: auto; max-width: 100%; }
+
+  .team-card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.4rem 1.25rem;
+    text-align: left;
+
+    &--featured {
+      border-color: rgba($green-light, 0.4);
+      background: rgba($white, 0.08);
+      // linha lateral de destaque
+      border-left: 3px solid $green-light;
+    }
+
+    // foto à esquerda — fixa
+    .team-photo-wrap {
+      flex-shrink: 0;
+      margin-bottom: 0;
+    }
+
+    .team-photo {
+      width: 78px;
+      height: 78px;
+    }
+
+    .team-photo-badge {
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -8px;
+      font-size: 0.52rem;
+      padding: 0.18rem 0.45rem;
+    }
+
+    // conteúdo à direita
+    .team-info {
+      flex: 1;
+      min-width: 0;
+
+      h3 {
+        font-size: 1.05rem;
+        margin-bottom: 0.2rem;
+      }
+
+      p {
+        font-size: 0.83rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        color: rgba($blue-pale, 0.85);
+      }
+    }
+
+    .team-cref {
+      font-size: 0.62rem;
+      margin-bottom: 0.6rem;
+      color: $cyan-mid;
+    }
+
+    .team-badges {
+      justify-content: flex-start;
+      gap: 0.35rem;
+    }
+
+    .badge {
+      font-size: 0.6rem;
+      padding: 0.22rem 0.6rem;
+    }
+  }
+
+  // Plans
+  .plans-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .plans-grid .plan-card:last-child { max-width: 100%; grid-column: auto; }
+
+  // plano destaque — primeiro no mobile via order
+  .plan-card--best {
+    order: -1;
+    transform: none;
+    border: none;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(145deg, $blue-mid 0%, $blue-dark 60%, darken($green-dark, 6%) 100%);
+    box-shadow:
+      0 0 0 1.5px rgba($green-light, 0.5),
+      0 16px 48px rgba($blue-deepest, 0.5);
+    padding: 1.75rem 1.5rem 1.25rem;
+
+    // faixa "mais popular" redesenhada
+    .plan-badge-best {
+      position: static;
+      transform: none;
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      margin-bottom: 1.1rem;
+      padding: 0.3rem 1rem;
+      background: linear-gradient(90deg, $green-mid, $green-light);
+      border-radius: 50px;
+      color: $white;
+    }
+
+    // nome do plano em branco
+    .plan-header h3 {
+      color: $white;
+      font-size: 1.6rem;
+    }
+
+    .plan-tagline {
+      color: rgba($blue-pale, 0.75);
+    }
+
+    // preço grande e luminoso
+    .plan-currency {
+      color: $green-light;
+    }
+
+    .plan-amount {
+      color: $white;
+      font-size: 3.6rem;
+      background: linear-gradient(135deg, $white, rgba($green-light, 0.85));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .plan-cents {
+      color: rgba($white, 0.85);
+      -webkit-text-fill-color: rgba($white, 0.85);
+    }
+
+    .plan-period {
+      color: rgba($blue-pale, 0.7);
+    }
+
+    .plan-economy {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: $green-light;
+      background: rgba($green-base, 0.12);
+      border: 1px solid rgba($green-light, 0.25);
+      border-radius: 8px;
+      padding: 0.45rem 0.85rem;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+
+    // features sobre fundo escuro
+    .plan-features li {
+      color: rgba($blue-pale, 0.9) !important;
+      -webkit-text-fill-color: rgba($blue-pale, 0.9) !important;
+      border-bottom: 1px solid rgba($blue-pale, 0.08);
+      padding-bottom: 0.5rem;
+
+      &:last-child { border-bottom: none; }
+
+      span {
+        color: $green-light !important;
+        -webkit-text-fill-color: $green-light !important;
+      }
+    }
+
+    // botão CTA diferenciado
+    .btn-plan--best {
+      margin-top: 0.5rem;
+      padding: 1rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      box-shadow: 0 8px 28px rgba($green-base, 0.4);
+    }
+  }
+
+  // cards secundários — mais compactos
+  .plan-card:not(.plan-card--best) {
+    padding: 1.4rem 1.25rem;
+    border: 1px solid rgba($blue-pale, 0.7);
+    background: $white;
+
+    .plan-header h3 { font-size: 1.2rem; }
+
+    .plan-amount { font-size: 2.4rem; }
+
+    .plan-features {
+      gap: 0;
+      margin-bottom: 1.5rem;
+
+      li {
+        font-size: 0.85rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba($blue-pale, 0.4);
+
+        &:last-child { border-bottom: none; }
+      }
+    }
+
+    .btn-plan {
+      padding: 0.8rem;
+      font-size: 0.82rem;
+    }
+  }
+
+  // Footer
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2.5rem 1.5rem 1.5rem;
+  }
+  .footer-brand { grid-column: auto; }
+}
+
+// Small mobile (≤ 480px)
+@media (max-width: 480px) {
+  .section-container { padding: 3.5rem 1.25rem; }
+  .proof-item { padding: 0.6rem 0.75rem; width: 50%; }
+  .proof-item strong { font-size: 1.6rem; }
+  .hero-price-badge { flex-wrap: wrap; justify-content: center; }
+  .results-testimonial { padding: 2rem 1.25rem; }
+  .btn-cta { font-size: 0.88rem; padding: 1rem 1.75rem; }
+
+  // Pain — small screens
+  .pain-col--right .benefit-card-header { padding: 1.35rem 1.25rem 1.2rem; }
+  .benefit-list { padding: 0.25rem 1.25rem 1.25rem; }
+
+  // Plans — small screens
+  .plan-card--best { padding: 1.5rem 1.25rem 1.1rem; }
+  .plan-card--best .plan-amount { font-size: 3rem; }
+}
