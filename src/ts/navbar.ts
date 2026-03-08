@@ -7,6 +7,7 @@ export class Navbar {
   private el: HTMLElement
   private hamburger: HTMLButtonElement
   private navLinks: HTMLElement
+  private overlay: HTMLElement | null
   private sections: NodeListOf<HTMLElement>
   private anchors: NodeListOf<HTMLAnchorElement>
   private state: NavState = { isScrolled: false, isMenuOpen: false, activeSection: '' }
@@ -16,6 +17,7 @@ export class Navbar {
     this.el         = this.getEl<HTMLElement>('#navbar')
     this.hamburger  = this.getEl<HTMLButtonElement>('#hamburger')
     this.navLinks   = this.getEl<HTMLElement>('#navLinks')
+    this.overlay    = document.querySelector<HTMLElement>('#navOverlay')
     this.sections   = document.querySelectorAll<HTMLElement>('section[id]')
     this.anchors    = document.querySelectorAll<HTMLAnchorElement>('.nav-links a')
 
@@ -55,6 +57,9 @@ export class Navbar {
         this.closeMenu()
       }
     })
+
+    // Close on overlay click
+    this.overlay?.addEventListener('click', () => this.closeMenu())
   }
 
   private onScroll(): void {
@@ -72,6 +77,7 @@ export class Navbar {
     this.state.isMenuOpen = true
     this.hamburger.classList.add('active')
     this.navLinks.classList.add('open')
+    this.overlay?.classList.add('open')
     document.body.style.overflow = 'hidden'
   }
 
@@ -79,6 +85,7 @@ export class Navbar {
     this.state.isMenuOpen = false
     this.hamburger.classList.remove('active')
     this.navLinks.classList.remove('open')
+    this.overlay?.classList.remove('open')
     document.body.style.overflow = ''
   }
 
