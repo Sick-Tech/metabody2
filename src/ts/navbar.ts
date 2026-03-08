@@ -44,6 +44,9 @@ export class Navbar {
     // Hamburger toggle
     this.hamburger.addEventListener('click', () => this.toggleMenu())
 
+    // Close button (X) inside menu
+    document.querySelector('#navClose')?.addEventListener('click', () => this.closeMenu())
+
     // Close menu on link click
     this.anchors.forEach(a => a.addEventListener('click', () => this.closeMenu()))
 

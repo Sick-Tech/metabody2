@@ -64,6 +64,32 @@
 
     &.open { right: 0; }
 
+    // ── Botão fechar (X) ──
+    .nav-close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 42px;
+      height: 42px;
+      background: rgba($white, 0.07);
+      border: 1px solid rgba($white, 0.12);
+      border-radius: 50%;
+      color: $white;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+
+      svg { pointer-events: none; }
+
+      &:hover,
+      &:active {
+        background: rgba($white, 0.15);
+        transform: rotate(90deg);
+      }
+    }
+
     a {
       font-size: 1.15rem;
       color: rgba($white, 0.85);
