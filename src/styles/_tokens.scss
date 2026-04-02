@@ -32,9 +32,11 @@
   --ink-soft: #{$ink-soft};
   --surface:  #{$surface};
 
-  // Typography
-  --font-sans:  #{$font-sans};
-  --font-serif: #{$font-serif};
+  // Typography — Manual da Marca MetaBody Club
+  // --font-display → Fonte Primária: "Metabody" (Exo 2, Moderna Facetada)
+  // --font-sans    → Fonte Secundária: "Club" (Inter, Sans-serif Limpa)
+  --font-display: #{$font-display};
+  --font-sans:    #{$font-sans};
 
   // Misc
   --radius:    #{$radius};

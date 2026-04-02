@@ -37,8 +37,10 @@ $surface:       #F4F9FB;
 $surface-dark:  #EAF2F6;
 
 // ── Typography ──
-$font-sans:     'Montserrat', sans-serif;
-$font-serif:    'Playfair Display', serif;
+// Fonte Primária: "Metabody" (Moderna Facetada) → Exo 2
+// Fonte Secundária: "Club" (Sans-serif Limpa) → Inter
+$font-display:  'Exo 2', sans-serif;
+$font-sans:     'Inter', sans-serif;
 
 // ── Spacing & Radius ──
 $radius:        12px;

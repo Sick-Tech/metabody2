@@ -19,7 +19,7 @@ Acredito que cada corpo tem um processo único, e meu compromisso é guiar cada 
         role: 'Especialista em Transformação & Evolução',
         cref: 'CREF 185065-G/SP',
         photo: '/images/team/diego.png',
-        bio: `Minha jornada com o treinamento começou cedo, aos 15 anos, quando descobri na musculação muito mais do que um exercício físico — encontrei uma ferramenta de transformação pessoal.
+        bio: `Minha jornada com o treinamento começou cedo, aos 15 anos, quando descobri na musculação muito mais do que um exercício físico encontrei uma ferramenta de transformação pessoal.
 
 Desde então, o treino se tornou parte fundamental da minha vida, não apenas para desenvolver o corpo, mas para construir disciplina, equilíbrio mental e constância. A musculação me ensinou que resultados verdadeiros são construídos com dedicação diária, estratégia e uma mentalidade forte.
 
@@ -38,7 +38,7 @@ Mais do que treinar corpos, meu objetivo é ajudar pessoas a desenvolverem uma m
 
 Sou esportista desde a infância e praticante de musculação há mais de 5 anos. Vivo na prática os princípios que ensino: constância, mentalidade forte e evolução diária. Acredito que a performance física é reflexo direto de uma mente estruturada e alinhada com propósito.
 
-Como mentor e coach de lifestyle, meu trabalho vai além de treinos e protocolos. Atuo na transformação da mentalidade — o ponto de partida que impacta todas as áreas da vida, principalmente saúde, físico e performance pessoal.
+Como mentor e coach de lifestyle, meu trabalho vai além de treinos e protocolos. Atuo na transformação da mentalidade o ponto de partida que impacta todas as áreas da vida, principalmente saúde, físico e performance pessoal.
 
 Meu método é fundamentado em mudança de identidade, disciplina estratégica e execução consistente, levando meus mentorados a alcançarem resultados sustentáveis e um novo padrão de vida.`,
     },

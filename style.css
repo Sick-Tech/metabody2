@@ -37,9 +37,11 @@
   --ink:       #0A1F2E;
   --ink-soft:  #2A4A5E;
 
-  /* Typography */
-  --font-sans:  'Montserrat', sans-serif;
-  --font-serif: 'Playfair Display', serif;
+  /* Typography — Manual da Marca MetaBody Club */
+  /* --font-display: Fonte Primária "Metabody" (Exo 2, Moderna Facetada) */
+  /* --font-sans:    Fonte Secundária "Club" (Inter, Sans-serif Limpa)    */
+  --font-display: 'Exo 2', sans-serif;
+  --font-sans:    'Inter', sans-serif;
 
   /* Spacing */
   --section-gap: 5rem;
@@ -58,6 +60,10 @@ body {
   color: var(--ink);
   line-height: 1.65;
   overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
 }
 
 img { display: block; max-width: 100%; }
