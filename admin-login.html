@@ -6,6 +6,7 @@
   <title>Admin | MetaBody Club</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <script src="/public/api.config.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('mb-theme')||'dark';}catch(e){}</script>
   <style>
@@ -400,20 +401,13 @@
   </div>
 
   <script>
-    /*
-     * NOTA DE SEGURANÇA: Esta é uma interface de protótipo (front-end only).
-     * Em produção, a autenticação DEVE ser implementada no servidor (back-end),
-     * com tokens seguros, HTTPS obrigatório e proteção contra brute-force.
-     * Nunca exponha credenciais reais em código front-end.
-     */
-    const ADMIN_EMAIL = 'admin@metabody.com.br';
-    const ADMIN_PASS  = 'MetaBody@2026';
+    const API = window.METABODY_API;
 
     const form     = document.getElementById('adminForm');
     const errorEl  = document.getElementById('authError');
     const btnLogin = document.getElementById('btnLogin');
 
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', async e => {
       e.preventDefault();
       const email = document.getElementById('adminEmail').value.trim();
       const pass  = document.getElementById('adminPass').value;
@@ -422,19 +416,27 @@
       btnLogin.disabled = true;
       btnLogin.textContent = 'Verificando…';
 
-      // Simula delay de rede
-      setTimeout(() => {
-        if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
-          sessionStorage.setItem('mb_admin', '1');
-          window.location.href = './admin.html';
-        } else {
-          errorEl.style.display = 'flex';
-          btnLogin.disabled = false;
-          btnLogin.textContent = 'Entrar no painel';
-          document.getElementById('adminPass').value = '';
-          document.getElementById('adminPass').focus();
-        }
-      }, 600);
+      try {
+        const res  = await fetch(`${API}/auth/admin/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password: pass }),
+          credentials: 'include',
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Credenciais inválidas.');
+        localStorage.setItem('mb_user', JSON.stringify(data.user));
+        window.location.href = './admin.html';
+      } catch (err) {
+        const span = errorEl.querySelector('span');
+        if (span) span.textContent = err.message;
+        else errorEl.textContent = err.message;
+        errorEl.style.display = 'flex';
+        btnLogin.disabled = false;
+        btnLogin.textContent = 'Entrar no painel';
+        document.getElementById('adminPass').value = '';
+        document.getElementById('adminPass').focus();
+      }
     });
 
     // ── Tema claro/escuro ─────────────────────────

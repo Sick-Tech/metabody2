@@ -7,6 +7,7 @@
   <title>Área do Aluno | MetaBody Club</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <script src="/public/api.config.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('mb-theme')||'dark';}catch(e){}</script>
   <style>
@@ -1117,23 +1118,6 @@
       stroke: currentColor;
     }
 
-    .btn-remind {
-      padding: 0.45rem 0.85rem;
-      background: rgba(41, 168, 212, 0.1);
-      border: 1px solid rgba(41, 168, 212, 0.2);
-      border-radius: 8px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--cyan-mid);
-      flex-shrink: 0;
-      transition: background var(--ease), border-color var(--ease);
-    }
-
-    .btn-remind:hover {
-      background: rgba(41, 168, 212, 0.18);
-      border-color: rgba(41, 168, 212, 0.35);
-    }
-
     /* ── BANNER PRO LOCK ────────────────────────────── */
     .pro-lock-banner {
       background: linear-gradient(135deg, rgba(118,196,66,0.08), rgba(76,175,80,0.05));
@@ -1801,7 +1785,6 @@
               19h30 · ~60 min
             </span>
           </div>
-          <button class="btn-remind">Lembrar</button>
         </div>
 
         <div class="live-schedule-card">
@@ -1819,7 +1802,6 @@
               20h00 · ~50 min
             </span>
           </div>
-          <button class="btn-remind">Lembrar</button>
         </div>
 
         <div class="live-schedule-card">
@@ -1837,7 +1819,6 @@
               20h00 · ~90 min
             </span>
           </div>
-          <button class="btn-remind">Lembrar</button>
         </div>
 
       </div>
@@ -1848,41 +1829,39 @@
   </main>
 
   <script>
-    // ── Dados do aluno (simulação — substituir por integração real) ──
-    const student = {
-      name: 'João',
-      fullName: 'João Doe',
-      initials: 'JD',
-      plan: 'Pro',
-    };
+    const API = window.METABODY_API;
 
-    // Popula nome na UI
-    const welcomeNameEl = document.getElementById('welcomeName');
-    const userNameEl    = document.getElementById('userName');
-    const userAvatarEl  = document.getElementById('userAvatar');
+    // ── Auth guard ──
+    const _user = (() => { try { return JSON.parse(localStorage.getItem('mb_user')); } catch { return null; } })();
+    if (!_user) { window.location.replace('./login.html'); }
 
-    if (welcomeNameEl) welcomeNameEl.textContent = student.name + '!';
-    if (userNameEl)    userNameEl.textContent    = student.fullName;
-    if (userAvatarEl)  userAvatarEl.textContent  = student.initials;
+    // ── Carrega dados do usuário ──
+    async function loadUser() {
+      try {
+        const res = await fetch(`${API}/users/me`, {
+          credentials: 'include',
+        });
+        if (res.status === 401) { window.location.replace('./login.html'); return; }
+        const user = await res.json();
+        const firstName = user.name.split(' ')[0];
+        const initials  = user.name.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase();
+        const welcomeNameEl = document.getElementById('welcomeName');
+        const userNameEl    = document.getElementById('userName');
+        const userAvatarEl  = document.getElementById('userAvatar');
+        if (welcomeNameEl) welcomeNameEl.textContent = firstName + '!';
+        if (userNameEl)    userNameEl.textContent    = user.name;
+        if (userAvatarEl)  userAvatarEl.textContent  = initials;
+      } catch (err) {
+        console.error('Erro ao carregar dados do usuário:', err);
+      }
+    }
+    loadUser();
 
     // ── Botão de logout ──
-    document.getElementById('btnLogout')?.addEventListener('click', () => {
-      // Limpa sessão e redireciona para login
-      sessionStorage.clear();
-      localStorage.removeItem('mb_token');
+    document.getElementById('btnLogout')?.addEventListener('click', async () => {
+      try { await fetch(`${API}/auth/logout`, { method: 'POST', credentials: 'include' }); } catch {}
+      localStorage.removeItem('mb_user');
       window.location.href = './login.html';
-    });
-
-    // ── Botões "Lembrar" da agenda ──
-    document.querySelectorAll('.btn-remind').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const wasActive = this.classList.contains('active');
-        this.classList.toggle('active');
-        this.textContent = wasActive ? 'Lembrar' : 'Salvo ✓';
-        this.style.background    = wasActive ? '' : 'rgba(118,196,66,0.15)';
-        this.style.borderColor   = wasActive ? '' : 'rgba(118,196,66,0.3)';
-        this.style.color         = wasActive ? '' : 'var(--green-light)';
-      });
     });
 
     // ── Carrossel Netflix ──

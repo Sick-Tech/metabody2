@@ -14,9 +14,8 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowArbitraryExtensions": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"],

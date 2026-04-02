@@ -6,6 +6,7 @@
   <title>Painel Admin | MetaBody Club</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <script src="/public/api.config.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('mb-theme')||'dark';}catch(e){}</script>
   <style>
@@ -1201,36 +1202,10 @@
               <div class="card-header">
                 <span class="card-title">Atividade Recente</span>
               </div>
-              <div class="activity-list">
+              <div class="activity-list" id="activityList">
                 <div class="activity-item">
                   <div class="activity-dot activity-dot--green"></div>
-                  <span class="activity-text"><strong>João Silva</strong> <span>entrou na Trilha de Treino</span></span>
-                  <span class="activity-time">há 12min</span>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot activity-dot--cyan"></div>
-                  <span class="activity-text"><strong>Fernanda Costa</strong> <span>fez novo cadastro — Plano Pro Anual</span></span>
-                  <span class="activity-time">há 38min</span>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot activity-dot--amber"></div>
-                  <span class="activity-text"><strong>Carlos Oliveira</strong> <span>plano expira em 7 dias</span></span>
-                  <span class="activity-time">hoje</span>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot activity-dot--green"></div>
-                  <span class="activity-text"><strong>Ana Rodrigues</strong> <span>concluiu módulo 01 — Nutrição</span></span>
-                  <span class="activity-time">há 2h</span>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot activity-dot--green"></div>
-                  <span class="activity-text"><strong>Ricardo Alves</strong> <span>fez novo cadastro — Plano Pro Trimestral</span></span>
-                  <span class="activity-time">ontem</span>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot activity-dot--red"></div>
-                  <span class="activity-text"><strong>Pedro Lima</strong> <span>plano expirado há 5 dias</span></span>
-                  <span class="activity-time">ontem</span>
+                  <span class="activity-text">Carregando atividades…</span>
                 </div>
               </div>
             </div>
@@ -1466,27 +1441,29 @@
   </div>
 
   <script>
-    /* ── Guard de acesso ───────────────────────────── */
-    // Comentado para facilitar desenvolvimento; ative em produção
-    // if (!sessionStorage.getItem('mb_admin')) window.location.replace('./admin-login.html');
+    const API = window.METABODY_API;
 
-    /* ── Dados simulados ───────────────────────────── */
-    const students = [
-      { id:1, name:'João Silva',      email:'joao.silva@email.com',     plan:'Pro', period:'Anual',      status:'active',   since:'15/01/2026', lastAccess:'Hoje, 09:32', progress:50 },
-      { id:2, name:'Maria Santos',    email:'maria.santos@email.com',   plan:'Pro', period:'Semestral',  status:'active',   since:'02/02/2026', lastAccess:'Ontem, 19:15', progress:35 },
-      { id:3, name:'Carlos Oliveira', email:'carlos.o@email.com',       plan:'Pro', period:'Trimestral', status:'expiring', since:'01/12/2025', lastAccess:'2 dias atrás', progress:75 },
-      { id:4, name:'Ana Rodrigues',   email:'ana.r@email.com',          plan:'Pro', period:'Anual',      status:'active',   since:'20/01/2026', lastAccess:'Hoje, 08:54', progress:20 },
-      { id:5, name:'Pedro Lima',      email:'pedro.lima@email.com',     plan:'Pro', period:'Semestral',  status:'inactive', since:'10/11/2025', lastAccess:'15 dias atrás', progress:10 },
-      { id:6, name:'Fernanda Costa',  email:'fernanda.c@email.com',     plan:'Pro', period:'Anual',      status:'active',   since:'05/03/2026', lastAccess:'Hoje, 11:02', progress:5  },
-      { id:7, name:'Ricardo Alves',   email:'ricardo.a@email.com',      plan:'Pro', period:'Trimestral', status:'expiring', since:'01/01/2026', lastAccess:'2 dias atrás', progress:60 },
-      { id:8, name:'Juliana Pereira', email:'juliana.p@email.com',      plan:'Pro', period:'Anual',      status:'active',   since:'28/02/2026', lastAccess:'Hoje, 07:45', progress:15 },
-      { id:9, name:'Bruno Nunes',     email:'bruno.n@email.com',        plan:'Pro', period:'Semestral',  status:'active',   since:'10/03/2026', lastAccess:'Ontem', progress:8   },
-      { id:10,name:'Larissa Mendes',  email:'larissa.m@email.com',      plan:'Pro', period:'Anual',      status:'active',   since:'22/03/2026', lastAccess:'Hoje, 10:25', progress:3  },
-    ];
+    /* ── Sanitização XSS ────────────────────────────── */
+    function esc(s) {
+      return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
 
+    /* ── Auth guard ──────────────────────────────────── */
+    const _adminToken = localStorage.getItem('mb_access_token');
+    const _adminUser  = (() => { try { return JSON.parse(localStorage.getItem('mb_user')); } catch { return null; } })();
+    if (!_adminToken || !_adminUser || _adminUser.role !== 'admin') {
+      window.location.replace('./admin-login.html');
+    }
+
+    /* ── Dados (preenchidos via API) ─────────────────── */
+    let students     = [];
+    let livesData    = [];
+    let partnersData = [];
+
+    /* ── Trilhas mantêm dados locais (cores/módulos não estão no banco) ── */
     const trailsData = [
       {
-        id:'treino', name:'Trilha de Treino', color:'#76C442', status:'published', enrolled:98,
+        id:'treino', name:'Trilha de Treino', color:'#76C442', status:'published', enrolled:0,
         modules:[
           { num:1, title:'Como montar sua semana de treinos com eficiência', duration:'38:24', status:'published' },
           { num:2, title:'Técnicas de execução e prevenção de lesões', duration:'45:12', status:'published' },
@@ -1495,7 +1472,7 @@
         ]
       },
       {
-        id:'nutricao', name:'Trilha de Nutrição', color:'#29A8D4', status:'published', enrolled:85,
+        id:'nutricao', name:'Trilha de Nutrição', color:'#29A8D4', status:'published', enrolled:0,
         modules:[
           { num:1, title:'Fundamentos da alimentação para atletas', duration:'35:00', status:'published' },
           { num:2, title:'Estratégias alimentares para ganho de massa e definição', duration:'44:10', status:'published' },
@@ -1504,7 +1481,7 @@
         ]
       },
       {
-        id:'mentalidade', name:'Trilha de Mentalidade', color:'#FBD24C', status:'published', enrolled:62,
+        id:'mentalidade', name:'Trilha de Mentalidade', color:'#FBD24C', status:'published', enrolled:0,
         modules:[
           { num:1, title:'Construindo disciplina real: hábitos que sustentam a transformação', duration:'29:55', status:'published' },
           { num:2, title:'Superando sabotagens mentais e bloqueios emocionais', duration:'37:18', status:'draft' },
@@ -1523,22 +1500,88 @@
       },
     ];
 
-    const livesData = [
-      { id:1, title:'Mentoria ao vivo: Ajuste de treino e dieta — Q&A', date:'09/04/2026', day:'09', month:'Abr', time:'20h00', duration:'~90 min', status:'upcoming', enrolled:24, instructor:'Lucas Mendes' },
-      { id:2, title:'Treino funcional ao vivo', date:'15/04/2026', day:'15', month:'Abr', time:'19h30', duration:'~60 min', status:'upcoming', enrolled:31, instructor:'Lucas Mendes' },
-      { id:3, title:'Q&A Nutrição esportiva', date:'22/04/2026', day:'22', month:'Abr', time:'20h00', duration:'~50 min', status:'upcoming', enrolled:18, instructor:'Rafael Costa' },
-      { id:4, title:'Encerramento mensal com avaliações', date:'29/04/2026', day:'29', month:'Abr', time:'20h00', duration:'~90 min', status:'upcoming', enrolled:12, instructor:'Lucas Mendes' },
-      { id:5, title:'Mentoria especial — Recomposição Corporal', date:'25/03/2026', day:'25', month:'Mar', time:'20h00', duration:'~75 min', status:'done', enrolled:47, instructor:'Lucas Mendes' },
-      { id:6, title:'Q&A Treino — Dúvidas dos alunos', date:'18/03/2026', day:'18', month:'Mar', time:'19h30', duration:'~60 min', status:'done', enrolled:38, instructor:'Lucas Mendes' },
-      { id:7, title:'Workshop: Montando sua dieta do zero', date:'10/03/2026', day:'10', month:'Mar', time:'20h00', duration:'~120 min', status:'done', enrolled:55, instructor:'Rafael Costa' },
-    ];
+    /* ── Utilitários de data ─────────────────────────── */
+    function relativeTime(dateStr) {
+      if (!dateStr) return '—';
+      const diff = Date.now() - new Date(dateStr).getTime();
+      const mins = Math.floor(diff / 60000);
+      if (mins < 2)   return 'Agora mesmo';
+      if (mins < 60)  return `há ${mins}min`;
+      const hrs = Math.floor(mins / 60);
+      if (hrs < 24)   return `há ${hrs}h`;
+      const days = Math.floor(hrs / 24);
+      if (days === 1) return 'Ontem';
+      return `${days} dias atrás`;
+    }
 
-    const partnersData = [
-      { id:1, name:'Cursos & Lives Exclusivos', category:'Conteúdo', discount:'Incluso no plano', status:'active', color:'#76C442' },
-      { id:2, name:'Qadosh Suplementos', category:'Suplementação', discount:'15% de desconto', status:'active', color:'#F59E0B' },
-      { id:3, name:'OLinocar', category:'Automóvel', discount:'Documentação isenta', status:'active', color:'#29A8D4' },
-      { id:4, name:'Anna Lash', category:'Beleza & Estética', discount:'15% de desconto', status:'active', color:'#A78BFA' },
-    ];
+    /* ── Mapeamento de dados da API ──────────────────── */
+    function mapStudent(row) {
+      return {
+        id:         row.id,
+        name:       row.name || '—',
+        email:      row.email || '—',
+        plan:       row.plan  || 'Pro',
+        period:     row.period || '—',
+        status:     row.status || 'inactive',
+        since:      row.created_at ? new Date(row.created_at).toLocaleDateString('pt-BR') : '—',
+        lastAccess: row.last_login  ? relativeTime(row.last_login) : 'Nunca',
+        progress:   row.progress    || 0,
+      };
+    }
+
+    const MONTHS_PT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    function mapLive(row) {
+      const d = new Date(row.scheduled_at);
+      return {
+        id:         row.id,
+        title:      row.title,
+        day:        String(d.getDate()).padStart(2, '0'),
+        month:      MONTHS_PT[d.getMonth()],
+        time:       `${String(d.getHours()).padStart(2,'0')}h${String(d.getMinutes()).padStart(2,'0')}`,
+        duration:   row.duration_min ? `~${row.duration_min} min` : '',
+        status:     row.status === 'done' ? 'done' : 'upcoming',
+        enrolled:   0,
+        instructor: row.instructor || '',
+      };
+    }
+
+    const PARTNER_COLORS = ['#76C442','#F59E0B','#29A8D4','#A78BFA','#F97316','#EC4899'];
+    function mapPartner(row, idx) {
+      return {
+        id:       row.id,
+        name:     row.name,
+        category: row.category || '',
+        discount: row.discount || '',
+        status:   row.active ? 'active' : 'inactive',
+        color:    PARTNER_COLORS[idx % PARTNER_COLORS.length],
+      };
+    }
+
+    /* ── KPIs ─────────────────────────────────────────── */
+    function updateKPIs(stats) {
+      const vals = document.querySelectorAll('.kpi-value');
+      if (vals[0]) vals[0].textContent = stats.totalStudents;
+      if (vals[1]) vals[1].textContent = stats.activeStudents;
+      if (vals[2]) vals[2].innerHTML   = `R$&nbsp;${(stats.monthRevenue / 1000).toFixed(1)}k`;
+      if (vals[3]) vals[3].textContent = `${stats.engagement}%`;
+    }
+
+    /* ── Atividade recente ───────────────────────────── */
+    function renderActivity(activities) {
+      const list = document.getElementById('activityList');
+      if (!list) return;
+      if (!activities.length) {
+        list.innerHTML = '<div class="empty-state"><p>Nenhuma atividade recente.</p></div>';
+        return;
+      }
+      const dotColor = { trail:'green', login:'cyan', plan:'amber', expired:'red' };
+      list.innerHTML = activities.map(a => `
+        <div class="activity-item">
+          <div class="activity-dot activity-dot--${esc(dotColor[a.type] || 'green')}"></div>
+          <span class="activity-text">${esc(a.description)}</span>
+          <span class="activity-time">${esc(relativeTime(a.created_at))}</span>
+        </div>`).join('');
+    }
 
     /* ── Render Alunos ─────────────────────────────── */
     let filteredStudents = [...students];
@@ -1909,18 +1952,74 @@
     }
 
     /* ── Logout ────────────────────────────────────── */
-    function confirmLogout() {
-      sessionStorage.removeItem('mb_admin');
+    async function confirmLogout() {
+      try { await fetch(`${API}/auth/logout`, { method: 'POST', credentials: 'include' }); } catch {}
+      localStorage.removeItem('mb_user');
       window.location.href = './admin-login.html';
     }
 
     document.getElementById('btnLogout').addEventListener('click', confirmLogout);
 
     /* ── Init ──────────────────────────────────────── */
-    renderStudents();
-    renderTrails();
-    renderLives();
-    renderPartners();
+    async function initAdmin() {
+      // Atualiza info do usuário na sidebar/header com dados do token
+      if (_adminUser) {
+        const parts    = (_adminUser.name || 'Admin').split(' ');
+        const initials = parts.slice(0, 2).map(n => n[0]).join('').toUpperCase();
+        const sName = document.querySelector('.sidebar-user-name');
+        const sAv   = document.querySelector('.sidebar-avatar');
+        const hAv   = document.querySelector('.header-admin-avatar');
+        if (sName) sName.textContent = _adminUser.name || 'Administrador';
+        if (sAv)   sAv.textContent   = initials;
+        if (hAv)   hAv.textContent   = initials;
+      }
+
+      const hdrs = {};
+      const apiFetch = async (path) => {
+        const r = await fetch(`${API}${path}`, { headers: hdrs, credentials: 'include' });
+        if (r.status === 401) { window.location.replace('./admin-login.html'); return null; }
+        return r.ok ? r.json() : null;
+      };
+
+      const [statsRes, studentsRes, activityRes, livesRes, partnersRes] = await Promise.allSettled([
+        apiFetch('/admin/stats'),
+        apiFetch('/admin/students?limit=100'),
+        apiFetch('/admin/activity'),
+        apiFetch('/lives'),
+        apiFetch('/partners/admin/all'),
+      ]);
+
+      if (statsRes.status === 'fulfilled' && statsRes.value?.totalStudents !== undefined) {
+        updateKPIs(statsRes.value);
+        const badge = document.getElementById('newStudentsBadge');
+        if (badge) badge.textContent = statsRes.value.totalStudents;
+      }
+
+      if (studentsRes.status === 'fulfilled' && Array.isArray(studentsRes.value)) {
+        students = studentsRes.value.map(mapStudent);
+        filteredStudents = [...students];
+        renderStudents();
+      }
+
+      if (activityRes.status === 'fulfilled' && Array.isArray(activityRes.value)) {
+        renderActivity(activityRes.value);
+      }
+
+      if (livesRes.status === 'fulfilled' && Array.isArray(livesRes.value)) {
+        livesData = livesRes.value.map(mapLive);
+        renderLives();
+      }
+
+      if (partnersRes.status === 'fulfilled' && Array.isArray(partnersRes.value)) {
+        partnersData = partnersRes.value.map((p, i) => mapPartner(p, i));
+        renderPartners();
+      }
+
+      // Trilhas usam dados locais (cores e módulos não estão no banco ainda)
+      renderTrails();
+    }
+
+    initAdmin().catch(console.error);
 
     // ── Tema claro/escuro ─────────────────────────
     (function() {
