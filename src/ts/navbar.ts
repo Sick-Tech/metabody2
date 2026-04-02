@@ -7,6 +7,7 @@ export class Navbar {
   private el: HTMLElement
   private hamburger: HTMLButtonElement
   private navLinks: HTMLElement
+  private navClose: HTMLButtonElement | null
   private overlay: HTMLElement | null
   private sections: NodeListOf<HTMLElement>
   private anchors: NodeListOf<HTMLAnchorElement>
@@ -18,6 +19,7 @@ export class Navbar {
     this.el         = this.getEl<HTMLElement>('#navbar')
     this.hamburger  = this.getEl<HTMLButtonElement>('#hamburger')
     this.navLinks   = this.getEl<HTMLElement>('#navLinks')
+    this.navClose   = document.querySelector<HTMLButtonElement>('#navClose')
     this.overlay    = document.querySelector<HTMLElement>('#navOverlay')
     this.sections   = document.querySelectorAll<HTMLElement>('section[id]')
     this.anchors    = document.querySelectorAll<HTMLAnchorElement>('.nav-links a')
@@ -61,6 +63,9 @@ export class Navbar {
 
     // Close on overlay click
     this.overlay?.addEventListener('click', () => this.closeMenu())
+
+    // Close on close button click
+    this.navClose?.addEventListener('click', () => this.closeMenu())
   }
 
   private initIntersectionObserver(): void {

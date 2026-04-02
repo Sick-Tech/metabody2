@@ -115,14 +115,15 @@
   }
 
   .values-grid {
-    gap: 1.75rem;
+    gap: 2rem;
     padding: 0.75rem 0 0.5rem 0;
   }
 
   .value-card {
-    flex: 0 0 310px;
+    flex: 0 0 calc(50% - 1rem);
+    max-width: 320px;
     padding: 2.25rem 1.75rem;
-    min-height: 230px;
+    min-height: 260px;
   }
 
   .value-number {
@@ -131,10 +132,12 @@
 
   .value-card h4 {
     font-size: 1rem;
+    margin-bottom: 0.75rem;
   }
 
   .value-card p {
     font-size: 0.9rem;
+    line-height: 1.6;
   }
 
   .footer-container { grid-template-columns: 1fr 1fr; }
@@ -184,6 +187,32 @@
       border-bottom: 1px solid rgba($white, 0.07);
 
       &:last-of-type { border-bottom: none; }
+    }
+
+    // ── Botão de fechar (X) exclusivo do menu mobile ──
+    .nav-close {
+      position: absolute;
+      top: 1rem;
+      right: 2.5rem;
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      color: rgba($white, 0.8);
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+      }
+
+      &:hover {
+        color: $white;
+      }
     }
 
     // ── Botão de login exclusivo do menu mobile ──
@@ -638,9 +667,11 @@
   }
 
   .btn-learn-more {
-    padding: 0.65rem 1.5rem;
-    font-size: 0.8rem;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.78rem;
     gap: 0.5rem;
+    width: 100%;
+    max-width: 280px;
   }
 
   .team-modal-header {
@@ -700,10 +731,10 @@
   }
 
   .value-card {
-    flex: 0 0 calc(100vw - 3rem);
-    max-width: 290px;
+    flex: 0 0 calc(100vw - 4rem);
+    max-width: 100%;
     padding: 2rem 1.5rem;
-    min-height: 220px;
+    min-height: 240px;
   }
 
   .value-number {
@@ -713,13 +744,13 @@
 
   .value-card h4 {
     font-size: 1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
     font-weight: 900;
   }
 
   .value-card p {
     font-size: 0.88rem;
-    line-height: 1.6;
+    line-height: 1.65;
   }
 
   // Team
