@@ -630,23 +630,7 @@
   }
 
   .ecosystem-card-mockup {
-    margin: -2rem;
-    margin-top: 1rem;
-    margin-bottom: -2rem;
-    max-width: 100%;
-
-    img {
-      max-height: 380px;
-    }
-
-    &--mobile {
-      margin: -2rem;
-      margin-bottom: -2rem;
-      img {
-        max-width: 100%;
-        max-height: 380px;
-      }
-    }
+    display: none;
   }
 
   .trilhas-mockup,
@@ -724,21 +708,7 @@
   }
 
   .ecosystem-card-mockup {
-    margin: -1.5rem;
-    margin-bottom: -1.5rem;
-
-    img {
-      max-height: 320px;
-    }
-
-    &--mobile {
-      margin: -1.5rem;
-      margin-bottom: -1.5rem;
-      img {
-        max-width: 100%;
-        max-height: 320px;
-      }
-    }
+    display: none;
   }
 
   .card-features {
