@@ -21,11 +21,13 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url('/images/hero-bg.png');
+  background-image: url('/public/images/team/fundohero.png');
   background-size: cover;
-  background-position: center top;
+  background-position: center;
   // zoom sutil de entrada
   animation: heroBgZoom 8s ease-out both;
+  // leve blur no fundo
+  filter: blur(2px);
 }
 
 @keyframes heroBgZoom {
@@ -34,37 +36,23 @@
 }
 
 // ─────────────────────────────────────────────────
-// 2. Treinador recortado (trainer.png sem fundo)
+// 2. Logo MetaBody (posicionada dinamicamente)
 // ─────────────────────────────────────────────────
 
-// Wrapper para aplicar a vinheta sem quebrar o <img>
-.hero-trainer-wrap {
+.hero-logo-image-wrap {
   position: absolute;
   z-index: 2;
-  // Ajuste de posicionamento focado em mobile primeiro
-  bottom: 22%; 
+  // Mobile: acima do texto (um pouco mais baixo)
+  bottom: 62%; 
   left: 50%;
   transform: translateX(-50%);
-  width: 90vw;
-  max-width: 450px;
+  width: 70vw;
+  max-width: 280px;
 
-  // Usa mask via linear-gradient de baixo para cima + fade sutil nas laterais
-  // Isso esconde bem a base da foto de forma bem perfeitinha
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    black 70%,
-    transparent 95%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    black 70%,
-    transparent 95%
-  );
-
-  animation: trainerReveal 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  animation: logoImageReveal 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }
 
-.hero-trainer {
+.hero-logo-image {
   display: block;
   width: 100%;
   height: auto;
@@ -72,9 +60,9 @@
   pointer-events: none;
 }
 
-@keyframes trainerReveal {
-  from { opacity: 0; transform: translateX(-50%) translateY(30px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+@keyframes logoImageReveal {
+  from { opacity: 0; transform: translateX(-50%) scale(0.9); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
 // ─────────────────────────────────────────────────
@@ -300,45 +288,34 @@
     min-height: 88vh;
   }
 
-  // ── Treinador: ancora à direita, altura quase total ──
-  .hero-trainer-wrap {
+  // Logo image desktop: posicionada bem à direita, harmonizado com texto à esquerda
+  .hero-logo-image-wrap {
     position: absolute;
-    bottom: 0;
-    right: 4%;
+    bottom: auto;
+    right: 3%;
     left: auto;
-    transform: none;
+    top: 28%;
+    transform: translateY(-50%);
     width: auto;
     max-width: none;
-    height: 95%;
+    height: 70%;
 
-    // Máscara desktop: fade suave só na base (não nas laterais)
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      black 60%,
-      transparent 96%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      black 60%,
-      transparent 96%
-    );
-
-    animation: trainerRevealDesktop 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+    animation: logoImageRevealDesktop 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
   }
 
-  .hero-trainer {
+  .hero-logo-image {
     display: block;
     width: auto;
     height: 100%;
     object-fit: contain;
   }
 
-  @keyframes trainerRevealDesktop {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
+  @keyframes logoImageRevealDesktop {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
   }
 
-  // ── Overlay desktop: gradiente horizontal suave ──
+  // Overlay desktop: gradiente horizontal suave
   // Escurece apenas a metade esquerda onde fica o texto
   .hero-overlay {
     background:
@@ -369,7 +346,7 @@
   .hero-inner {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 0 5rem;
+    padding: 3rem 5rem 0;
     display: flex;
     align-items: center;
     min-height: 85vh;
@@ -381,6 +358,7 @@
     text-align: left;
     max-width: 520px;
     margin: 0;
+    flex-shrink: 0;
   }
 
   // ── Título maior e mais impactante ──

@@ -1,0 +1,710 @@
+// ============================================================
+// PREMIUM ECOSYSTEM SECTION - REFATORADO
+// Seção de 3 cards premium com layout horizontal, mockups reais e legibilidade otimizada
+// ============================================================
+@use 'variables' as *;
+
+// ─────────────────────────────────────────────────
+// Container Wrapper
+// ─────────────────────────────────────────────────
+.premium-ecosystem {
+  background: $blue-dark;
+  padding: 5rem 2rem;
+  position: relative;
+  overflow: hidden;
+
+  // Decorações de fundo premium com glows mais profundos para continuidade
+  &::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    left: 8%;
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba($cyan-mid, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -180px;
+    right: 5%;
+    width: 750px;
+    height: 750px;
+    background: radial-gradient(circle, rgba($green-base, 0.06) 0%, transparent 75%);
+    pointer-events: none;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Headline Section
+// ─────────────────────────────────────────────────
+.ecosystem-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+
+  .section-eyebrow {
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: $cyan-mid;
+    font-weight: 700;
+  }
+
+  .section-title {
+    margin-bottom: 1.2rem;
+    font-size: 2.2rem;
+    color: $white;
+  }
+
+  .section-subtitle {
+    color: rgba($white, 0.85);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    font-weight: 400;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Cards Grid
+// ─────────────────────────────────────────────────
+.ecosystem-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+// ─────────────────────────────────────────────────
+// Card Individual - LAYOUT HORIZONTAL NO DESKTOP
+// ─────────────────────────────────────────────────
+.ecosystem-card {
+  background: linear-gradient(135deg, rgba($blue-deepest, 0.85), rgba($blue-mid, 0.6));
+  border: 1px solid rgba($cyan-mid, 0.25);
+  border-radius: $radius-lg;
+  padding: 3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3rem;
+  position: relative;
+  overflow: hidden;
+  transition: all $ease;
+
+  // Subtle glow background
+  &::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba($green-mid, 0.1), transparent 70%);
+    pointer-events: none;
+  }
+
+  &:hover {
+    border-color: rgba($cyan-mid, 0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba($cyan-mid, 0.15);
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  // Alternância: card 2 tem imagem à esquerda
+  &:nth-child(2) {
+    flex-direction: row-reverse;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Card Text Wrapper
+// ─────────────────────────────────────────────────
+.ecosystem-card-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+// ─────────────────────────────────────────────────
+// Card Mockup Wrapper
+// ─────────────────────────────────────────────────
+.ecosystem-card-mockup {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: $radius-lg;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  // Card 2 com imagem mobile: reduzir tamanho
+  &--mobile {
+    max-width: 320px;
+
+    img {
+      border-radius: 24px;
+      display: block;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Card Header
+// ─────────────────────────────────────────────────
+.ecosystem-card-header {
+  margin-bottom: 2rem;
+
+  .card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba($green-mid, 0.25), rgba($cyan-mid, 0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+    border: 1px solid rgba($cyan-mid, 0.4);
+
+    svg {
+      width: 28px;
+      height: 28px;
+      color: $green-light;
+    }
+  }
+
+  h3 {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: $white;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .card-subtitle {
+    font-size: 0.975rem;
+    color: rgba($white, 0.8);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Card Content / Mockup Area
+// ─────────────────────────────────────────────────
+.ecosystem-card-content {
+  flex: 1;
+  margin-bottom: 1.8rem;
+}
+
+// ─────────────────────────────────────────────────
+// Benefits List (Card 1)
+// ─────────────────────────────────────────────────
+.benefits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+
+  .benefit-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba($cyan-mid, 0.12);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .benefit-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      height: 24px;
+      background: rgba($green-base, 0.25);
+      border: 1px solid rgba($green-mid, 0.4);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+
+      svg {
+        width: 12px;
+        height: 12px;
+        color: $green-light;
+      }
+    }
+
+    .benefit-text {
+      font-size: 0.95rem;
+      color: rgba($white, 0.85);
+      line-height: 1.5;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Trilhas Mockup (DEPRECATED - keeping for reference)
+// The mockup content is now integrated via public image (mock2.png)
+// ─────────────────────────────────────────────────
+// Hidden styles - these are no longer used in Card 2
+.trilhas-mockup {
+  display: none;
+}
+
+.trilhas-item {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .trilhas-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background: linear-gradient(135deg, rgba($green-mid, 0.25), rgba($cyan-mid, 0.15));
+    border-radius: 0.6rem;
+    border: 1px solid rgba($green-base, 0.25);
+
+    svg {
+      width: 20px;
+      height: 20px;
+      color: $green-light;
+    }
+  }
+
+  .trilhas-info {
+    flex: 1;
+
+    .trilhas-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $white;
+      margin-bottom: 0.35rem;
+    }
+
+    .trilhas-meta {
+      font-size: 0.8rem;
+      color: rgba($white, 0.6);
+
+      .trilhas-aulas {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+
+        &::after {
+          content: ' • ';
+          margin-left: 0.4rem;
+        }
+      }
+    }
+  }
+
+  .trilhas-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.4rem;
+
+    .progress-bar {
+      width: 70px;
+      height: 4px;
+      background: rgba($cyan-mid, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, $green-base, $green-light);
+        width: 65%;
+        border-radius: 2px;
+      }
+    }
+
+    .progress-text {
+      font-size: 0.75rem;
+      color: rgba($white, 0.55);
+      font-weight: 600;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Lives/Sessions Mockup (Card 3)
+// ─────────────────────────────────────────────────
+.live-sessions-mockup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.live-session-item {
+  background: rgba($blue-deepest, 0.5);
+  border-radius: $radius;
+  padding: 1.1rem;
+  border: 1px solid rgba($cyan-mid, 0.15);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  .session-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, rgba($green-mid, 0.3), rgba($cyan-mid, 0.2));
+    border-radius: 0.6rem;
+    border: 1px solid rgba($green-light, 0.25);
+    flex-shrink: 0;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      color: $green-light;
+    }
+
+    &.live-badge {
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        width: 10px;
+        height: 10px;
+        background: $green-light;
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+      }
+    }
+  }
+
+  .session-info {
+    flex: 1;
+
+    .session-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $white;
+      margin-bottom: 0.3rem;
+    }
+
+    .session-meta {
+      font-size: 0.8rem;
+      color: rgba($white, 0.6);
+
+      .session-day {
+        display: inline;
+      }
+
+      .session-time {
+        display: inline;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Card Features List
+// ─────────────────────────────────────────────────
+.card-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: 2rem;
+
+  .feature-item {
+    display: flex;
+    gap: 0.7rem;
+    align-items: center;
+    font-size: 0.9rem;
+    color: rgba($white, 0.8);
+    font-weight: 500;
+
+    &::before {
+      content: '';
+      display: inline-flex;
+      width: 7px;
+      height: 7px;
+      background: $green-light;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Card CTA Button
+// ─────────────────────────────────────────────────
+.card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.95rem 2rem;
+  background: linear-gradient(135deg, rgba($green-base, 0.2), rgba($green-mid, 0.12));
+  border: 1.5px solid rgba($green-mid, 0.5);
+  border-radius: 50px;
+  color: $white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $ease;
+  text-decoration: none;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    transition: transform $ease;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, rgba($green-base, 0.3), rgba($green-mid, 0.2));
+    border-color: rgba($green-mid, 0.7);
+    transform: translateX(2px);
+
+    svg {
+      transform: translateX(3px);
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Responsive - Tablet
+// ─────────────────────────────────────────────────
+@media (max-width: 1200px) {
+  .ecosystem-card {
+    padding: 2.5rem;
+    gap: 2rem;
+    flex-direction: column !important;
+
+    &:nth-child(2) {
+      flex-direction: column !important;
+    }
+  }
+
+  .ecosystem-card-mockup {
+    max-width: 100%;
+    width: 100%;
+    order: -1;
+  }
+
+  .ecosystem-card-mockup--mobile {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .premium-ecosystem {
+    padding: 4rem 1.5rem;
+
+    &::before {
+      width: 450px;
+      height: 450px;
+      top: -120px;
+    }
+
+    &::after {
+      width: 500px;
+      height: 500px;
+      bottom: -140px;
+    }
+  }
+
+  .ecosystem-header {
+    margin-bottom: 3rem;
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .ecosystem-grid {
+    gap: 2.5rem;
+  }
+
+  .ecosystem-card {
+    padding: 2rem;
+    flex-direction: column !important;
+
+    &:nth-child(2) {
+      flex-direction: column !important;
+    }
+
+    &::before {
+      width: 200px;
+      height: 200px;
+      top: -50px;
+      right: -50px;
+    }
+  }
+
+  .ecosystem-card-header {
+    margin-bottom: 1.5rem;
+
+    h3 {
+      font-size: 1.4rem;
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  .ecosystem-card-mockup {
+    max-width: 100%;
+    width: 100%;
+    order: -1;
+  }
+
+  .ecosystem-card-mockup--mobile {
+    max-width: 260px;
+    margin: 0 auto;
+  }
+
+  .trilhas-mockup,
+  .live-session-item {
+    padding: 1rem;
+  }
+
+  .trilhas-item {
+    margin-bottom: 1rem;
+  }
+
+  .live-sessions-mockup {
+    gap: 0.8rem;
+  }
+
+  .benefits-list {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-ecosystem {
+    padding: 3rem 1rem;
+  }
+
+  .ecosystem-header {
+    margin-bottom: 2.5rem;
+
+    .section-eyebrow {
+      font-size: 0.65rem;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.95rem;
+    }
+  }
+
+  .ecosystem-grid {
+    gap: 2rem;
+  }
+
+  .ecosystem-card {
+    padding: 1.5rem;
+    flex-direction: column !important;
+
+    &:nth-child(2) {
+      flex-direction: column !important;
+    }
+
+    &::before {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  .ecosystem-card-header {
+    h3 {
+      font-size: 1.25rem;
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+
+      svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+  }
+
+  .ecosystem-card-mockup {
+    width: 100%;
+  }
+
+  .ecosystem-card-mockup--mobile {
+    max-width: 100%;
+  }
+
+  .card-features {
+    margin-bottom: 1.5rem;
+
+    .feature-item {
+      font-size: 0.85rem;
+    }
+  }
+
+  .card-cta {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}

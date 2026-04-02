@@ -256,6 +256,12 @@
   // Hero
   .br-desktop { display: none; }
 
+  // Logo image responsivo mobile
+  .hero-logo-image-wrap {
+    width: 75vw;
+    max-width: 280px;
+  }
+
   // Conteúdo e CTAs
   .hero-cta-group { flex-direction: column; align-items: center; }
   .btn-primary,
