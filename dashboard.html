@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MetaBody Club — Área exclusiva do aluno." />
+  <title>Área do Aluno | MetaBody Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('mb-theme')||'dark';}catch(e){}</script>
+  <style>
+    /* ── Reset ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-deepest: #07131C;
+      --blue-dark:    #0D2233;
+      --blue-mid:     #1A3A52;
+      --blue-base:    #2A5470;
+      --blue-soft:    #4A7A9B;
+      --blue-pale:    #C8DDE8;
+      --green-dark:   #1B5E20;
+      --green-mid:    #2E7D32;
+      --green-base:   #4CAF50;
+      --green-light:  #76C442;
+      --green-pale:   #E8F5E9;
+      --cyan-mid:     #29A8D4;
+      --white:        #FFFFFF;
+      --ink:          #0A1F2E;
+      --ink-soft:     #2A4A5E;
+      --radius:       12px;
+      --radius-lg:    20px;
+      --ease:         0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--blue-deepest);
+      color: var(--white);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--blue-deepest); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan-mid); border-radius: 3px; }
+
+    /* ── TOPBAR ─────────────────────────────────────── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 19, 28, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* Logo */
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .topbar-logo-icon {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .topbar-logo-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--white);
+      stroke-width: 2.2;
+    }
+
+    .topbar-logo-text {
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+
+    .topbar-logo-text span { color: var(--green-light); }
+
+    /* Nav central — oculto no mobile */
+    .topbar-nav {
+      display: none;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .topbar-nav a {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(200, 221, 232, 0.6);
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+      transition: color var(--ease), background var(--ease);
+    }
+
+    .topbar-nav a:hover,
+    .topbar-nav a.active {
+      color: var(--white);
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* Lado direito */
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* Avatar + nome */
+    .topbar-user {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .topbar-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-mid), var(--blue-base));
+      border: 2px solid rgba(76, 175, 80, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: var(--green-light);
+      flex-shrink: 0;
+    }
+
+    .topbar-user-info {
+      display: none;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .topbar-user-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .topbar-user-plan {
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-light);
+    }
+
+    /* Badge Pro na topbar */
+    .badge-pro {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: linear-gradient(135deg, rgba(118,196,66,0.15), rgba(76,175,80,0.1));
+      border: 1px solid rgba(118, 196, 66, 0.3);
+      border-radius: 50px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-light);
+    }
+
+    .badge-pro::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--green-light);
+      box-shadow: 0 0 6px var(--green-light);
+      animation: pulse-dot 2s ease infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Botão sair */
+    .btn-logout {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: rgba(200, 221, 232, 0.55);
+      transition: color var(--ease), background var(--ease), border-color var(--ease);
+    }
+
+    .btn-logout svg { width: 14px; height: 14px; stroke: currentColor; }
+
+    .btn-logout:hover {
+      color: var(--white);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .btn-logout span { display: none; }
+
+    /* ── CONTAINER PRINCIPAL ────────────────────────── */
+    .dash-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.75rem 1.25rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    /* ── ① WELCOME HERO ──────────────────────────────── */
+    .welcome-hero {
+      position: relative;
+      background: linear-gradient(135deg, #0f2235 0%, #12293d 50%, #0f1e2a 100%);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 24px;
+      padding: 2rem 1.5rem;
+      overflow: hidden;
+    }
+
+    /* Glows decorativos */
+    .welcome-hero::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(76,175,80,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .welcome-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(41,168,212,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .welcome-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .welcome-greeting {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--green-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .welcome-name {
+      font-size: clamp(1.6rem, 6vw, 2.4rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .welcome-name em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--green-light), var(--cyan-mid));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .welcome-sub {
+      font-size: 0.82rem;
+      color: rgba(200, 221, 232, 0.55);
+      margin-top: 0.5rem;
+      line-height: 1.6;
+    }
+
+    /* Card do plano */
+    .plan-card {
+      background: linear-gradient(135deg, rgba(118,196,66,0.12), rgba(76,175,80,0.08));
+      border: 1px solid rgba(118, 196, 66, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      min-width: 160px;
+      flex-shrink: 0;
+    }
+
+    .plan-card-label {
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(200, 221, 232, 0.45);
+    }
+
+    .plan-card-name {
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      color: var(--green-light);
+    }
+
+    .plan-card-price {
+      font-size: 0.72rem;
+      color: rgba(200, 221, 232, 0.55);
+    }
+
+    .plan-card-price strong {
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .plan-card-renew {
+      font-size: 0.62rem;
+      color: rgba(200, 221, 232, 0.35);
+      margin-top: 0.1rem;
+    }
+
+    .plan-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .plan-card-period-badge {
+      font-size: 0.57rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: rgba(41,168,212,0.12);
+      border: 1px solid rgba(41,168,212,0.22);
+      color: var(--cyan-mid);
+      border-radius: 50px;
+      padding: 0.13rem 0.5rem;
+    }
+
+    /* Stats rápidos */
+    .welcome-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    .stat-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--white);
+    }
+
+    .stat-value span {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--green-light);
+    }
+
+    .stat-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: rgba(200, 221, 232, 0.45);
+      text-transform: uppercase;
+    }
+
+    /* ── SECTION HEADER GENÉRICO ────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green-light);
+      margin-bottom: 0.25rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.2rem, 4vw, 1.65rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .section-link {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--cyan-mid);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color var(--ease);
+      flex-shrink: 0;
+    }
+
+    .section-link svg { width: 14px; height: 14px; stroke: currentColor; }
+    .section-link:hover { color: var(--green-light); }
+
+    /* ── ② PARCEIROS & BENEFÍCIOS ──────────────────────── */
+    .partners-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .partner-card {
+      background: #0f1e2a;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color var(--ease), transform var(--ease), box-shadow var(--ease);
+    }
+
+    .partner-card:hover {
+      border-color: rgba(76,175,80,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    }
+
+    .partner-card--featured { border-color: rgba(118,196,66,0.18); }
+
+    /* Área de logo — espaço reservado para imagem da marca parceira */
+    .partner-logo-area {
+      height: 90px;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .partner-logo-area img {
+      max-width: 140px;
+      max-height: 58px;
+      object-fit: contain;
+    }
+
+    .partner-logo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(200,221,232,0.17);
+    }
+
+    .partner-logo-placeholder svg {
+      width: 26px; height: 26px;
+      stroke: currentColor; stroke-width: 1.4;
+    }
+
+    .partner-logo-placeholder span {
+      font-size: 0.57rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .partner-body {
+      padding: 1rem 1.1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      flex: 1;
+    }
+
+    .partner-tags {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .partner-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.15rem 0.55rem;
+      border-radius: 50px;
+      font-size: 0.57rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .partner-tag--green  { background: rgba(76,175,80,0.12);  border: 1px solid rgba(76,175,80,0.22);  color: var(--green-light); }
+    .partner-tag--cyan   { background: rgba(41,168,212,0.1);  border: 1px solid rgba(41,168,212,0.2);  color: var(--cyan-mid); }
+    .partner-tag--gold   { background: rgba(251,191,36,0.1);  border: 1px solid rgba(251,191,36,0.2);  color: #FBD24C; }
+    .partner-tag--purple { background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2); color: #A78BFA; }
+    .partner-tag--red    { background: rgba(239,68,68,0.1);   border: 1px solid rgba(239,68,68,0.2);   color: #F87171; }
+
+    .partner-name {
+      font-size: 0.97rem;
+      font-weight: 900;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .partner-desc {
+      font-size: 0.73rem;
+      color: rgba(200,221,232,0.5);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .partner-discount {
+      display: flex;
+      align-items: baseline;
+      gap: 0.45rem;
+      margin-top: 0.15rem;
+    }
+
+    .partner-discount-value {
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--green-light);
+      line-height: 1;
+    }
+
+    .partner-discount-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: rgba(200,221,232,0.45);
+      line-height: 1.4;
+    }
+
+    .btn-redeem {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      width: 100%;
+      padding: 0.7rem;
+      background: rgba(76,175,80,0.08);
+      border: 1px solid rgba(76,175,80,0.2);
+      border-radius: var(--radius);
+      font-size: 0.77rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--green-light);
+      transition: background var(--ease), border-color var(--ease), color var(--ease);
+      margin-top: 0.4rem;
+    }
+
+    .btn-redeem svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; }
+
+    .btn-redeem:hover {
+      background: rgba(76,175,80,0.16);
+      border-color: rgba(76,175,80,0.38);
+      color: var(--white);
+    }
+
+    .partner-card--featured .btn-redeem {
+      background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+      border-color: transparent;
+      color: var(--white);
+      box-shadow: 0 4px 16px rgba(76,175,80,0.28);
+    }
+
+    .partner-card--featured .btn-redeem:hover { filter: brightness(1.1); }
+
+    /* ── ③ NETFLIX CAROUSEL — MENTORIAS ─────────────── */
+    .netflix-row-wrap {
+      position: relative;
+    }
+
+    /* Setas de navegação */
+    .netflix-arrow {
+      position: absolute;
+      top: 45%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 40px; height: 40px;
+      background: rgba(7,19,28,0.9);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white);
+      cursor: pointer;
+      opacity: 0;
+      transition: background var(--ease), border-color var(--ease), opacity var(--ease), transform var(--ease);
+    }
+
+    .netflix-row-wrap:hover .netflix-arrow { opacity: 1; }
+
+    .netflix-arrow:hover {
+      background: rgba(118,196,66,0.2);
+      border-color: rgba(118,196,66,0.4);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .netflix-arrow:disabled { opacity: 0 !important; cursor: default; }
+
+    .netflix-arrow svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.5; }
+
+    .netflix-arrow--prev { left: -16px; }
+    .netflix-arrow--next { right: -16px; }
+
+    /* Container scroll */
+    .netflix-row {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 0.75rem 0.25rem 1rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .netflix-row::-webkit-scrollbar { height: 3px; }
+    .netflix-row::-webkit-scrollbar-track { background: transparent; }
+    .netflix-row::-webkit-scrollbar-thumb { background: rgba(41,168,212,0.25); border-radius: 2px; }
+
+    /* Card Netflix */
+    .nf-card {
+      flex: 0 0 270px;
+      min-width: 270px;
+      scroll-snap-align: start;
+      background: #0e1e2b;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease);
+    }
+
+    .nf-card:hover {
+      transform: scale(1.04) translateY(-5px);
+      border-color: rgba(76,175,80,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+    }
+
+    /* Capa do card */
+    .nf-cover {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .nf-cover img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .nf-card:hover .nf-cover img { transform: scale(1.07); }
+
+    /* Placeholder rico de capa */
+    .nf-cover-bg {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.7rem;
+    }
+
+    .nf-cover-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    .nf-cover-glow {
+      position: absolute; inset: 0;
+      opacity: 0.55;
+      transition: opacity 0.4s ease;
+    }
+
+    .nf-card:hover .nf-cover-glow { opacity: 0.85; }
+
+    .nf-cover-icon {
+      position: relative; z-index: 2;
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 10px rgba(0,0,0,0.15);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .nf-card:hover .nf-cover-icon {
+      transform: scale(1.12);
+      box-shadow: 0 0 0 14px rgba(0,0,0,0.1);
+    }
+
+    .nf-cover-icon svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 1.8; }
+
+    .nf-cover-label {
+      position: relative; z-index: 2;
+      font-size: 0.72rem; font-weight: 900;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    /* Overlay play */
+    .nf-play-overlay {
+      position: absolute; inset: 0; z-index: 3;
+      background: rgba(7,19,28,0.42);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity var(--ease);
+    }
+
+    .nf-card:hover .nf-play-overlay { opacity: 1; }
+
+    .nf-play-btn {
+      width: 50px; height: 50px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.45);
+      transform: scale(0.75);
+      transition: transform 0.28s ease;
+      color: var(--blue-deepest);
+    }
+
+    .nf-card:hover .nf-play-btn { transform: scale(1); }
+
+    .nf-play-btn svg { width: 18px; height: 18px; fill: currentColor; margin-left: 3px; }
+
+    /* Barra de progresso na base da capa */
+    .nf-progress-strip {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 4;
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .nf-progress-fill {
+      height: 100%;
+      background: var(--green-light);
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* Body do card */
+    .nf-body {
+      padding: 0.9rem 1rem 1.1rem;
+      display: flex; flex-direction: column; gap: 0.4rem; flex: 1;
+    }
+
+    .nf-tags {
+      display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+    }
+
+    .nf-tag {
+      display: inline-flex; align-items: center;
+      padding: 0.13rem 0.5rem;
+      border-radius: 50px;
+      font-size: 0.55rem; font-weight: 800;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    .nf-tag--green  { background: rgba(76,175,80,0.12);  border: 1px solid rgba(76,175,80,0.22);  color: var(--green-light); }
+    .nf-tag--cyan   { background: rgba(41,168,212,0.1);  border: 1px solid rgba(41,168,212,0.2);  color: var(--cyan-mid); }
+    .nf-tag--gold   { background: rgba(251,191,36,0.1);  border: 1px solid rgba(251,191,36,0.2);  color: #FBD24C; }
+    .nf-tag--purple { background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2); color: #A78BFA; }
+
+    .nf-title {
+      font-size: 0.97rem; font-weight: 900;
+      letter-spacing: -0.01em; line-height: 1.25;
+    }
+
+    .nf-desc {
+      font-size: 0.7rem; color: rgba(200,221,232,0.47);
+      line-height: 1.6; flex: 1;
+    }
+
+    .nf-footer {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 0.5rem;
+      margin-top: 0.15rem;
+    }
+
+    .nf-meta { display: flex; flex-direction: column; gap: 0.18rem; }
+
+    .nf-progress-text {
+      font-size: 0.62rem; font-weight: 700; color: rgba(200,221,232,0.4);
+    }
+
+    .nf-progress-text strong { color: var(--green-light); }
+
+    .nf-modules-count {
+      font-size: 0.6rem; font-weight: 600; color: rgba(200,221,232,0.3);
+      display: flex; align-items: center; gap: 0.28rem;
+    }
+
+    .nf-modules-count svg { width: 9px; height: 9px; stroke: currentColor; }
+
+    .btn-nf-enter {
+      display: flex; align-items: center; gap: 0.32rem;
+      padding: 0.45rem 0.9rem;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+      border-radius: 50px;
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.03em;
+      color: var(--white);
+      box-shadow: 0 3px 14px rgba(76,175,80,0.28);
+      transition: filter var(--ease), transform var(--ease);
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    .btn-nf-enter svg { width: 11px; height: 11px; stroke: currentColor; stroke-width: 2.4; }
+    .btn-nf-enter:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+
+
+    /* ── ④ CONTEÚDO AO VIVO ──────────────────────────── */
+    .live-section {
+      position: relative;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(220, 38, 38, 0.15);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      border-radius: 50px;
+      padding: 0.2rem 0.75rem;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #F87171;
+      margin-bottom: 0.25rem;
+    }
+
+    .live-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #EF4444;
+      box-shadow: 0 0 8px #EF4444;
+      animation: pulse-live 1.2s ease infinite;
+    }
+
+    @keyframes pulse-live {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%        { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* Banner destaque ao vivo */
+    .live-featured {
+      background: linear-gradient(135deg, #0f1e2a, #111d2e);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .live-featured-thumb {
+      position: relative;
+      aspect-ratio: 16 / 7;
+      background: linear-gradient(135deg, #0a1825 0%, #12263a 40%, #0c2030 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Grid decorativo de fundo */
+    .live-featured-thumb::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(41,168,212,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(41,168,212,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .live-featured-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 50%, rgba(76,175,80,0.1) 0%, transparent 65%);
+    }
+
+    .live-thumb-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .live-thumb-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 8px rgba(76,175,80,0.12), 0 0 40px rgba(76,175,80,0.25);
+    }
+
+    .live-thumb-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--white);
+      stroke-width: 2;
+    }
+
+    .live-thumb-status {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: rgba(200,221,232,0.8);
+      letter-spacing: 0.06em;
+    }
+
+    .live-featured-body {
+      padding: 1.25rem 1.25rem 1.5rem;
+    }
+
+    .live-featured-title {
+      font-size: clamp(1rem, 3.5vw, 1.4rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .live-featured-desc {
+      font-size: 0.78rem;
+      color: rgba(200, 221, 232, 0.5);
+      line-height: 1.65;
+      margin-bottom: 1.1rem;
+    }
+
+    .live-featured-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .live-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(200, 221, 232, 0.55);
+    }
+
+    .live-meta-item svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--green-light);
+      stroke-width: 1.8;
+    }
+
+    .btn-notify {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      box-shadow: 0 6px 24px rgba(76,175,80,0.3);
+      transition: filter var(--ease), transform var(--ease), box-shadow var(--ease);
+    }
+
+    .btn-notify svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; }
+
+    .btn-notify:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(76,175,80,0.4);
+    }
+
+    /* Grid de próximas lives */
+    .live-schedule-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+
+    .live-schedule-card {
+      background: #0f1e2a;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: border-color var(--ease), transform var(--ease);
+    }
+
+    .live-schedule-card:hover {
+      border-color: rgba(41, 168, 212, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Data da live */
+    .live-date-box {
+      background: rgba(41, 168, 212, 0.08);
+      border: 1px solid rgba(41, 168, 212, 0.18);
+      border-radius: var(--radius);
+      padding: 0.6rem 0.75rem;
+      text-align: center;
+      min-width: 54px;
+      flex-shrink: 0;
+    }
+
+    .live-date-day {
+      font-size: 1.3rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--cyan-mid);
+      line-height: 1;
+    }
+
+    .live-date-month {
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(41, 168, 212, 0.7);
+      margin-top: 0.15rem;
+    }
+
+    .live-schedule-info { flex: 1; min-width: 0; }
+
+    .live-schedule-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 0.2rem;
+    }
+
+    .live-schedule-time {
+      font-size: 0.7rem;
+      color: rgba(200, 221, 232, 0.45);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .live-schedule-time svg {
+      width: 11px;
+      height: 11px;
+      stroke: currentColor;
+    }
+
+    .btn-remind {
+      padding: 0.45rem 0.85rem;
+      background: rgba(41, 168, 212, 0.1);
+      border: 1px solid rgba(41, 168, 212, 0.2);
+      border-radius: 8px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--cyan-mid);
+      flex-shrink: 0;
+      transition: background var(--ease), border-color var(--ease);
+    }
+
+    .btn-remind:hover {
+      background: rgba(41, 168, 212, 0.18);
+      border-color: rgba(41, 168, 212, 0.35);
+    }
+
+    /* ── BANNER PRO LOCK ────────────────────────────── */
+    .pro-lock-banner {
+      background: linear-gradient(135deg, rgba(118,196,66,0.08), rgba(76,175,80,0.05));
+      border: 1px solid rgba(118, 196, 66, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .pro-lock-icon {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      background: rgba(118, 196, 66, 0.12);
+      border: 1px solid rgba(118, 196, 66, 0.22);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-light);
+    }
+
+    .pro-lock-icon svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.8; }
+
+    .pro-lock-body { flex: 1; min-width: 0; }
+
+    .pro-lock-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin-bottom: 0.2rem;
+    }
+
+    .pro-lock-desc {
+      font-size: 0.72rem;
+      color: rgba(200, 221, 232, 0.5);
+      line-height: 1.55;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────── */
+
+    /* Tablet ≥ 640px */
+    @media (min-width: 640px) {
+      .partners-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .live-schedule-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Desktop ≥ 768px */
+    @media (min-width: 768px) {
+      .topbar-nav { display: flex; }
+
+      .topbar-user-info { display: flex; }
+
+      .btn-logout span { display: inline; }
+
+      .dash-page { padding: 2.5rem 2rem 5rem; gap: 3.5rem; }
+
+      .welcome-hero { padding: 2.5rem; }
+
+      .welcome-stats { grid-template-columns: repeat(3, 1fr); }
+
+      .plan-card { min-width: 200px; }
+    }
+
+    /* Desktop ≥ 1024px */
+    @media (min-width: 1024px) {
+      .partners-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .live-schedule-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .live-featured-thumb { aspect-ratio: 21 / 7; }
+    }
+
+    /* ── Botão de alternância de tema ────────────── */
+    .btn-theme-toggle {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(200,221,232,0.6); cursor: pointer; flex-shrink: 0;
+      transition: color 0.25s, background 0.25s, border-color 0.25s;
+    }
+    .btn-theme-toggle:hover { color: #fff; background: rgba(255,255,255,0.12); }
+    .btn-theme-toggle svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+    [data-theme="dark"]  .icon-dark  { display: none; }
+    [data-theme="light"] .icon-light { display: none; }
+    [data-theme="light"] .btn-theme-toggle { border-color: rgba(0,0,0,0.12); background: rgba(0,0,0,0.06); color: rgba(10,31,46,0.65); }
+    [data-theme="light"] .btn-theme-toggle:hover { background: rgba(0,0,0,0.1); color: #0A1F2E; }
+
+    /* ── Tema claro ────────────────────────────── */
+    [data-theme="light"] body { background: #EEF3F7; color: #0A1F2E; }
+    [data-theme="light"] ::-webkit-scrollbar-track { background: #EEF3F7; }
+    /* Topbar */
+    [data-theme="light"] .topbar { background: rgba(240,245,250,0.95); border-bottom-color: rgba(0,0,0,0.08); }
+    [data-theme="light"] .topbar-nav a { color: rgba(10,31,46,0.55); }
+    [data-theme="light"] .topbar-nav a:hover,
+    [data-theme="light"] .topbar-nav a.active { color: #0A1F2E; background: rgba(0,0,0,0.06); }
+    [data-theme="light"] .topbar-user-name { color: #0A1F2E; }
+    [data-theme="light"] .btn-logout { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); color: rgba(10,31,46,0.55); }
+    [data-theme="light"] .btn-logout:hover { background: rgba(0,0,0,0.08); color: #0A1F2E; border-color: rgba(0,0,0,0.14); }
+    /* Welcome hero */
+    [data-theme="light"] .welcome-hero { background: linear-gradient(135deg, #E5EEF5 0%, #EBF3F9 50%, #E2ECF3 100%); border-color: rgba(0,0,0,0.08); }
+    [data-theme="light"] .welcome-sub { color: rgba(10,31,46,0.55); }
+    [data-theme="light"] .plan-card-label { color: rgba(10,31,46,0.42); }
+    [data-theme="light"] .plan-card-price { color: rgba(10,31,46,0.55); }
+    [data-theme="light"] .plan-card-price strong { color: #0A1F2E; }
+    [data-theme="light"] .plan-card-renew { color: rgba(10,31,46,0.35); }
+    [data-theme="light"] .stat-item { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.07); }
+    [data-theme="light"] .stat-value { color: #0A1F2E; }
+    [data-theme="light"] .stat-label { color: rgba(10,31,46,0.45); }
+    /* Section headers */
+    [data-theme="light"] .section-title { color: #0A1F2E; }
+    /* Partner cards */
+    [data-theme="light"] .partner-card { background: #FFFFFF; border-color: rgba(0,0,0,0.08); }
+    [data-theme="light"] .partner-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+    [data-theme="light"] .partner-logo-area { background: rgba(0,0,0,0.02); border-bottom-color: rgba(0,0,0,0.05); }
+    [data-theme="light"] .partner-logo-placeholder { color: rgba(10,31,46,0.2); }
+    [data-theme="light"] .partner-name { color: #0A1F2E; }
+    [data-theme="light"] .partner-desc { color: rgba(10,31,46,0.55); }
+    [data-theme="light"] .partner-discount-label { color: rgba(10,31,46,0.45); }
+    /* Netflix cards */
+    [data-theme="light"] .nf-card { background: #F0F5FA; border-color: rgba(0,0,0,0.08); }
+    [data-theme="light"] .nf-card:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+    [data-theme="light"] .nf-title { color: #0A1F2E; }
+    [data-theme="light"] .nf-desc { color: rgba(10,31,46,0.5); }
+    [data-theme="light"] .nf-progress-text { color: rgba(10,31,46,0.45); }
+    [data-theme="light"] .nf-modules-count { color: rgba(10,31,46,0.38); }
+    [data-theme="light"] .netflix-arrow { background: rgba(240,245,250,0.92); border-color: rgba(0,0,0,0.12); color: #0A1F2E; }
+    /* Live section */
+    [data-theme="light"] .live-featured { background: linear-gradient(135deg, #EFF5FA, #E8F2F8); border-color: rgba(0,0,0,0.08); }
+    [data-theme="light"] .live-featured-title { color: #0A1F2E; }
+    [data-theme="light"] .live-featured-desc { color: rgba(10,31,46,0.55); }
+    [data-theme="light"] .live-meta-item { color: rgba(10,31,46,0.6); }
+    [data-theme="light"] .live-thumb-status { color: rgba(10,31,46,0.75); }
+    [data-theme="light"] .live-schedule-card { background: #FFFFFF; border-color: rgba(0,0,0,0.08); }
+    [data-theme="light"] .live-schedule-title { color: #0A1F2E; }
+    [data-theme="light"] .live-schedule-time { color: rgba(10,31,46,0.5); }
+    [data-theme="light"] .live-featured-thumb { background: linear-gradient(135deg, #D8E8F2 0%, #E2EEF7 40%, #D5E5F0 100%); }
+  </style>
+</head>
+<body>
+
+  <!-- ░░░ TOPBAR ░░░ -->
+  <header class="topbar">
+    <div class="topbar-inner">
+
+      <!-- Logo -->
+      <a href="./index.html" class="topbar-logo">
+        <div class="topbar-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <span class="topbar-logo-text">Meta<span>Body</span></span>
+      </a>
+
+      <!-- Nav central -->
+      <nav class="topbar-nav">
+        <a href="#beneficios" class="active">Parceiros</a>
+        <a href="#mentorias">Trilhas</a>
+        <a href="#ao-vivo">Ao Vivo</a>
+      </nav>
+
+      <!-- Direita -->
+      <div class="topbar-right">
+        <button class="btn-theme-toggle" id="themeToggle" aria-label="Ativar tema claro" title="Alternar tema claro/escuro">
+          <svg class="icon-light" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-dark" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <span class="badge-pro">Pro</span>
+
+        <div class="topbar-user">
+          <div class="topbar-avatar" id="userAvatar">JD</div>
+          <div class="topbar-user-info">
+            <span class="topbar-user-name" id="userName">João Doe</span>
+            <span class="topbar-user-plan">Plano Pro</span>
+          </div>
+        </div>
+
+        <button class="btn-logout" id="btnLogout" aria-label="Sair">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Sair</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ░░░ DASHBOARD ░░░ -->
+  <main class="dash-page">
+
+    <!-- ① WELCOME HERO ────────────────────────────── -->
+    <section class="welcome-hero">
+
+      <div class="welcome-top">
+        <div>
+          <p class="welcome-greeting">Bem-vindo de volta</p>
+          <h1 class="welcome-name">
+            Olá, <em id="welcomeName">João!</em>
+          </h1>
+          <p class="welcome-sub">
+            Sua jornada de transformação continua. Confira seus recursos exclusivos abaixo.
+          </p>
+        </div>
+
+        <div class="plan-card">
+          <span class="plan-card-label">Seu plano</span>
+          <div class="plan-card-header">
+            <span class="plan-card-name">Pro</span>
+            <span class="plan-card-period-badge">Anual</span>
+          </div>
+          <span class="plan-card-price">
+            <strong>R$ 179,90</strong>/mês
+          </span>
+          <span class="plan-card-renew">12 meses · Válido até 28/03/2027</span>
+        </div>
+      </div>
+
+      <div class="welcome-stats">
+        <div class="stat-item">
+          <span class="stat-value">14 <span>dias</span></span>
+          <span class="stat-label">Na plataforma</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">8</span>
+          <span class="stat-label">Aulas assistidas</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">3</span>
+          <span class="stat-label">Lives assistidas</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ② PARCEIROS & BENEFÍCIOS ─────────────────────── -->
+    <section id="beneficios">
+      <div class="section-header">
+        <div>
+          <p class="section-label">Clube de Vantagens</p>
+          <h2 class="section-title">Parceiros & Benefícios</h2>
+        </div>
+      </div>
+
+      <div class="partners-grid">
+
+        <!-- 1 — Cursos & Lives -->
+        <div class="partner-card partner-card--featured">
+          <div class="partner-logo-area">
+            <!-- Substituir pelo <img> da marca: <img src="/images/parceiros/logo.svg" alt="Nome"> -->
+            <div class="partner-logo-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              <span>Logo aqui</span>
+            </div>
+          </div>
+          <div class="partner-body">
+            <div class="partner-tags">
+              <span class="partner-tag partner-tag--green">Exclusivo Pro</span>
+              <span class="partner-tag partner-tag--cyan">Lives</span>
+            </div>
+            <h3 class="partner-name">Cursos & Lives Exclusivos</h3>
+            <p class="partner-desc">Acesso ilimitado a todos os cursos da plataforma e todas as lives interativas com os especialistas MetaBody.</p>
+            <div class="partner-discount">
+              <span class="partner-discount-value">Incluso</span>
+              <span class="partner-discount-label">no seu plano Pro</span>
+            </div>
+            <button class="btn-redeem">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              Acessar conteúdo
+            </button>
+          </div>
+        </div>
+
+        <!-- 2 — Qadosh Suplementos -->
+        <div class="partner-card">
+          <div class="partner-logo-area">
+            <!-- <img src="/images/parceiros/logo-qadosh.svg" alt="Qadosh Suplementos"> -->
+            <div class="partner-logo-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+              <span>Logo Qadosh</span>
+            </div>
+          </div>
+          <div class="partner-body">
+            <div class="partner-tags">
+              <span class="partner-tag partner-tag--gold">Desconto 15%</span>
+              <span class="partner-tag partner-tag--green">Suplementos</span>
+            </div>
+            <h3 class="partner-name">Qadosh Suplementos</h3>
+            <p class="partner-desc">Suplementação de alta qualidade para potencializar seus resultados com desconto exclusivo para membros MetaBody Pro.</p>
+            <div class="partner-discount">
+              <span class="partner-discount-value">15%</span>
+              <span class="partner-discount-label">de desconto em<br>toda a loja</span>
+            </div>
+            <button class="btn-redeem">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              Resgatar desconto
+            </button>
+          </div>
+        </div>
+
+        <!-- 3 — OLinocar -->
+        <div class="partner-card">
+          <div class="partner-logo-area">
+            <!-- <img src="/images/parceiros/logo-olinocar.svg" alt="OLinocar"> -->
+            <div class="partner-logo-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+              <span>Logo OLinocar</span>
+            </div>
+          </div>
+          <div class="partner-body">
+            <div class="partner-tags">
+              <span class="partner-tag partner-tag--cyan">Automóvel</span>
+              <span class="partner-tag partner-tag--purple">Doc. Isenta</span>
+            </div>
+            <h3 class="partner-name">OLinocar</h3>
+            <p class="partner-desc">Documentação isenta na compra de qualquer veículo. Benefício exclusivo para alunos Pro MetaBody — economia real na sua próxima aquisição.</p>
+            <div class="partner-discount">
+              <span class="partner-discount-value">Isento</span>
+              <span class="partner-discount-label">documentação na<br>compra do veículo</span>
+            </div>
+            <button class="btn-redeem">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              Resgatar benefício
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 — Anna Lash -->
+        <div class="partner-card">
+          <div class="partner-logo-area">
+            <!-- <img src="/images/parceiros/logo-annalash.svg" alt="Anna Lash"> -->
+            <div class="partner-logo-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+              <span>Logo Anna Lash</span>
+            </div>
+          </div>
+          <div class="partner-body">
+            <div class="partner-tags">
+              <span class="partner-tag partner-tag--red">Beleza</span>
+              <span class="partner-tag partner-tag--gold">Desconto 15%</span>
+            </div>
+            <h3 class="partner-name">Anna Lash</h3>
+            <p class="partner-desc">Cílios e serviços de estética com desconto especial. Cuide da sua beleza com quem entende, e ainda economize sendo membro Pro.</p>
+            <div class="partner-discount">
+              <span class="partner-discount-value">15%</span>
+              <span class="partner-discount-label">de desconto em<br>cílios &amp; estética</span>
+            </div>
+            <button class="btn-redeem">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              Resgatar desconto
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ③ MENTORIAS / VÍDEOS ────────────────────── -->
+    <section id="mentorias">
+      <div class="section-header">
+        <div>
+          <p class="section-label">Conteúdo exclusivo</p>
+          <h2 class="section-title">Mentorias em vídeo</h2>
+        </div>
+        <a href="#" class="section-link">
+          Ver todos
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Carrossel Netflix -->
+      <div class="netflix-row-wrap">
+
+        <button class="netflix-arrow netflix-arrow--prev" id="nfPrev" aria-label="Anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+
+        <div class="netflix-row" id="nfRow">
+
+          <!-- Card 1 — Treino -->
+          <div class="nf-card" data-trail-id="treino">
+            <div class="nf-cover">
+              <!-- <img src="/images/trilhas/cover-treino.jpg" alt="Trilha de Treino"> -->
+              <div class="nf-cover-bg" style="background: linear-gradient(135deg, #071a10 0%, #0d2e18 50%, #071a10 100%);">
+                <div class="nf-cover-grid"></div>
+                <div class="nf-cover-glow" style="background: radial-gradient(ellipse at 55% 45%, rgba(76,175,80,0.45) 0%, transparent 65%);"></div>
+                <div class="nf-cover-icon" style="background: rgba(76,175,80,0.18); border: 1px solid rgba(76,175,80,0.3); color: var(--green-light); box-shadow: 0 0 28px rgba(76,175,80,0.35);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v16M18 4v16M6 12h12M3 6h3M18 6h3M3 18h3M18 18h3"/></svg>
+                </div>
+                <span class="nf-cover-label" style="color: var(--green-light);">Treino</span>
+              </div>
+              <div class="nf-play-overlay">
+                <div class="nf-play-btn">
+                  <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+                </div>
+              </div>
+              <div class="nf-progress-strip">
+                <div class="nf-progress-fill" style="width: 50%"></div>
+              </div>
+            </div>
+            <div class="nf-body">
+              <div class="nf-tags">
+                <span class="nf-tag nf-tag--green">Treino</span>
+              </div>
+              <h3 class="nf-title">Trilha de Treino</h3>
+              <p class="nf-desc">Fundamentos, técnicas avançadas, periodização e recomposição corporal.</p>
+              <div class="nf-footer">
+                <div class="nf-meta">
+                  <div class="nf-progress-text"><strong>50%</strong> concluído</div>
+                  <div class="nf-modules-count">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 3H8"/></svg>
+                    4 módulos
+                  </div>
+                </div>
+                <button class="btn-nf-enter">
+                  Continuar
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 — Nutrição -->
+          <div class="nf-card" data-trail-id="nutricao">
+            <div class="nf-cover">
+              <!-- <img src="/images/trilhas/cover-nutricao.jpg" alt="Trilha de Nutrição"> -->
+              <div class="nf-cover-bg" style="background: linear-gradient(135deg, #071822 0%, #0b2535 50%, #071822 100%);">
+                <div class="nf-cover-grid"></div>
+                <div class="nf-cover-glow" style="background: radial-gradient(ellipse at 50% 45%, rgba(41,168,212,0.4) 0%, transparent 65%);"></div>
+                <div class="nf-cover-icon" style="background: rgba(41,168,212,0.15); border: 1px solid rgba(41,168,212,0.28); color: var(--cyan-mid); box-shadow: 0 0 28px rgba(41,168,212,0.3);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                </div>
+                <span class="nf-cover-label" style="color: var(--cyan-mid);">Nutrição</span>
+              </div>
+              <div class="nf-play-overlay">
+                <div class="nf-play-btn">
+                  <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+                </div>
+              </div>
+              <div class="nf-progress-strip">
+                <div class="nf-progress-fill" style="width: 25%"></div>
+              </div>
+            </div>
+            <div class="nf-body">
+              <div class="nf-tags">
+                <span class="nf-tag nf-tag--cyan">Nutrição</span>
+              </div>
+              <h3 class="nf-title">Trilha de Nutrição</h3>
+              <p class="nf-desc">Dieta prática, estratégias alimentares, suplementação e protocolos nutricionais.</p>
+              <div class="nf-footer">
+                <div class="nf-meta">
+                  <div class="nf-progress-text"><strong>25%</strong> concluído</div>
+                  <div class="nf-modules-count">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 3H8"/></svg>
+                    4 módulos
+                  </div>
+                </div>
+                <button class="btn-nf-enter">
+                  Continuar
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 — Mentalidade -->
+          <div class="nf-card" data-trail-id="mentalidade">
+            <div class="nf-cover">
+              <!-- <img src="/images/trilhas/cover-mentalidade.jpg" alt="Trilha de Mentalidade"> -->
+              <div class="nf-cover-bg" style="background: linear-gradient(135deg, #16100a 0%, #2a1c08 50%, #16100a 100%);">
+                <div class="nf-cover-grid"></div>
+                <div class="nf-cover-glow" style="background: radial-gradient(ellipse at 50% 45%, rgba(251,210,76,0.4) 0%, transparent 65%);"></div>
+                <div class="nf-cover-icon" style="background: rgba(251,210,76,0.12); border: 1px solid rgba(251,210,76,0.28); color: #FBD24C; box-shadow: 0 0 28px rgba(251,210,76,0.28);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><circle cx="12" cy="12" r="10"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <span class="nf-cover-label" style="color: #FBD24C;">Mentalidade</span>
+              </div>
+              <div class="nf-play-overlay">
+                <div class="nf-play-btn">
+                  <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+                </div>
+              </div>
+              <div class="nf-progress-strip">
+                <div class="nf-progress-fill" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="nf-body">
+              <div class="nf-tags">
+                <span class="nf-tag nf-tag--gold">Mentalidade</span>
+              </div>
+              <h3 class="nf-title">Trilha de Mentalidade</h3>
+              <p class="nf-desc">Disciplina, construção de hábitos, foco e a psicologia por trás da transformação.</p>
+              <div class="nf-footer">
+                <div class="nf-meta">
+                  <div class="nf-progress-text"><strong>0%</strong> concluído</div>
+                  <div class="nf-modules-count">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 3H8"/></svg>
+                    3 módulos
+                  </div>
+                </div>
+                <button class="btn-nf-enter">
+                  Iniciar
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 — Recomposição (bônus) -->
+          <div class="nf-card" data-trail-id="performance">
+            <div class="nf-cover">
+              <!-- <img src="/images/trilhas/cover-recomposicao.jpg" alt="Trilha de Recomposição"> -->
+              <div class="nf-cover-bg" style="background: linear-gradient(135deg, #0e0d1c 0%, #1a1535 50%, #0e0d1c 100%);">
+                <div class="nf-cover-grid"></div>
+                <div class="nf-cover-glow" style="background: radial-gradient(ellipse at 50% 45%, rgba(167,139,250,0.4) 0%, transparent 65%);"></div>
+                <div class="nf-cover-icon" style="background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.28); color: #A78BFA; box-shadow: 0 0 28px rgba(167,139,250,0.28);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                </div>
+                <span class="nf-cover-label" style="color: #A78BFA;">Performance</span>
+              </div>
+              <div class="nf-play-overlay">
+                <div class="nf-play-btn">
+                  <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+                </div>
+              </div>
+              <div class="nf-progress-strip">
+                <div class="nf-progress-fill" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="nf-body">
+              <div class="nf-tags">
+                <span class="nf-tag nf-tag--purple">Performance</span>
+              </div>
+              <h3 class="nf-title">Trilha de Performance</h3>
+              <p class="nf-desc">Alta performance, periodização avançada e estratégias de elite para resultados máximos.</p>
+              <div class="nf-footer">
+                <div class="nf-meta">
+                  <div class="nf-progress-text"><strong>0%</strong> concluído</div>
+                  <div class="nf-modules-count">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 3H8"/></svg>
+                    5 módulos
+                  </div>
+                </div>
+                <button class="btn-nf-enter">
+                  Iniciar
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /netflix-row -->
+
+        <button class="netflix-arrow netflix-arrow--next" id="nfNext" aria-label="Próximo">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+      </div><!-- /netflix-row-wrap -->
+
+    </section>
+
+    <!-- ④ CONTEÚDO AO VIVO ──────────────────────── -->
+    <section id="ao-vivo" class="live-section">
+      <div class="section-header">
+        <div>
+          <span class="live-badge">Ao vivo</span>
+          <h2 class="section-title">Sessões em tempo real</h2>
+        </div>
+        <a href="#" class="section-link">
+          Agenda completa
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Banner principal -->
+      <div class="live-featured">
+        <div class="live-featured-thumb">
+          <div class="live-thumb-content">
+            <div class="live-thumb-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="23 7 16 12 23 17 23 7"/>
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+              </svg>
+            </div>
+            <span class="live-thumb-status">Próxima sessão ao vivo</span>
+          </div>
+        </div>
+        <div class="live-featured-body">
+          <h3 class="live-featured-title">Mentoria ao vivo: Ajuste de treino e dieta — Perguntas & Respostas</h3>
+          <p class="live-featured-desc">
+            Sessão interativa exclusiva para alunos Pro. Traga suas dúvidas sobre treino, alimentação
+            e evolução. Lucas e Rafael respondem ao vivo com dicas personalizadas para você.
+          </p>
+          <div class="live-featured-meta">
+            <div class="live-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              Quinta-feira, 09 de Abril
+            </div>
+            <div class="live-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              20h00 (Brasília)
+            </div>
+            <div class="live-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              Vagas limitadas
+            </div>
+          </div>
+          <a href="#" class="btn-notify">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            Quero ser notificado
+          </a>
+        </div>
+      </div>
+
+      <!-- Próximas lives -->
+      <p class="section-label" style="margin-bottom: 0.85rem; margin-top: 0.25rem;">Agenda do mês</p>
+      <div class="live-schedule-grid">
+
+        <div class="live-schedule-card">
+          <div class="live-date-box">
+            <div class="live-date-day">15</div>
+            <div class="live-date-month">Abr</div>
+          </div>
+          <div class="live-schedule-info">
+            <h4 class="live-schedule-title">Treino funcional ao vivo</h4>
+            <span class="live-schedule-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              19h30 · ~60 min
+            </span>
+          </div>
+          <button class="btn-remind">Lembrar</button>
+        </div>
+
+        <div class="live-schedule-card">
+          <div class="live-date-box">
+            <div class="live-date-day">22</div>
+            <div class="live-date-month">Abr</div>
+          </div>
+          <div class="live-schedule-info">
+            <h4 class="live-schedule-title">Q&A Nutrição esportiva</h4>
+            <span class="live-schedule-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              20h00 · ~50 min
+            </span>
+          </div>
+          <button class="btn-remind">Lembrar</button>
+        </div>
+
+        <div class="live-schedule-card">
+          <div class="live-date-box">
+            <div class="live-date-day">29</div>
+            <div class="live-date-month">Abr</div>
+          </div>
+          <div class="live-schedule-info">
+            <h4 class="live-schedule-title">Encerramento mensal com avaliações</h4>
+            <span class="live-schedule-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              20h00 · ~90 min
+            </span>
+          </div>
+          <button class="btn-remind">Lembrar</button>
+        </div>
+
+      </div>
+
+
+    </section>
+
+  </main>
+
+  <script>
+    // ── Dados do aluno (simulação — substituir por integração real) ──
+    const student = {
+      name: 'João',
+      fullName: 'João Doe',
+      initials: 'JD',
+      plan: 'Pro',
+    };
+
+    // Popula nome na UI
+    const welcomeNameEl = document.getElementById('welcomeName');
+    const userNameEl    = document.getElementById('userName');
+    const userAvatarEl  = document.getElementById('userAvatar');
+
+    if (welcomeNameEl) welcomeNameEl.textContent = student.name + '!';
+    if (userNameEl)    userNameEl.textContent    = student.fullName;
+    if (userAvatarEl)  userAvatarEl.textContent  = student.initials;
+
+    // ── Botão de logout ──
+    document.getElementById('btnLogout')?.addEventListener('click', () => {
+      // Limpa sessão e redireciona para login
+      sessionStorage.clear();
+      localStorage.removeItem('mb_token');
+      window.location.href = './login.html';
+    });
+
+    // ── Botões "Lembrar" da agenda ──
+    document.querySelectorAll('.btn-remind').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const wasActive = this.classList.contains('active');
+        this.classList.toggle('active');
+        this.textContent = wasActive ? 'Lembrar' : 'Salvo ✓';
+        this.style.background    = wasActive ? '' : 'rgba(118,196,66,0.15)';
+        this.style.borderColor   = wasActive ? '' : 'rgba(118,196,66,0.3)';
+        this.style.color         = wasActive ? '' : 'var(--green-light)';
+      });
+    });
+
+    // ── Carrossel Netflix ──
+    const nfRow  = document.getElementById('nfRow');
+    const nfPrev = document.getElementById('nfPrev');
+    const nfNext = document.getElementById('nfNext');
+    const SCROLL_AMOUNT = 570;
+
+    function updateArrows() {
+      if (!nfRow) return;
+      nfPrev.disabled = nfRow.scrollLeft <= 4;
+      nfNext.disabled = nfRow.scrollLeft + nfRow.clientWidth >= nfRow.scrollWidth - 4;
+    }
+
+    nfPrev?.addEventListener('click', () => {
+      nfRow.scrollBy({ left: -SCROLL_AMOUNT, behavior: 'smooth' });
+    });
+    nfNext?.addEventListener('click', () => {
+      nfRow.scrollBy({ left: SCROLL_AMOUNT, behavior: 'smooth' });
+    });
+    nfRow?.addEventListener('scroll', updateArrows, { passive: true });
+    updateArrows();
+
+    // Abre trilha em nova guia ao clicar no card ou no botão
+    document.querySelectorAll('.nf-card[data-trail-id]').forEach(card => {
+      const id = card.dataset.trailId;
+      const url = './trilha.html?id=' + id;
+      // Clique em qualquer parte do card
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', e => {
+        // Ignora se foi clique na seta do carrossel
+        if (e.target.closest('.netflix-arrow')) return;
+        window.open(url, '_blank', 'noopener');
+      });
+    });
+
+    // ── Nav link ativo por scroll ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks  = document.querySelectorAll('.topbar-nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // ── Tema claro/escuro ──────────────────────────
+    (function() {
+      function applyTheme(t) {
+        document.documentElement.dataset.theme = t;
+        localStorage.setItem('mb-theme', t);
+        const btn = document.getElementById('themeToggle');
+        if (btn) btn.setAttribute('aria-label', t === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro');
+      }
+      document.getElementById('themeToggle')?.addEventListener('click', () => {
+        applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+      });
+    })();
+  </script>
+
+</body>
+</html>

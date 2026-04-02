@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('mb-theme')||'dark';}catch(e){}</script>
   <style>
     /* ── Reset ─────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -449,7 +450,43 @@
 
     .login-footer-badge--green { color: var(--green-base); }
     .login-footer-badge--cyan  { color: var(--cyan-mid); }
+    /* Lembrete exclusivo Pro */
+    .pro-callout {
+      background: linear-gradient(135deg, rgba(118,196,66,0.08), rgba(76,175,80,0.05));
+      border: 1px solid rgba(118,196,66,0.2);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
 
+    .pro-callout-icon {
+      width: 34px; height: 34px; min-width: 34px;
+      background: rgba(118,196,66,0.12);
+      border: 1px solid rgba(118,196,66,0.2);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green-light); flex-shrink: 0;
+    }
+
+    .pro-callout-icon svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; }
+
+    .pro-callout-title {
+      font-size: 0.73rem; font-weight: 800; color: var(--white);
+      margin-bottom: 0.2rem;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    .pro-callout-pro-badge {
+      font-size: 0.55rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+      color: var(--white); border-radius: 50px; padding: 0.1rem 0.45rem;
+    }
+
+    .pro-callout-desc {
+      font-size: 0.68rem; color: rgba(200,221,232,0.5); line-height: 1.55;
+    }
     /* ── Tablet / Desktop: split layout ────────────── */
     @media (min-width: 768px) {
       body {
@@ -536,6 +573,49 @@
       .login-left  { width: 460px; padding: 3.5rem 3rem; }
       .login-right { padding: 3.5rem 3rem; gap: 1.5rem; }
     }
+
+    /* ── Botão de alternância de tema ─────────────── */
+    .btn-theme-toggle {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(200,221,232,0.6); cursor: pointer; flex-shrink: 0;
+      transition: color 0.25s, background 0.25s, border-color 0.25s;
+      margin-left: auto;
+    }
+    .btn-theme-toggle:hover { color: #fff; background: rgba(255,255,255,0.12); }
+    .btn-theme-toggle svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+    [data-theme="dark"]  .icon-dark  { display: none; }
+    [data-theme="light"] .icon-light { display: none; }
+    [data-theme="light"] .btn-theme-toggle { border-color: rgba(0,0,0,0.12); background: rgba(0,0,0,0.06); color: rgba(10,31,46,0.65); }
+    [data-theme="light"] .btn-theme-toggle:hover { background: rgba(0,0,0,0.1); color: #0A1F2E; }
+
+    /* ── Tema claro ────────────────────────────────── */
+    [data-theme="light"] body { background: #EEF3F7; }
+    [data-theme="light"] ::-webkit-scrollbar-track { background: #EEF3F7; }
+    [data-theme="light"] .login-card { background: #FAFCFE; border-color: rgba(0,0,0,0.09); }
+    [data-theme="light"] .login-right { background: rgba(0,0,0,0.025); border-top-color: rgba(0,0,0,0.06); }
+    [data-theme="light"] .login-divider { border-top-color: rgba(0,0,0,0.06); }
+    [data-theme="light"] .login-logo-text,
+    [data-theme="light"] .login-headline,
+    [data-theme="light"] .feature-card-title,
+    [data-theme="light"] .pro-callout-title { color: #0A1F2E; }
+    [data-theme="light"] .login-sub,
+    [data-theme="light"] .login-register,
+    [data-theme="light"] .feature-card-desc,
+    [data-theme="light"] .pro-callout-desc { color: rgba(10,31,46,0.6); }
+    [data-theme="light"] .login-right-title,
+    [data-theme="light"] .login-footer,
+    [data-theme="light"] .login-back { color: rgba(10,31,46,0.42); }
+    [data-theme="light"] .login-back:hover { color: rgba(10,31,46,0.78); }
+    [data-theme="light"] .form-label { color: rgba(10,31,46,0.65); }
+    [data-theme="light"] .form-input { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.13); color: #0A1F2E; }
+    [data-theme="light"] .form-input::placeholder { color: rgba(10,31,46,0.3); }
+    [data-theme="light"] .form-check-label { color: rgba(10,31,46,0.6); }
+    [data-theme="light"] .form-check input[type="checkbox"] { border-color: rgba(10,31,46,0.2); }
+    [data-theme="light"] .feature-card { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.08); }
+    [data-theme="light"] .feature-card-img { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.07); color: rgba(10,31,46,0.2); }
   </style>
 </head>
 <body>
@@ -555,6 +635,10 @@
             </svg>
           </div>
           <span class="login-logo-text">MetaBody</span>
+          <button class="btn-theme-toggle" id="themeToggle" aria-label="Ativar tema claro" title="Alternar tema claro/escuro">
+            <svg class="icon-light" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="icon-dark" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
         </div>
 
         <!-- Título -->
@@ -646,6 +730,23 @@
       <div class="login-right">
 
         <p class="login-right-title">O que você encontra aqui</p>
+
+        <!-- Lembrete exclusivo para membros Pro -->
+        <div class="pro-callout">
+          <div class="pro-callout-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <div>
+            <p class="pro-callout-title">
+              Área exclusiva
+              <span class="pro-callout-pro-badge">Pro</span>
+            </p>
+            <p class="pro-callout-desc">Mentorias em vídeo, trilhas de conteúdo, lives interativas e benefícios de marcas parceiras são exclusivos para membros <strong style="color:var(--green-light)">Pro</strong>.</p>
+          </div>
+        </div>
 
         <div class="feature-card">
           <div class="feature-card-icon">
@@ -745,6 +846,25 @@
       icon.innerHTML = visible ? eyeClosed : eyeOpen;
       toggle.setAttribute('aria-label', visible ? 'Ocultar senha' : 'Mostrar senha');
     });
+
+    // Redireciona para o dashboard após submit (simulação)
+    document.querySelector('.login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      window.location.href = './dashboard.html';
+    });
+
+    // ── Tema claro/escuro ──────────────────────────
+    (function() {
+      function applyTheme(t) {
+        document.documentElement.dataset.theme = t;
+        localStorage.setItem('mb-theme', t);
+        const btn = document.getElementById('themeToggle');
+        if (btn) btn.setAttribute('aria-label', t === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro');
+      }
+      document.getElementById('themeToggle')?.addEventListener('click', () => {
+        applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+      });
+    })();
   </script>
 
 </body>

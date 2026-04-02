@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MetaBody Club — Trilha de Mentoria." />
+  <title>Trilha | MetaBody Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-deepest: #07131C;
+      --blue-dark:    #0D2233;
+      --blue-mid:     #1A3A52;
+      --blue-base:    #2A5470;
+      --blue-soft:    #4A7A9B;
+      --blue-pale:    #C8DDE8;
+      --green-dark:   #1B5E20;
+      --green-mid:    #2E7D32;
+      --green-base:   #4CAF50;
+      --green-light:  #76C442;
+      --cyan-mid:     #29A8D4;
+      --white:        #FFFFFF;
+      --ink:          #0A1F2E;
+      --radius:       12px;
+      --radius-lg:    20px;
+      --ease:         0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      /* Preenchidos via JS */
+      --trail-accent: #76C442;
+      --trail-accent-rgb: 76,175,80;
+    }
+
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--blue-deepest);
+      color: var(--white);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--blue-deepest); }
+    ::-webkit-scrollbar-thumb { background: var(--trail-accent); border-radius: 3px; }
+
+    /* ── TOPBAR ──────────────────────────────────────── */
+    .topbar {
+      position: sticky;
+      top: 0; z-index: 100;
+      background: rgba(7,19,28,0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .topbar-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .btn-back {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.45rem 0.9rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      font-size: 0.78rem; font-weight: 700;
+      color: rgba(200,221,232,0.6);
+      transition: color var(--ease), background var(--ease), border-color var(--ease);
+      flex-shrink: 0;
+    }
+
+    .btn-back svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.4; }
+
+    .btn-back:hover {
+      color: var(--white);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .topbar-trail-name {
+      font-size: 0.85rem; font-weight: 800;
+      letter-spacing: -0.01em;
+      flex: 1; text-align: center;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      padding: 0 0.5rem;
+    }
+
+    .topbar-progress-wrap {
+      display: flex; align-items: center; gap: 0.55rem;
+      flex-shrink: 0;
+    }
+
+    .topbar-progress-pct {
+      font-size: 0.72rem; font-weight: 800;
+      color: var(--trail-accent);
+    }
+
+    .topbar-progress-bar-bg {
+      width: 80px; height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px; overflow: hidden;
+    }
+
+    .topbar-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green-mid), var(--trail-accent));
+      border-radius: 2px;
+      transition: width 0.6s ease;
+    }
+
+    /* ── HERO ──────────────────────────────────────────── */
+    .trail-hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 340px;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .trail-hero-cover {
+      position: absolute; inset: 0;
+    }
+
+    .trail-hero-cover-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+      background-size: 28px 28px;
+      z-index: 1;
+    }
+
+    .trail-hero-glow {
+      position: absolute; inset: 0; z-index: 2;
+      pointer-events: none;
+    }
+
+    .trail-hero-overlay {
+      position: absolute; inset: 0; z-index: 3;
+      background: linear-gradient(
+        to bottom,
+        rgba(7,19,28,0) 0%,
+        rgba(7,19,28,0.15) 40%,
+        rgba(7,19,28,0.85) 80%,
+        var(--blue-deepest) 100%
+      );
+    }
+
+    .trail-hero-content {
+      position: relative; z-index: 4;
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 2rem;
+    }
+
+    .trail-hero-tag {
+      display: inline-flex; align-items: center;
+      padding: 0.2rem 0.7rem;
+      border-radius: 50px;
+      font-size: 0.6rem; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .trail-hero-title {
+      font-size: clamp(1.7rem, 6vw, 2.8rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 0.65rem;
+    }
+
+    .trail-hero-desc {
+      font-size: 0.88rem;
+      color: rgba(200,221,232,0.6);
+      line-height: 1.7;
+      max-width: 540px;
+      margin-bottom: 1.5rem;
+    }
+
+    .trail-hero-stats {
+      display: flex; flex-wrap: wrap; gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-stat {
+      display: flex; align-items: center; gap: 0.45rem;
+      font-size: 0.78rem; font-weight: 600;
+      color: rgba(200,221,232,0.6);
+    }
+
+    .hero-stat svg { width: 14px; height: 14px; stroke: var(--trail-accent); stroke-width: 1.8; }
+    .hero-stat strong { color: var(--white); font-weight: 800; }
+
+    .trail-hero-cta {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.85rem;
+    }
+
+    .btn-watch-next {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      padding: 0.9rem 2rem;
+      background: linear-gradient(135deg, var(--green-mid), var(--trail-accent));
+      border-radius: 50px;
+      font-size: 0.88rem; font-weight: 800; letter-spacing: 0.04em;
+      color: var(--white);
+      box-shadow: 0 6px 28px rgba(var(--trail-accent-rgb), 0.35);
+      transition: filter var(--ease), transform var(--ease);
+    }
+
+    .btn-watch-next svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; }
+    .btn-watch-next:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+    .hero-progress-inline {
+      display: flex; flex-direction: column; gap: 0.3rem;
+    }
+
+    .hero-progress-label {
+      font-size: 0.62rem; font-weight: 700;
+      color: rgba(200,221,232,0.4); text-transform: uppercase; letter-spacing: 0.1em;
+    }
+
+    .hero-progress-bar-bg {
+      width: 140px; height: 5px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px; overflow: hidden;
+    }
+
+    .hero-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green-mid), var(--trail-accent));
+      border-radius: 3px;
+      transition: width 0.6s ease;
+    }
+
+    .hero-progress-pct-label {
+      font-size: 0.65rem; font-weight: 800;
+      color: var(--trail-accent);
+      margin-top: 0.1rem;
+    }
+
+    /* ── MÓDULOS / AULAS ─────────────────────────────── */
+    .trail-main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.25rem 5rem;
+    }
+
+    .modules-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-top: 0.5rem;
+    }
+
+    .modules-label {
+      font-size: 0.62rem; font-weight: 800;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--trail-accent); margin-bottom: 0.22rem;
+    }
+
+    .modules-title {
+      font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+      font-weight: 900; letter-spacing: -0.02em;
+    }
+
+    .modules-count-badge {
+      font-size: 0.7rem; font-weight: 800;
+      color: rgba(200,221,232,0.4);
+      flex-shrink: 0;
+    }
+
+    /* Lista de módulos */
+    .modules-list {
+      display: flex; flex-direction: column; gap: 0.85rem;
+    }
+
+    /* Card de módulo / aula */
+    .module-card {
+      background: #0e1e2b;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+      transition: border-color var(--ease), transform var(--ease), box-shadow var(--ease);
+    }
+
+    .module-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 42px rgba(0,0,0,0.28);
+    }
+
+    .module-card--done   { border-color: rgba(76,175,80,0.12); }
+    .module-card--current { border-color: rgba(var(--trail-accent-rgb),0.35); box-shadow: 0 0 0 1px rgba(var(--trail-accent-rgb),0.08); }
+    .module-card--locked  { opacity: 0.55; }
+
+    /* Thumbnail lateral */
+    .module-thumb {
+      position: relative;
+      flex-shrink: 0;
+      width: 120px;
+      overflow: hidden;
+    }
+
+    .module-thumb-bg {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .module-thumb-glow {
+      position: absolute; inset: 0; opacity: 0.7;
+      transition: opacity 0.35s ease;
+    }
+
+    .module-card:hover .module-thumb-glow { opacity: 1; }
+
+    .module-thumb-icon {
+      position: relative; z-index: 2;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .module-thumb-icon svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; }
+
+    /* Play overlay no thumb */
+    .module-thumb-play {
+      position: absolute; inset: 0; z-index: 3;
+      background: rgba(7,19,28,0.5);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity var(--ease);
+    }
+
+    .module-card--current .module-thumb-play,
+    .module-card--done .module-thumb-play { cursor: pointer; }
+    .module-card--current:hover .module-thumb-play,
+    .module-card--done:hover .module-thumb-play { opacity: 1; }
+
+    .thumb-play-circle {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transform: scale(0.8);
+      transition: transform 0.25s ease;
+      color: var(--blue-deepest);
+    }
+
+    .module-card:hover .thumb-play-circle { transform: scale(1); }
+    .thumb-play-circle svg { width: 13px; height: 13px; fill: currentColor; margin-left: 2px; }
+
+    /* Num overlay no canto */
+    .module-num-badge {
+      position: absolute;
+      top: 8px; left: 8px; z-index: 4;
+      background: rgba(7,19,28,0.75);
+      border-radius: 6px;
+      padding: 0.18rem 0.45rem;
+      font-size: 0.58rem; font-weight: 900;
+      letter-spacing: 0.06em;
+      color: rgba(200,221,232,0.55);
+    }
+
+    /* Corpo */
+    .module-body {
+      flex: 1; min-width: 0;
+      padding: 1rem 1.15rem;
+      display: flex; flex-direction: column; gap: 0.35rem;
+    }
+
+    .module-status-row {
+      display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap;
+    }
+
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.14rem 0.55rem;
+      border-radius: 50px;
+      font-size: 0.56rem; font-weight: 800;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    .status-badge svg { width: 9px; height: 9px; stroke: currentColor; stroke-width: 2.4; fill: none; }
+
+    .status-badge--done    { background: rgba(76,175,80,0.12);   border: 1px solid rgba(76,175,80,0.2);   color: var(--green-light); }
+    .status-badge--current { background: rgba(var(--trail-accent-rgb),0.12); border: 1px solid rgba(var(--trail-accent-rgb),0.25); color: var(--trail-accent); }
+    .status-badge--locked  { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: rgba(200,221,232,0.3); }
+
+    .module-card-title {
+      font-size: 0.93rem; font-weight: 800;
+      line-height: 1.35; letter-spacing: -0.01em;
+    }
+
+    .module-card--locked .module-card-title { color: rgba(200,221,232,0.35); }
+
+    .module-card-desc {
+      font-size: 0.7rem;
+      color: rgba(200,221,232,0.42);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .module-card-meta {
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      margin-top: 0.2rem;
+    }
+
+    .meta-pill {
+      display: flex; align-items: center; gap: 0.3rem;
+      font-size: 0.65rem; font-weight: 600;
+      color: rgba(200,221,232,0.38);
+    }
+
+    .meta-pill svg { width: 11px; height: 11px; stroke: currentColor; }
+
+    /* Ação no lado direito */
+    .module-action {
+      display: flex; align-items: center;
+      padding: 0 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .btn-watch {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.6rem 1.15rem;
+      border-radius: 50px;
+      font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 0.03em;
+      transition: filter var(--ease), background var(--ease), color var(--ease), border-color var(--ease), transform var(--ease);
+      white-space: nowrap;
+    }
+
+    .btn-watch svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2.2; }
+
+    .btn-watch--primary {
+      background: linear-gradient(135deg, var(--green-mid), var(--trail-accent));
+      color: var(--white);
+      border: none;
+      box-shadow: 0 4px 18px rgba(var(--trail-accent-rgb),0.3);
+    }
+
+    .btn-watch--primary:hover { filter: brightness(1.1); transform: scale(1.04); }
+
+    .btn-watch--ghost {
+      background: rgba(76,175,80,0.07);
+      border: 1px solid rgba(76,175,80,0.18);
+      color: var(--green-light);
+    }
+
+    .btn-watch--ghost:hover { background: rgba(76,175,80,0.14); border-color: rgba(76,175,80,0.3); color: var(--white); }
+
+    .btn-watch--locked {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: rgba(200,221,232,0.2);
+      cursor: default;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────── */
+    @media (max-width: 560px) {
+      .module-thumb { width: 90px; }
+      .module-card-desc { display: none; }
+      .module-action { padding: 0 0.65rem; }
+      .btn-watch span { display: none; }
+      .btn-watch { padding: 0.55rem 0.7rem; }
+    }
+
+    @media (min-width: 640px) {
+      .trail-hero-content { padding: 3rem 1.5rem 2.5rem; }
+      .module-thumb { width: 150px; }
+    }
+
+    @media (min-width: 768px) {
+      .module-thumb { width: 180px; }
+      .trail-hero { min-height: 400px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="btn-back" onclick="window.close(); window.location.href='./dashboard.html';" aria-label="Voltar ao dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Voltar
+      </button>
+
+      <span class="topbar-trail-name" id="topbarTitle">Trilha</span>
+
+      <div class="topbar-progress-wrap">
+        <span class="topbar-progress-pct" id="topbarPct">0%</span>
+        <div class="topbar-progress-bar-bg">
+          <div class="topbar-progress-bar" id="topbarBar" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="trail-hero" id="trailHero">
+    <div class="trail-hero-cover" id="heroCover">
+      <div class="trail-hero-cover-grid"></div>
+      <div class="trail-hero-glow" id="heroGlow"></div>
+      <div class="trail-hero-overlay"></div>
+    </div>
+    <div class="trail-hero-content">
+      <span class="trail-hero-tag" id="heroTag">Trilha</span>
+      <h1 class="trail-hero-title" id="heroTitle">Carregando…</h1>
+      <p class="trail-hero-desc" id="heroDesc"></p>
+      <div class="trail-hero-stats" id="heroStats"></div>
+      <div class="trail-hero-cta" id="heroCta"></div>
+    </div>
+  </div>
+
+  <!-- MÓDULOS -->
+  <main class="trail-main">
+    <div class="modules-header">
+      <div>
+        <p class="modules-label">Conteúdo da trilha</p>
+        <h2 class="modules-title">Módulos & Aulas</h2>
+      </div>
+      <span class="modules-count-badge" id="modulesCount"></span>
+    </div>
+    <div class="modules-list" id="modulesList"></div>
+  </main>
+
+  <script>
+    /* ─── Dados de todas as trilhas ─────────────────────────── */
+    const TRAILS = {
+      treino: {
+        title:   'Trilha de Treino',
+        tag:     'Treino',
+        tagColor: 'rgba(76,175,80,0.15)',
+        tagBorder: 'rgba(76,175,80,0.28)',
+        tagText: '#76C442',
+        desc:    'Fundamentos de treino, técnicas de execução, periodização e recomposição corporal. Do básico ao avançado, com método MetaBody.',
+        coverBg: 'linear-gradient(135deg, #071a10 0%, #0d2e18 50%, #071a10 100%)',
+        glowColor: 'rgba(76,175,80,0.38)',
+        accent:  '#76C442',
+        accentRgb: '76,175,80',
+        progress: 50,
+        doneLessons: 2,
+        totalLessons: 4,
+        totalDuration: '3h 07min',
+        instructor: 'Lucas Mendes',
+        modules: [
+          {
+            num: 1, status: 'done',
+            title: 'Como montar sua semana de treinos com eficiência',
+            desc:  'Estrutura semanal, divisão de grupos musculares e frequência ideal para cada objetivo.',
+            duration: '38:24',
+            thumbBg: 'linear-gradient(135deg, #051408, #0a2210)',
+            thumbGlow: 'rgba(76,175,80,0.3)',
+            thumbIconBg: 'rgba(76,175,80,0.2)',
+            thumbIconColor: '#76C442',
+            iconPath: '<polyline points="20 6 9 17 4 12"/>',
+          },
+          {
+            num: 2, status: 'done',
+            title: 'Técnicas de execução e prevenção de lesões',
+            desc:  'Padrões de movimento, ativação correta, amplitude de movimento e dicas para treinar com segurança a longo prazo.',
+            duration: '45:12',
+            thumbBg: 'linear-gradient(135deg, #051408, #0a2210)',
+            thumbGlow: 'rgba(76,175,80,0.3)',
+            thumbIconBg: 'rgba(76,175,80,0.2)',
+            thumbIconColor: '#76C442',
+            iconPath: '<polyline points="20 6 9 17 4 12"/>',
+          },
+          {
+            num: 3, status: 'current',
+            title: 'Periodização e progressive overload na prática',
+            desc:  'Como organizar seus ciclos de treino, aumentar cargas com segurança e adaptar o volume para sempre progredir.',
+            duration: '52:40',
+            thumbBg: 'linear-gradient(135deg, #071014, #0f2030)',
+            thumbGlow: 'rgba(41,168,212,0.28)',
+            thumbIconBg: 'rgba(41,168,212,0.18)',
+            thumbIconColor: '#29A8D4',
+            iconPath: '<polygon points="5 3 19 12 5 21 5 3"/>',
+          },
+          {
+            num: 4, status: 'locked',
+            title: 'Recomposição corporal: treino e dieta integrados',
+            desc:  'Estratégia completa para perder gordura e ganhar músculo ao mesmo tempo, com ajustes práticos semana a semana.',
+            duration: '51:30',
+            thumbBg: 'linear-gradient(135deg, #0d0d14, #181825)',
+            thumbGlow: 'rgba(255,255,255,0.04)',
+            thumbIconBg: 'rgba(255,255,255,0.06)',
+            thumbIconColor: 'rgba(200,221,232,0.25)',
+            iconPath: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+          },
+        ],
+      },
+
+      nutricao: {
+        title:   'Trilha de Nutrição',
+        tag:     'Nutrição',
+        tagColor: 'rgba(41,168,212,0.12)',
+        tagBorder: 'rgba(41,168,212,0.28)',
+        tagText: '#29A8D4',
+        desc:    'Alimentação estratégica para atletas, protocolos para definição e ganho de massa, suplementação inteligente e ajustes práticos de dieta.',
+        coverBg: 'linear-gradient(135deg, #071822 0%, #0b2535 50%, #071822 100%)',
+        glowColor: 'rgba(41,168,212,0.35)',
+        accent:  '#29A8D4',
+        accentRgb: '41,168,212',
+        progress: 25,
+        doneLessons: 1,
+        totalLessons: 4,
+        totalDuration: '2h 49min',
+        instructor: 'Rafael Costa',
+        modules: [
+          {
+            num: 1, status: 'done',
+            title: 'Fundamentos da alimentação para atletas',
+            desc:  'Macronutrientes, micronutrientes, timing de refeições e como calcular suas necessidades calóricas reais.',
+            duration: '35:00',
+            thumbBg: 'linear-gradient(135deg, #060f18, #0a1e2c)',
+            thumbGlow: 'rgba(41,168,212,0.28)',
+            thumbIconBg: 'rgba(41,168,212,0.2)',
+            thumbIconColor: '#29A8D4',
+            iconPath: '<polyline points="20 6 9 17 4 12"/>',
+          },
+          {
+            num: 2, status: 'current',
+            title: 'Estratégias alimentares para ganho de massa e definição',
+            desc:  'Fase de bulk, cutting e recomposição: como ajustar as calorias, o carbo e a proteína para cada objetivo.',
+            duration: '44:10',
+            thumbBg: 'linear-gradient(135deg, #060f18, #0a1e30)',
+            thumbGlow: 'rgba(41,168,212,0.22)',
+            thumbIconBg: 'rgba(41,168,212,0.15)',
+            thumbIconColor: '#29A8D4',
+            iconPath: '<polygon points="5 3 19 12 5 21 5 3"/>',
+          },
+          {
+            num: 3, status: 'locked',
+            title: 'Suplementação inteligente: o que funciona de verdade',
+            desc:  'Guia sem enrolação dos suplementos com evidência científica: creatina, whey, cafeína, ômega-3 e mais.',
+            duration: '41:55',
+            thumbBg: 'linear-gradient(135deg, #0d0d14, #181825)',
+            thumbGlow: 'rgba(255,255,255,0.04)',
+            thumbIconBg: 'rgba(255,255,255,0.06)',
+            thumbIconColor: 'rgba(200,221,232,0.25)',
+            iconPath: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+          },
+          {
+            num: 4, status: 'locked',
+            title: 'Protocolos nutricionais avançados e ajustes de dieta',
+            desc:  'Carb cycling, jejum intermitente, dieta reversa e como fazer transições sem perder resultado.',
+            duration: '48:20',
+            thumbBg: 'linear-gradient(135deg, #0d0d14, #181825)',
+            thumbGlow: 'rgba(255,255,255,0.04)',
+            thumbIconBg: 'rgba(255,255,255,0.06)',
+            thumbIconColor: 'rgba(200,221,232,0.25)',
+            iconPath: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+          },
+        ],
+      },
+
+      mentalidade: {
+        title:   'Trilha de Mentalidade',
+        tag:     'Mentalidade',
+        tagColor: 'rgba(251,210,76,0.1)',
+        tagBorder: 'rgba(251,210,76,0.28)',
+        tagText: '#FBD24C',
+        desc:    'A mentalidade do atleta de alta performance: disciplina, hábitos resilientes, foco e como superar os bloqueios que te impedem de transformar.',
+        coverBg: 'linear-gradient(135deg, #16100a 0%, #2a1c08 50%, #16100a 100%)',
+        glowColor: 'rgba(251,210,76,0.32)',
+        accent:  '#FBD24C',
+        accentRgb: '251,210,76',
+        progress: 0,
+        doneLessons: 0,
+        totalLessons: 3,
+        totalDuration: '1h 49min',
+        instructor: 'Lucas Mendes',
+        modules: [
+          {
+            num: 1, status: 'current',
+            title: 'Construindo disciplina real: hábitos que sustentam a transformação',
+            desc:  'Como criar e manter hábitos que resistem à falta de motivação — rotinas, gatilhos e recompensas que funcionam.',
+            duration: '29:55',
+            thumbBg: 'linear-gradient(135deg, #100b04, #1e1404)',
+            thumbGlow: 'rgba(251,210,76,0.24)',
+            thumbIconBg: 'rgba(251,210,76,0.15)',
+            thumbIconColor: '#FBD24C',
+            iconPath: '<polygon points="5 3 19 12 5 21 5 3"/>',
+          },
+          {
+            num: 2, status: 'locked',
+            title: 'Superando sabotagens mentais e bloqueios emocionais',
+            desc:  'Identifica os padrões de auto-sabotagem mais comuns e aprende ferramentas práticas para quebrá-los.',
+            duration: '37:18',
+            thumbBg: 'linear-gradient(135deg, #0d0d14, #181825)',
+            thumbGlow: 'rgba(255,255,255,0.04)',
+            thumbIconBg: 'rgba(255,255,255,0.06)',
+            thumbIconColor: 'rgba(200,221,232,0.25)',
+            iconPath: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+          },
+          {
+            num: 3, status: 'locked',
+            title: 'Identidade, propósito e a mentalidade do atleta de alta performance',
+            desc:  'O passo final: construir uma identidade de alta performance que sustenta todos os outros resultados.',
+            duration: '42:00',
+            thumbBg: 'linear-gradient(135deg, #0d0d14, #181825)',
+            thumbGlow: 'rgba(255,255,255,0.04)',
+            thumbIconBg: 'rgba(255,255,255,0.06)',
+            thumbIconColor: 'rgba(200,221,232,0.25)',
+            iconPath: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+          },
+        ],
+      },
+
+      performance: {
+        title:   'Trilha de Performance',
+        tag:     'Performance',
+        tagColor: 'rgba(167,139,250,0.1)',
+        tagBorder: 'rgba(167,139,250,0.28)',
+        tagText: '#A78BFA',
+        desc:    'Estratégias de elite para atletas avançados: periodização em blocos, biohacking, monitoramento de dados e pico de forma.',
+        coverBg: 'linear-gradient(135deg, #0e0d1c 0%, #1a1535 50%, #0e0d1c 100%)',
+        glowColor: 'rgba(167,139,250,0.32)',
+        accent:  '#A78BFA',
+        accentRgb: '167,139,250',
+        progress: 0,
+        doneLessons: 0,
+        totalLessons: 5,
+        totalDuration: '3h 55min',
+        instructor: 'Lucas Mendes',
+        modules: [
+          {
+            num: 1, status: 'current',
+            title: 'Fundamentos da alta performance atlética',
+            desc:  'O que separa atletas de alta performance dos demais: princípios de adaptação, supercompensação e intensidade controlada.',
+            duration: '45:00',
+            thumbBg: 'linear-gradient(135deg, #0b0a18, #15122a)',
+            thumbGlow: 'rgba(167,139,250,0.24)',
+            thumbIconBg: 'rgba(167,139,250,0.15)',
+            thumbIconColor: '#A78BFA',
+            iconPath: '<polygon points="5 3 19 12 5 21 5 3"/>',
+          },
+          {
+            num: 2, status: 'locked',
+            title: 'Periodização avançada por blocos',
+            desc:  'Organização de ciclos de acumulação, transmutação e realização para alcançar e manter picos de performance.',
+            duration: '58:30',
+            thumbBg: 'linear-gradient(135deg, #0d0d14, #181825)',
+            thumbGlow: 'rgba(255,255,255,0.04)',
+            thumbIconBg: 'rgba(255,255,255,0.06)',
+            thumbIconColor: 'rgba(200,221,232,0.25)',
+            iconPath: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+          },
+          {
+            num: 3, status: 'locked',
+            title: 'Biohacking: sono, recuperação e adaptação',
+            desc:  'Protocolos de recuperação de elite: qualidade do sono, terapia de frio e calor, e marcadores de recuperação.',
+            duration: '42:15',
+            thumbBg: 'linear-gradient(135deg, #0d0d14, #181825)',
+            thumbGlow: 'rgba(255,255,255,0.04)',
+            thumbIconBg: 'rgba(255,255,255,0.06)',
+            thumbIconColor: 'rgba(200,221,232,0.25)',
+            iconPath: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+          },
+          {
+            num: 4, status: 'locked',
+            title: 'Monitoramento de desempenho e dados',
+            desc:  'Como usar frequência cardíaca, HRV, RPE e dados objetivos para tomar decisões de treino mais inteligentes.',
+            duration: '38:40',
+            thumbBg: 'linear-gradient(135deg, #0d0d14, #181825)',
+            thumbGlow: 'rgba(255,255,255,0.04)',
+            thumbIconBg: 'rgba(255,255,255,0.06)',
+            thumbIconColor: 'rgba(200,221,232,0.25)',
+            iconPath: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+          },
+          {
+            num: 5, status: 'locked',
+            title: 'Pico de forma: tapering e estratégia competitiva',
+            desc:  'Como reduzir o volume sem perder fitness, chegar no melhor momento do ano e sustentar resultados de longo prazo.',
+            duration: '51:00',
+            thumbBg: 'linear-gradient(135deg, #0d0d14, #181825)',
+            thumbGlow: 'rgba(255,255,255,0.04)',
+            thumbIconBg: 'rgba(255,255,255,0.06)',
+            thumbIconColor: 'rgba(200,221,232,0.25)',
+            iconPath: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+          },
+        ],
+      },
+    };
+
+    /* ─── Lê parâmetro de URL ────────────────────────────────── */
+    const params  = new URLSearchParams(window.location.search);
+    const trailId = (params.get('id') || '').toLowerCase();
+    const trail   = TRAILS[trailId];
+
+    if (!trail) {
+      // Trail não encontrada — redireciona ao dashboard
+      window.location.replace('./dashboard.html');
+    } else {
+      renderTrail(trail);
+    }
+
+    /* ─── Render ─────────────────────────────────────────────── */
+    function renderTrail(t) {
+      // CSS vars de acento
+      document.documentElement.style.setProperty('--trail-accent', t.accent);
+      document.documentElement.style.setProperty('--trail-accent-rgb', t.accentRgb);
+
+      // Título da página
+      document.title = t.title + ' | MetaBody Club';
+
+      // Topbar
+      document.getElementById('topbarTitle').textContent = t.title;
+      document.getElementById('topbarPct').textContent   = t.progress + '%';
+      document.getElementById('topbarBar').style.width   = t.progress + '%';
+
+      // Cover hero
+      document.getElementById('heroCover').style.background = t.coverBg;
+      document.getElementById('heroGlow').style.background  =
+        'radial-gradient(ellipse at 55% 55%, ' + t.glowColor + ' 0%, transparent 65%)';
+
+      // Tag
+      const tagEl = document.getElementById('heroTag');
+      tagEl.textContent = t.tag;
+      tagEl.style.background   = t.tagColor;
+      tagEl.style.border       = '1px solid ' + t.tagBorder;
+      tagEl.style.color        = t.tagText;
+
+      // Título e desc
+      document.getElementById('heroTitle').textContent = t.title;
+      document.getElementById('heroDesc').textContent  = t.desc;
+
+      // Stats
+      const statsEl = document.getElementById('heroStats');
+      statsEl.innerHTML = `
+        <div class="hero-stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 3H8"/></svg>
+          <strong>${t.totalLessons}</strong> aulas
+        </div>
+        <div class="hero-stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <strong>${t.totalDuration}</strong> de conteúdo
+        </div>
+        <div class="hero-stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Instrutor: <strong>${t.instructor}</strong>
+        </div>
+        <div class="hero-stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <strong>${t.doneLessons} de ${t.totalLessons}</strong> concluídas
+        </div>
+      `;
+
+      // CTA
+      const ctaEl = document.getElementById('heroCta');
+      const currentModule = t.modules.find(m => m.status === 'current');
+      const ctaLabel = t.doneLessons > 0 ? 'Continuar trilha' : 'Iniciar trilha';
+      ctaEl.innerHTML = `
+        <button class="btn-watch-next" onclick="document.getElementById('module-${currentModule ? currentModule.num : 1}')?.scrollIntoView({behavior:'smooth', block:'center'})">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          ${ctaLabel}
+        </button>
+        <div class="hero-progress-inline">
+          <span class="hero-progress-label">Progresso</span>
+          <div class="hero-progress-bar-bg">
+            <div class="hero-progress-bar" style="width:${t.progress}%"></div>
+          </div>
+          <span class="hero-progress-pct-label">${t.progress}% concluído</span>
+        </div>
+      `;
+
+      // Contagem
+      document.getElementById('modulesCount').textContent = t.totalLessons + ' aulas nesta trilha';
+
+      // Módulos
+      const listEl = document.getElementById('modulesList');
+      t.modules.forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'module-card module-card--' + m.status;
+        card.id = 'module-' + m.num;
+
+        const statusLabel = { done: 'Concluído', current: 'Em andamento', locked: 'Bloqueado' }[m.status];
+        const statusIcon  = {
+          done:    '<polyline points="20 6 9 17 4 12"/>',
+          current: '<polygon points="5 3 19 12 5 21 5 3"/>',
+          locked:  '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+        }[m.status];
+
+        const btnClass = { done: 'btn-watch--ghost', current: 'btn-watch--primary', locked: 'btn-watch--locked' }[m.status];
+        const btnLabel = { done: 'Rever', current: 'Assistir agora', locked: 'Bloqueado' }[m.status];
+        const btnDisabled = m.status === 'locked' ? 'disabled' : '';
+
+        card.innerHTML = `
+          <div class="module-thumb" style="background:${m.thumbBg}">
+            <!-- <img src="/images/trilhas/aula-${trailId}-${String(m.num).padStart(2,'0')}.jpg" alt="${m.title}"> -->
+            <div class="module-thumb-bg">
+              <div class="module-thumb-glow" style="background:radial-gradient(circle at center, ${m.thumbGlow} 0%, transparent 70%)"></div>
+              <div class="module-thumb-icon" style="background:${m.thumbIconBg}; color:${m.thumbIconColor}; box-shadow:0 0 16px ${m.thumbGlow}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${m.iconPath}</svg>
+              </div>
+            </div>
+            ${m.status !== 'locked' ? `
+            <div class="module-thumb-play">
+              <div class="thumb-play-circle">
+                <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+              </div>
+            </div>` : ''}
+            <span class="module-num-badge">${String(m.num).padStart(2,'0')}</span>
+          </div>
+          <div class="module-body">
+            <div class="module-status-row">
+              <span class="status-badge status-badge--${m.status}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${statusIcon}</svg>
+                ${statusLabel}
+              </span>
+            </div>
+            <h3 class="module-card-title">${m.title}</h3>
+            <p class="module-card-desc">${m.desc}</p>
+            <div class="module-card-meta">
+              <span class="meta-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                ${m.duration}
+              </span>
+              <span class="meta-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 3H8"/></svg>
+                Aula ${m.num}
+              </span>
+            </div>
+          </div>
+          <div class="module-action">
+            <button class="btn-watch ${btnClass}" ${btnDisabled}>
+              ${m.status === 'current' ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>' : ''}
+              <span>${btnLabel}</span>
+            </button>
+          </div>
+        `;
+        listEl.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
