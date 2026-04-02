@@ -21,9 +21,9 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url('/images/hero-bg.png');
+  background-image: url('/public/images/team/fundohero.png');
   background-size: cover;
-  background-position: center top;
+  background-position: center;
   // zoom sutil de entrada
   animation: heroBgZoom 8s ease-out both;
 }
@@ -34,51 +34,30 @@
 }
 
 // ─────────────────────────────────────────────────
-// 2. Treinador recortado (trainer.png sem fundo)
+// 2. Logo do MetaBody no topo da hero (responsivo)
 // ─────────────────────────────────────────────────
 
-// Wrapper para aplicar a vinheta sem quebrar o <img>
-.hero-trainer-wrap {
-  position: absolute;
-  z-index: 2;
-  // Ajuste de posicionamento focado em mobile primeiro
-  bottom: 22%; 
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90vw;
-  max-width: 450px;
-
-  // Usa mask via linear-gradient de baixo para cima + fade sutil nas laterais
-  // Isso esconde bem a base da foto de forma bem perfeitinha
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    black 70%,
-    transparent 95%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    black 70%,
-    transparent 95%
-  );
-
-  animation: trainerReveal 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+.hero-logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  animation: logoFadeDown 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
 }
 
-.hero-trainer {
-  display: block;
-  width: 100%;
+.hero-logo {
+  width: clamp(80px, 20vw, 140px);
   height: auto;
   object-fit: contain;
   pointer-events: none;
 }
 
-@keyframes trainerReveal {
-  from { opacity: 0; transform: translateX(-50%) translateY(30px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+@keyframes logoFadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 // ─────────────────────────────────────────────────
-// 3. Vinheta — funde foto com o fundo escuro
+// 3. Vinheta — destaca o fundo com overlay
 // ─────────────────────────────────────────────────
 .hero-overlay {
   position: absolute;
@@ -86,27 +65,19 @@
   z-index: 3;
   pointer-events: none;
   background:
-    // Escurecimento de baixo MAIS ALTO para mascarar de vez o corte da foto
+    // Gradiente vertical para destacar o background
     linear-gradient(
-      to top,
-      #07111A              0%,
-      #07111A              20%,  // Zona sólida estendida
-      rgba(#07111A, 0.95)  35%,
-      rgba(#07111A, 0.8)   45%,
-      rgba(#07111A, 0.4)   60%,
-      transparent          75%
+      180deg,
+      rgba(#07111A, 0.35) 0%,
+      rgba(#07111A, 0.2)  30%,
+      rgba(#07111A, 0.1)  60%,
+      rgba(#07111A, 0.45) 100%
     ),
-    // Topo suave para a navbar
-    linear-gradient(
-      to bottom,
-      rgba(#07111A, 0.4)  0%,
-      transparent         15%
-    ),
-    // Vinheta radial um pouco mais densa
+    // Vinheta radial para profundidade
     radial-gradient(
-      ellipse 100% 120% at 50% 50%,
-      transparent 35%,
-      rgba(#07111A, 0.6) 100%
+      ellipse 100% 100% at 50% 50%,
+      transparent 30%,
+      rgba(#07111A, 0.3) 100%
     );
 }
 
@@ -126,7 +97,7 @@
   max-width: 420px;
   margin: 0 auto;
   text-align: center;
-  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }
 
 @keyframes heroFadeUp {
@@ -300,68 +271,29 @@
     min-height: 88vh;
   }
 
-  // ── Treinador: ancora à direita, altura quase total ──
-  .hero-trainer-wrap {
-    position: absolute;
-    bottom: 0;
-    right: 4%;
-    left: auto;
-    transform: none;
-    width: auto;
-    max-width: none;
-    height: 95%;
-
-    // Máscara desktop: fade suave só na base (não nas laterais)
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      black 60%,
-      transparent 96%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      black 60%,
-      transparent 96%
-    );
-
-    animation: trainerRevealDesktop 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  // Logo desktop: elevado, responsivo
+  .hero-logo-wrap {
+    margin-bottom: 2rem;
   }
 
-  .hero-trainer {
-    display: block;
-    width: auto;
-    height: 100%;
-    object-fit: contain;
+  .hero-logo {
+    width: clamp(100px, 18vw, 180px);
   }
 
-  @keyframes trainerRevealDesktop {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  // ── Overlay desktop: gradiente horizontal suave ──
-  // Escurece apenas a metade esquerda onde fica o texto
+  // Overlay desktop: mantém destaque para o background
   .hero-overlay {
     background:
       linear-gradient(
-        to right,
-        #07111A              0%,
-        #07111A              18%,
-        rgba(#07111A, 0.88)  32%,
-        rgba(#07111A, 0.45)  50%,
-        rgba(#07111A, 0.1)   68%,
-        transparent          82%
+        180deg,
+        rgba(#07111A, 0.4) 0%,
+        rgba(#07111A, 0.15) 30%,
+        rgba(#07111A, 0.05) 60%,
+        rgba(#07111A, 0.5)  100%
       ),
-      // Topo — navbar
-      linear-gradient(
-        to bottom,
-        rgba(#07111A, 0.45)  0%,
-        transparent          14%
-      ),
-      // Base — ancoragem
-      linear-gradient(
-        to top,
-        rgba(#07111A, 0.7)   0%,
-        transparent          22%
+      radial-gradient(
+        ellipse 100% 100% at 50% 50%,
+        transparent 25%,
+        rgba(#07111A, 0.25) 100%
       );
   }
 
