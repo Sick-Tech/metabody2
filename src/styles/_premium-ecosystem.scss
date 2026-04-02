@@ -1,0 +1,622 @@
+// ============================================================
+// PREMIUM ECOSYSTEM SECTION
+// Seção de 3 cards premium apresentando benefícios, trilhas e ao vivo
+// ============================================================
+@use 'variables' as *;
+
+// ─────────────────────────────────────────────────
+// Container Wrapper
+// ─────────────────────────────────────────────────
+.premium-ecosystem {
+  background: $blue-dark;
+  padding: 5rem 2rem;
+  position: relative;
+  overflow: hidden;
+
+  // Decoração de fundo subtle
+  &::before {
+    content: '';
+    position: absolute;
+    top: -180px;
+    left: 5%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba($cyan-mid, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -200px;
+    right: 3%;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba($green-base, 0.04) 0%, transparent 75%);
+    pointer-events: none;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Headline Section
+// ─────────────────────────────────────────────────
+.ecosystem-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+
+  .section-eyebrow {
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    color: rgba($white, 0.75);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Cards Grid
+// ─────────────────────────────────────────────────
+.ecosystem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+// ─────────────────────────────────────────────────
+// Card Individual
+// ─────────────────────────────────────────────────
+.ecosystem-card {
+  background: linear-gradient(135deg, rgba($blue-deepest, 0.8), rgba($blue-mid, 0.5));
+  border: 1px solid rgba($cyan-mid, 0.2);
+  border-radius: $radius-lg;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: all $ease;
+
+  // Subtle glow background
+  &::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba($green-mid, 0.08), transparent 70%);
+    pointer-events: none;
+  }
+
+  &:hover {
+    border-color: rgba($cyan-mid, 0.4);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba($cyan-mid, 0.12);
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Card Header
+// ─────────────────────────────────────────────────
+.ecosystem-card-header {
+  margin-bottom: 2rem;
+
+  .card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba($green-mid, 0.2), rgba($cyan-mid, 0.15));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    border: 1px solid rgba($cyan-mid, 0.3);
+
+    svg {
+      width: 28px;
+      height: 28px;
+      color: $green-light;
+    }
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $white;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .card-subtitle {
+    font-size: 0.95rem;
+    color: rgba($white, 0.65);
+    line-height: 1.5;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Card Content / Mockup Area
+// ─────────────────────────────────────────────────
+.ecosystem-card-content {
+  flex: 1;
+  margin-bottom: 1.8rem;
+}
+
+// ─────────────────────────────────────────────────
+// Benefits List (Card 1)
+// ─────────────────────────────────────────────────
+.benefits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  .benefit-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba($cyan-mid, 0.1);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .benefit-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      height: 24px;
+      background: rgba($green-base, 0.2);
+      border: 1px solid rgba($green-mid, 0.3);
+      border-radius: 50%;
+      flex-shrink: 0;
+
+      svg {
+        width: 12px;
+        height: 12px;
+        color: $green-light;
+      }
+    }
+
+    .benefit-text {
+      font-size: 0.9rem;
+      color: rgba($white, 0.8);
+      line-height: 1.4;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Trilhas Mockup (Card 2)
+// ─────────────────────────────────────────────────
+.trilhas-mockup {
+  background: rgba($blue-deepest, 0.4);
+  border-radius: $radius;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba($cyan-mid, 0.15);
+}
+
+.trilhas-item {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .trilhas-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background: linear-gradient(135deg, rgba($green-mid, 0.2), rgba($cyan-mid, 0.1));
+    border-radius: 0.5rem;
+    border: 1px solid rgba($green-base, 0.2);
+
+    svg {
+      width: 20px;
+      height: 20px;
+      color: $green-light;
+    }
+  }
+
+  .trilhas-info {
+    flex: 1;
+
+    .trilhas-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: $white;
+      margin-bottom: 0.25rem;
+    }
+
+    .trilhas-meta {
+      font-size: 0.75rem;
+      color: rgba($white, 0.55);
+
+      .trilhas-aulas {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+
+        &::after {
+          content: ' • ';
+          margin-left: 0.4rem;
+        }
+      }
+    }
+  }
+
+  .trilhas-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.35rem;
+
+    .progress-bar {
+      width: 60px;
+      height: 3px;
+      background: rgba($cyan-mid, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, $green-base, $green-light);
+        width: 65%;
+      }
+    }
+
+    .progress-text {
+      font-size: 0.7rem;
+      color: rgba($white, 0.5);
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Lives/Sessions Mockup (Card 3)
+// ─────────────────────────────────────────────────
+.live-sessions-mockup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.live-session-item {
+  background: rgba($blue-deepest, 0.4);
+  border-radius: $radius;
+  padding: 1rem;
+  border: 1px solid rgba($cyan-mid, 0.15);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  .session-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, rgba($green-mid, 0.25), rgba($cyan-mid, 0.15));
+    border-radius: 0.5rem;
+    border: 1px solid rgba($green-light, 0.2);
+    flex-shrink: 0;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      color: $green-light;
+    }
+
+    &.live-badge {
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        width: 10px;
+        height: 10px;
+        background: $green-light;
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+      }
+    }
+  }
+
+  .session-info {
+    flex: 1;
+
+    .session-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: $white;
+      margin-bottom: 0.25rem;
+    }
+
+    .session-meta {
+      font-size: 0.75rem;
+      color: rgba($white, 0.55);
+
+      .session-day {
+        display: inline;
+      }
+
+      .session-time {
+        display: inline;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Card Features List
+// ─────────────────────────────────────────────────
+.card-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+
+  .feature-item {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    font-size: 0.85rem;
+    color: rgba($white, 0.75);
+
+    &::before {
+      content: '';
+      display: inline-flex;
+      width: 6px;
+      height: 6px;
+      background: $green-light;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Card CTA Button
+// ─────────────────────────────────────────────────
+.card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.8rem;
+  background: linear-gradient(135deg, rgba($green-base, 0.15), rgba($green-mid, 0.1));
+  border: 1.5px solid rgba($green-mid, 0.4);
+  border-radius: 50px;
+  color: $white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $ease;
+  text-decoration: none;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    transition: transform $ease;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, rgba($green-base, 0.25), rgba($green-mid, 0.18));
+    border-color: rgba($green-mid, 0.6);
+
+    svg {
+      transform: translateX(3px);
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Responsive
+// ─────────────────────────────────────────────────
+@media (max-width: 1200px) {
+  .ecosystem-grid {
+    gap: 1.5rem;
+  }
+
+  .ecosystem-card {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .premium-ecosystem {
+    padding: 3.5rem 1.5rem;
+
+    &::before {
+      width: 400px;
+      height: 400px;
+      top: -100px;
+    }
+
+    &::after {
+      width: 500px;
+      height: 500px;
+      bottom: -150px;
+    }
+  }
+
+  .ecosystem-header {
+    margin-bottom: 3rem;
+
+    .section-title {
+      font-size: 1.8rem;
+    }
+  }
+
+  .ecosystem-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .ecosystem-card {
+    padding: 1.75rem;
+
+    &::before {
+      width: 200px;
+      height: 200px;
+      top: -60px;
+      right: -60px;
+    }
+  }
+
+  .ecosystem-card-header {
+    margin-bottom: 1.5rem;
+
+    h3 {
+      font-size: 1.25rem;
+    }
+  }
+
+  .trilhas-mockup,
+  .live-session-item {
+    padding: 1rem;
+  }
+
+  .trilhas-item {
+    margin-bottom: 0.8rem;
+  }
+
+  .live-sessions-mockup {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-ecosystem {
+    padding: 2.5rem 1rem;
+  }
+
+  .ecosystem-header {
+    margin-bottom: 2.5rem;
+
+    .section-eyebrow {
+      font-size: 0.7rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.95rem;
+    }
+  }
+
+  .ecosystem-card {
+    padding: 1.5rem;
+
+    &::before {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  .ecosystem-card-header {
+    .card-icon {
+      width: 48px;
+      height: 48px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    h3 {
+      font-size: 1.1rem;
+    }
+
+    .card-subtitle {
+      font-size: 0.9rem;
+    }
+  }
+
+  .card-features {
+    margin-bottom: 1.5rem;
+  }
+
+  .card-cta {
+    width: 100%;
+    justify-content: center;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.85rem;
+  }
+
+  .trilhas-item {
+    gap: 0.75rem;
+  }
+
+  .trilhas-icon-box {
+    width: 36px;
+    height: 36px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .trilhas-info .trilhas-name {
+    font-size: 0.8rem;
+  }
+
+  .trilhas-progress .progress-bar {
+    width: 50px;
+  }
+
+  .session-badge {
+    min-width: 40px;
+    height: 40px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
