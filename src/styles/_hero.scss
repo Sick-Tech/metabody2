@@ -42,12 +42,12 @@
 .hero-logo-image-wrap {
   position: absolute;
   z-index: 2;
-  // Mobile: centralizado e alto
-  bottom: 35%; 
+  // Mobile: bem alto, acima do texto
+  bottom: 68%; 
   left: 50%;
   transform: translateX(-50%);
-  width: 80vw;
-  max-width: 320px;
+  width: 70vw;
+  max-width: 280px;
 
   animation: logoImageReveal 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }
@@ -288,16 +288,17 @@
     min-height: 88vh;
   }
 
-  // Logo image desktop: posicionada à direita
+  // Logo image desktop: posicionada bem à direita, harmonizado com texto à esquerda
   .hero-logo-image-wrap {
     position: absolute;
     bottom: auto;
-    right: 8%;
+    right: 2%;
     left: auto;
-    transform: none;
+    top: 50%;
+    transform: translateY(-50%);
     width: auto;
     max-width: none;
-    height: 65%;
+    height: 70%;
 
     animation: logoImageRevealDesktop 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
   }
