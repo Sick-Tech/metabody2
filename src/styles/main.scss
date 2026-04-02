@@ -1,0 +1,22 @@
+// ============================================================
+// METABODY CLUB — Main SCSS Entry Point
+// ============================================================
+
+// 1. Design tokens (SCSS vars + CSS custom properties)
+@use 'variables' as *;
+@use 'tokens';
+
+// 2. Base
+@use 'reset';
+
+// 3. Utilities & shared
+@use 'utils';
+
+// 4. Layout & components
+@use 'navbar';
+@use 'hero';
+@use 'sections';
+@use 'components';
+
+// 5. Responsive
+@use 'responsive';

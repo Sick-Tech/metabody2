@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MetaBody Club — Consultoria fitness premium com treino personalizado, dieta prática e suporte 24h. A partir de R$179,90/mês." />
+  <title>MetaBody Club | Consultoria Fitness Premium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ░░░ NAVBAR ░░░ -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="logo-meta">META</span><span class="logo-body">BODY</span>
+        <span class="logo-club">CLUB</span>
+      </div>
+      <div class="nav-overlay" id="navOverlay"></div>
+      <nav class="nav-links" id="navLinks">
+        <a href="#resultados">Resultados</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#time">Time</a>
+        <a href="#planos">Planos</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contato">Contato</a>
+        <a href="./login.html" class="nav-login-mobile">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <polyline points="10 17 15 12 10 7"/>
+            <line x1="15" y1="12" x2="3" y2="12"/>
+          </svg>
+          Área do Aluno
+        </a>
+      </nav>
+      <a href="./login.html" class="btn-nav">Quero Entrar</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ░░░ HERO ░░░ -->
+  <section class="hero" id="hero">
+
+    <!-- 1. Fundo da academia -->
+    <div class="hero-bg"></div>
+
+    <!-- 2. Treinador recortado — centralizado, sem container -->
+    <div class="hero-trainer-wrap">
+      <img
+        src="/images/trainer.png"
+        alt="Treinador MetaBody Club"
+        class="hero-trainer"
+      />
+    </div>
+
+    <!-- 3. Vinheta -->
+    <div class="hero-overlay"></div>
+
+    <!-- 5. Conteúdo principal -->
+    <div class="hero-inner">
+      <div class="hero-content">
+        <!-- Nova headline/slogan -->
+        <h1 class="hero-title">
+          Onde a Meta começa,<br />a transformação<br />acontece!
+        </h1>
+
+        <!-- Subtítulo de suporte -->
+        <p class="hero-subtitle">
+          Treino, estratégia e acompanhamento para transformar seu físico, sua mentalidade e sua constância.
+        </p>
+
+        <!-- CTAs -->
+        <div class="hero-cta-group">
+          <a href="#planos" class="btn-primary">Falar com um Consultor</a>
+          <a href="#servicos" class="btn-ghost">Conhecer o Método</a>
+        </div>
+
+        <!-- Badge de preço -->
+        <div class="hero-price-badge">
+          <span class="badge-from">A partir de</span>
+          <span class="badge-price">R$ 179,90</span>
+          <span class="badge-period">/ mês no plano anual</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint"><span></span></div>
+  </section>
+
+  <!-- ░░░ SOCIAL PROOF STRIP ░░░ -->
+  <section class="proof-strip">
+    <div class="proof-container">
+      <div class="proof-item">
+        <strong data-counter="200" data-suffix="+" data-duration="1600">200+</strong>
+        <span>Alunos Transformados</span>
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <strong data-counter="3" data-suffix="" data-duration="800">3</strong>
+        <span>Profissionais Especializados</span>
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <strong data-counter="72" data-suffix="h" data-duration="1200">72h</strong>
+        <span>Entrega do Protocolo</span>
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <strong data-counter="24" data-suffix="/7" data-duration="1000">24/7</strong>
+        <span>Suporte via WhatsApp</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ TRANSFORMAÇÃO ░░░ -->
+  <section class="transform-section" id="resultados">
+    <div class="section-container">
+      <p class="section-eyebrow">Resultados Reais</p>
+      <h2 class="section-title">+200 Alunos com a Vida Transformada</h2>
+      <p class="section-subtitle">Corpo, mente e espírito. Transformações que vão muito além do físico.</p>
+
+      <!-- Carrossel com setas laterais -->
+      <div class="results-carousel-wrapper">
+        
+        <!-- Botão anterior (esquerda) -->
+        <button 
+          class="carousel-nav carousel-nav--prev" 
+          id="resultsCarouselPrev"
+          aria-label="Resultados anteriores"
+          type="button"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <!-- Viewport do carrossel -->
+        <div class="results-carousel-viewport">
+          <div class="results-photo-grid" id="resultsCarouselTrack">
+            
+            <div class="result-photo-card">
+              <div class="result-photo result-photo--1"></div>
+              <div class="result-photo-info">
+                <div class="result-photo-meta">
+                  <p class="result-name">Carlos M.</p>
+                  <p class="result-stat">−12kg <span>/ 4 meses</span></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-photo-card">
+              <div class="result-photo result-photo--2"></div>
+              <div class="result-photo-info">
+                <div class="result-photo-meta">
+                  <p class="result-name">Ana P.</p>
+                  <p class="result-stat">+8kg massa <span>/ 6 meses</span></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-photo-card">
+              <div class="result-photo result-photo--3"></div>
+              <div class="result-photo-info">
+                <div class="result-photo-meta">
+                  <p class="result-name">Rafael S.</p>
+                  <p class="result-stat">+21kg <span>/ 5 meses</span></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-photo-card">
+              <div class="result-photo result-photo--4"></div>
+              <div class="result-photo-info">
+                <div class="result-photo-meta">
+                  <p class="result-name">Mariana T.</p>
+                  <p class="result-stat">−9% gordura <span>/ 3 meses</span></p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Botão próximo (direita) -->
+        <button 
+          class="carousel-nav carousel-nav--next" 
+          id="resultsCarouselNext"
+          aria-label="Próximos resultados"
+          type="button"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+
+      </div>
+
+      <div class="results-testimonial">
+        <blockquote>
+          "A consultoria mais perto de você e mais completa de todas. Jamais será só por dinheiro — estaremos sempre aqui para te ajudar."
+        </blockquote>
+        <cite>— Time MetaBody Club</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ SERVIÇOS ░░░ -->
+  <section class="services-section" id="servicos">
+    <div class="section-container">
+      <p class="section-eyebrow">O Que Oferecemos</p>
+      <h2 class="section-title">A Escolha Certa Para a Melhor Experiência</h2>
+      <p class="section-subtitle">Tenha a melhor experiência com o Time Meta</p>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 4v16M18 4v16M6 12h12M3 6h3M18 6h3M3 18h3M18 18h3"/></svg>
+          </div>
+          <div class="service-card-body">
+            <h3>Musculação</h3>
+            <p>Treino individual e periodizado, elaborado por profissionais extremamente qualificados, alinhado ao seu objetivo e ao seu nível.</p>
+          </div>
+        </div>
+        <div class="service-card service-card--accent">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="service-card-body">
+            <h3>Corrida</h3>
+            <p>Para você que quer ser funcional em todas as áreas da vida. Treinos de corrida e híbridos para qualquer nível e objetivo.</p>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div class="service-card-body">
+            <h3>Dieta</h3>
+            <p>Alimentação individual e prática, alinhada com a sua realidade financeira e rotina — sem abrir mão dos seus alimentos favoritos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ CANSADO DE ░░░ -->
+  <section class="pain-section">
+    <div class="section-container">
+      <div class="pain-grid">
+
+        <div class="pain-col">
+          <p class="section-eyebrow eyebrow--light">Chega de Frustração</p>
+          <h2 class="section-title title--light">Está Cansado De...</h2>
+          <ul class="pain-list">
+            <li>
+              <span class="icon-x">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+              </span>
+              <span>Treino cópia e cola</span>
+            </li>
+            <li>
+              <span class="icon-x">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+              </span>
+              <span>Dieta sem sentido</span>
+            </li>
+            <li>
+              <span class="icon-x">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+              </span>
+              <span>Não ter resultado mesmo sendo disciplinado</span>
+            </li>
+            <li>
+              <span class="icon-x">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+              </span>
+              <span>Demora para ser atendido</span>
+            </li>
+            <li>
+              <span class="icon-x">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+              </span>
+              <span>Ser esquecido após o pagamento</span>
+            </li>
+            <li>
+              <span class="icon-x">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+              </span>
+              <span>Medo de pagar e não saber o que será entregue</span>
+            </li>
+            <li>
+              <span class="icon-x">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+              </span>
+              <span>Influenciadores sem formação</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="pain-col pain-col--right">
+          <div class="benefit-card-header">
+            <p class="section-eyebrow">Com o Time MetaBody Club</p>
+            <h2 class="section-title">Aqui é Diferente</h2>
+          </div>
+          <ul class="benefit-list">
+            <li>
+              <span class="icon-check">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6.5 4.5,9.5 10.5,2.5"/></svg>
+              </span>
+              <span>Consultoria de profissionais extremamente qualificados com CREF</span>
+            </li>
+            <li>
+              <span class="icon-check">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6.5 4.5,9.5 10.5,2.5"/></svg>
+              </span>
+              <span>Treino individual e personalizado por especialistas</span>
+            </li>
+            <li>
+              <span class="icon-check">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6.5 4.5,9.5 10.5,2.5"/></svg>
+              </span>
+              <span>Dieta individual e prática alinhada com a sua realidade</span>
+            </li>
+            <li>
+              <span class="icon-check">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6.5 4.5,9.5 10.5,2.5"/></svg>
+              </span>
+              <span>Suporte ágil e individual pelo WhatsApp 24h</span>
+            </li>
+            <li>
+              <span class="icon-check">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6.5 4.5,9.5 10.5,2.5"/></svg>
+              </span>
+              <span>Área de membros, palestras, cursos, encontros e sorteios</span>
+            </li>
+            <li>
+              <span class="icon-check">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6.5 4.5,9.5 10.5,2.5"/></svg>
+              </span>
+              <span>A melhor consultoria que você possa escolher</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ COMO FUNCIONA ░░░ -->
+  <section class="how-to-section" id="processo">
+    <div class="section-container">
+      <p class="section-eyebrow">Seu Caminho para a Transformação</p>
+      <h2 class="section-title">Como Faço Para Assinar o MetaBody Club?</h2>
+      <p class="section-subtitle">Um processo seguro, orientado e humanizado. Você é acompanhado a cada etapa.</p>
+
+      <div class="journey-steps">
+        <div class="step">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h3>Fale com um Consultor</h3>
+            <p>Clique no botão abaixo para que um consultor da MetaBody possa te atender. Este é o primeiro passo para sua jornada.</p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+
+        <div class="step">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h3>Escolha Seu Plano</h3>
+            <p>Defina o melhor plano para você com a ajuda dos consultores: trimestral, semestral ou anual. Trabalhamos apenas com esses períodos porque 3 meses é o tempo mínimo para você conhecer nosso trabalho e perceber resultados reais.</p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+
+        <div class="step">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h3>Responda ao Diagnóstico</h3>
+            <p>Após sua compra, você receberá um formulário de diagnóstico completo. Responda com atenção e sinceridade — é com base nessas informações que nossos profissionais irão entender seus objetivos e criar seu planejamento ideal.</p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+
+        <div class="step">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h3>Receba Seu Planejamento</h3>
+            <p>Em até 72 horas, nosso time entrará em contato com todo o seu planejamento personalizado: treino, dieta e orientações práticas para sua transformação.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="how-to-cta">
+        <a href="#contato" class="btn-primary">Falar com um Consultor</a>
+        <p class="how-to-sub">Primeira consulta é gratuita. Sem compromisso.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ JORNADA DO ALUNO ░░░ -->
+  <section class="journey-section" id="sobre">
+    <div class="journey-bg-circles">
+      <div class="circle-ring circle-ring--outer"></div>
+      <div class="circle-ring circle-ring--inner"></div>
+    </div>
+
+    <div class="section-container">
+      <p class="section-eyebrow">Sua Jornada</p>
+      <h2 class="section-title">Após Entrar no Time</h2>
+      <p class="section-subtitle">Um processo claro, humano e completamente personalizado para você</p>
+
+      <div class="radial-composition">
+        <!-- Centro com imagem -->
+        <div class="radial-center">
+          <div class="center-glow"></div>
+          <div class="center-image">
+            <img src="/images/team/metabody.jpeg" alt="MetaBody" />
+          </div>
+        </div>
+
+        <!-- 4 Pilares ao redor (posicionamento radial) -->
+        <div class="radial-pillar radial-pillar--top">
+          <div class="pillar-badge">01</div>
+          <h3>Análise Personalizada</h3>
+          <p>Através da anamnese — um conjunto de perguntas e fotos — entregaremos seu treino e sua dieta com exatamente o que você precisa.</p>
+        </div>
+
+        <div class="radial-pillar radial-pillar--right">
+          <div class="pillar-badge">02</div>
+          <h3>Treino &amp; Dieta em 72h</h3>
+          <p>Elaboramos seu treino e sua dieta em até 72 horas após a anamnese — tudo personalizado para o seu perfil e objetivo.</p>
+        </div>
+
+        <div class="radial-pillar radial-pillar--bottom">
+          <div class="pillar-badge">03</div>
+          <h3>Acompanhamento Próximo</h3>
+          <p>Você terá acesso a nós em todo tempo para tirar dúvidas, nos conhecer através de eventos e sempre ajustando às suas necessidades.</p>
+        </div>
+
+        <div class="radial-pillar radial-pillar--left">
+          <div class="pillar-badge">04</div>
+          <h3>Área de Membros Exclusiva</h3>
+          <p>Lives, encontros presenciais, sorteios e uma comunidade ativa. Algo que de fato você nunca viu em outra consultoria.</p>
+        </div>
+      </div>
+
+      <div class="how-to-cta journey-cta-bottom">
+        <button class="btn btn-primary">Quero começar agora</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ TIME / QUEM SOMOS ░░░ -->
+  <section class="team-section" id="time">
+    <div class="section-container">
+      <p class="section-eyebrow eyebrow--light">Profissionais por Trás da Meta</p>
+      <h2 class="section-title title--light">Quem Somos</h2>
+      <p class="section-subtitle subtitle--light">Conhecimento, formação e propósito para transformar a sua vida.</p>
+
+      <div class="team-grid">
+
+        <!-- DANIEL LINO -->
+        <div class="team-card team-card--daniel">
+          <div class="team-photo-circle">
+            <img src="/images/team/danielphoto.jpeg" alt="Daniel Lino" />
+            <div class="team-badge-cref">
+              <span>CREF</span>
+            </div>
+          </div>
+          <h3>Daniel Lino</h3>
+          <span class="team-role">Profissional de Ed. Física</span>
+          <p class="team-bio-short">Especialista em musculação e periodização de treinos, com vasta experiência no atendimento individual e resultados expressivos.</p>
+          <div class="team-tags">
+            <span class="badge">Musculação</span>
+            <span class="badge">Periodização</span>
+            <span class="badge">Alta Performance</span>
+          </div>
+          <button class="btn-learn-more" data-member="daniel">
+            <span>Ler Bio Completa</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- DIEGO CARVALHO -->
+        <div class="team-card team-card--diego">
+          <div class="team-photo-circle">
+            <div class="team-photo-placeholder">
+              <span>DR</span>
+            </div>
+            <div class="team-badge-cref">
+              <span>CREF</span>
+            </div>
+          </div>
+          <h3>Diego Redorat</h3>
+          <span class="team-role">Profissional de Ed. Física</span>
+          <p class="team-bio-short">Especializado em treinamento funcional e corrida, constrói protocolos que unem saúde, performance e qualidade de vida real.</p>
+          <div class="team-tags">
+            <span class="badge">Corrida</span>
+            <span class="badge">Funcional</span>
+            <span class="badge">Saúde &amp; Life</span>
+          </div>
+          <button class="btn-learn-more" data-member="diego">
+            <span>Ler Bio Completa</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- GUSTAVO SAITO -->
+        <div class="team-card team-card--gustavo">
+          <div class="team-photo-circle">
+            <img src="/images/team/gustavosaito.jpeg" alt="Gustavo Saito" />
+            <div class="team-badge-cref">
+              <span>CREF</span>
+            </div>
+          </div>
+          <h3>Gustavo Saito</h3>
+          <span class="team-role">Profissional de Ed. Física</span>
+          <p class="team-bio-short">Expert em nutrição esportiva e comportamento alimentar, cria dietas práticas e adaptadas à rotina real de cada aluno.</p>
+          <div class="team-tags">
+            <span class="badge">Nutrição</span>
+            <span class="badge">Dieta</span>
+            <span class="badge">Comportamento</span>
+          </div>
+          <button class="btn-learn-more" data-member="gustavo">
+            <span>Ler Bio Completa</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ MODAL DE BIO COMPLETA ░░░ -->
+  <div class="team-modal" id="bioModal">
+    <div class="team-modal-overlay" id="bioModalOverlay"></div>
+    <div class="team-modal-content">
+      <button class="team-modal-close" id="bioModalClose" aria-label="Fechar">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="team-modal-header">
+        <div class="team-modal-photo">
+          <img id="bioModalPhoto" src="" alt="Profissional" />
+        </div>
+        <div class="team-modal-header-info">
+          <h2 id="bioModalName"></h2>
+          <span class="team-modal-role" id="bioModalRole"></span>
+          <span class="team-modal-cref" id="bioModalCref"></span>
+        </div>
+      </div>
+      <div class="team-modal-body">
+        <div id="bioModalText"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░░ MISSÃO, VISÃO E VALORES ░░░ -->
+  <section class="mvv-section" id="instituicional">
+    <div class="section-container">
+      <p class="section-eyebrow">Propósito e Posicionamento</p>
+      <h2 class="section-title">Missão, Visão e Valores</h2>
+
+      <div class="mvv-grid">
+        
+        <div class="mvv-block mvv-block--mission">
+          <div class="mvv-header">
+            <h3>Missão</h3>
+          </div>
+          <p>Desenvolver pessoas fortes por dentro e por fora, através de um método que integra treino, nutrição e mentalidade, gerando resultados consistentes, duradouros e acima da média.</p>
+        </div>
+
+        <div class="mvv-block mvv-block--vision">
+          <div class="mvv-header">
+            <h3>Visão</h3>
+          </div>
+          <p>Ser referência em transformação física e mental, formando uma geração disciplinada, confiante e preparada para sustentar resultados em qualquer área da vida.</p>
+        </div>
+
+      </div>
+
+      <div class="values-section">
+        <h3 class="values-title">Nossos 7 Pilares</h3>
+        <div class="values-carousel-wrapper">
+          <button class="values-nav values-nav--prev" aria-label="Pilar anterior">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <div class="values-grid">
+          
+          <div class="value-card">
+            <div class="value-number">01</div>
+            <h4>Mente no Comando</h4>
+            <p>O corpo executa aquilo que a mente acredita.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-number">02</div>
+            <h4>Consistência é o Padrão</h4>
+            <p>Resultados reais são construídos no processo, não em atalhos.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-number">03</div>
+            <h4>Alta Performance Diária</h4>
+            <p>Excelência não é evento — é hábito.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-number">04</div>
+            <h4>Responsabilidade Total</h4>
+            <p>Sem desculpas. Cada resultado é reflexo das próprias escolhas.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-number">05</div>
+            <h4>Evolução Constante</h4>
+            <p>Parar não é uma opção.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-number">06</div>
+            <h4>Método Validado</h4>
+            <p>Nada de achismo — só estratégias que funcionam na prática.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-number">07</div>
+            <h4>Identidade Forte</h4>
+            <p>Não formamos apenas corpos — construímos pessoas.</p>
+          </div>
+
+        </div>
+
+        <button class="values-nav values-nav--next" aria-label="Próximo pilar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ PLANOS ░░░ -->
+  <section class="plans-section" id="planos">
+    <div class="section-container">
+      <p class="section-eyebrow">Invista em Você</p>
+      <h2 class="section-title">Escolha Seu Plano de Transformação</h2>
+      <p class="section-subtitle">Transparência total. Sem surpresas. Escolha a duração que combina com você.</p>
+
+      <div class="plans-grid">
+
+        <!-- PLAN BASIC -->
+        <div class="plan-card">
+          <div class="plan-card-header">
+            <h3 class="plan-title">Basic</h3>
+            <p class="plan-subtitle-prefix">Treino + Dieta</p>
+          </div>
+
+          <p class="plan-description">
+            Esse plano consiste em ter todo acompanhamento do treino e da dieta.
+          </p>
+
+          <div class="plan-options">
+            <div class="plan-option">
+              <div class="plan-option-head">
+                <span class="plan-duration">Trimestral</span>
+              </div>
+              <div class="plan-pricing">
+                <div class="plan-price-variant">
+                  <span class="plan-inst">3x</span>
+                  <span class="plan-value">R$ 229,90</span>
+                </div>
+                <div class="plan-price-variant">
+                  <span class="plan-inst">à vista</span>
+                  <span class="plan-value">R$ 551,76</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-option">
+              <div class="plan-option-head">
+                <span class="plan-duration">Semestral</span>
+              </div>
+              <div class="plan-pricing">
+                <div class="plan-price-variant">
+                  <span class="plan-inst">6x</span>
+                  <span class="plan-value">R$ 209,90</span>
+                </div>
+                <div class="plan-price-variant">
+                  <span class="plan-inst">à vista</span>
+                  <span class="plan-value">R$ 1.007,52</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-option">
+              <div class="plan-option-head">
+                <span class="plan-duration">Anual</span>
+                <span class="plan-tag plan-tag--save">Melhor Preço</span>
+              </div>
+              <div class="plan-pricing">
+                <div class="plan-price-variant">
+                  <span class="plan-inst">12x</span>
+                  <span class="plan-value">R$ 179,90</span>
+                </div>
+                <div class="plan-price-variant">
+                  <span class="plan-inst">à vista</span>
+                  <span class="plan-value">R$ 1.727,04</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="#contato" class="btn-plan">Falar com um Consultor</a>
+        </div>
+
+        <!-- PLAN PRO -->
+        <div class="plan-card plan-card--pro">
+          <div class="plan-badge-pro">Mais Completo</div>
+          
+          <div class="plan-card-header">
+            <h3 class="plan-title">Pro</h3>
+            <p class="plan-subtitle-prefix">Treino + Dieta + Benefícios</p>
+          </div>
+
+          <p class="plan-description">
+            Além do acompanhamento completo de treino e dieta, o plano Pro inclui acesso ao clube de benefícios da MetaBody, com vantagens exclusivas em empresas parceiras, cursos e lives especiais.
+          </p>
+
+          <div class="plan-benefits">
+            <p class="plan-benefits-title">Benefícios Inclusos:</p>
+            <ul class="benefits-list">
+              <li><span class="benefit-icon">✓</span> Acesso a cursos e lives exclusivas</li>
+              <li><span class="benefit-icon">✓</span> Qadosh Suplementos — 15% de desconto</li>
+              <li><span class="benefit-icon">✓</span> Olinocar — Documentação isenta</li>
+              <li><span class="benefit-icon">✓</span> Anna Lash — 15% de desconto</li>
+            </ul>
+          </div>
+
+          <div class="plan-options">
+            <div class="plan-option">
+              <div class="plan-option-head">
+                <span class="plan-duration">Trimestral</span>
+              </div>
+              <div class="plan-pricing">
+                <div class="plan-price-variant">
+                  <span class="plan-inst">3x</span>
+                  <span class="plan-value">R$ 264,00</span>
+                </div>
+                <div class="plan-price-variant">
+                  <span class="plan-inst">à vista</span>
+                  <span class="plan-value">R$ 747,00</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-option">
+              <div class="plan-option-head">
+                <span class="plan-duration">Semestral</span>
+              </div>
+              <div class="plan-pricing">
+                <div class="plan-price-variant">
+                  <span class="plan-inst">6x</span>
+                  <span class="plan-value">R$ 234,00</span>
+                </div>
+                <div class="plan-price-variant">
+                  <span class="plan-inst">à vista</span>
+                  <span class="plan-value">R$ 1.270,00</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-option">
+              <div class="plan-option-head">
+                <span class="plan-duration">Anual</span>
+                <span class="plan-tag plan-tag--best">Menor Valor</span>
+              </div>
+              <div class="plan-pricing">
+                <div class="plan-price-variant">
+                  <span class="plan-inst">12x</span>
+                  <span class="plan-value">R$ 227,91</span>
+                </div>
+                <div class="plan-price-variant">
+                  <span class="plan-inst">à vista</span>
+                  <span class="plan-value">R$ 2.270,00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="#contato" class="btn-plan btn-plan--pro">Falar com um Consultor</a>
+          <p class="plan-guarantee">Garantia de 7 dias ou reembolso total</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ FAQ ░░░ -->
+  <section class="faq-section" id="faq">
+    <div class="section-container section-container--narrow">
+      <p class="section-eyebrow">Dúvidas Frequentes</p>
+      <h2 class="section-title">Temos as Respostas</h2>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Como funciona o início do acompanhamento?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Após falar com um consultor e escolher o plano, você recebe uma anamnese completa. Com base nela, nosso time monta seu planejamento de forma totalmente personalizada, respeitando seu histórico, rotina e objetivos.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Em quanto tempo recebo meu treino e minha dieta?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Seu treino e sua dieta são entregues em até 72 horas após o envio completo da anamnese. Não é um template genérico — tudo é feito do zero, só para você.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Existe plano mensal?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Não. Trabalhamos com planos trimestral, semestral e anual. Acreditamos que o mínimo para você conhecer o método e perceber resultados reais é 3 meses. Qualidade leva tempo.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Qual é a diferença entre Basic e Pro?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>O Basic inclui treino e dieta personalizados com acompanhamento contínuo. O Pro inclui tudo isso mais acesso ao MetaBody Club — benefícios exclusivos, lives, cursos e parcerias especiais que ampliam sua jornada de transformação.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Terei acompanhamento após receber meu planejamento?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Sim. O acompanhamento é próximo e contínuo. Você ajusta treino e dieta conforme sua evolução, responde dúvidas em tempo real e recebe suporte via WhatsApp sempre que precisar.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>O plano funciona para qualquer objetivo?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Sim. Seja ganho de massa, perda de peso, foco em performance, ou qualidade de vida — o planejamento é individualizado e construído conforme seu perfil, rotina, objetivo e momento atual.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Como faço para começar?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Clique no botão \"Falar com um Consultor\" na página. Um especialista da MetaBody entrará em contato com você para entender seu momento e indicar o melhor plano para sua situação.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ CTA FINAL ░░░ -->
+  <section class="cta-section" id="contato">
+    <div class="section-container">
+      <div class="cta-inner">
+        <p class="section-eyebrow eyebrow--light">Está Pronto para Transformar?</p>
+        <h2 class="cta-title">Comece Sua Transformação<br />com <em>Estratégia e Método</em></h2>
+        <p class="cta-sub">Fale com um consultor da MetaBody e descubra qual plano faz mais sentido para o seu momento e seus objetivos.</p>
+        <a href="https://wa.me/5500000000000" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-cta-main">Falar com um Consultor</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ FOOTER ░░░ -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-meta">META</span><span class="logo-body">BODY</span>
+          <span class="logo-club">CLUB</span>
+        </div>
+        <p>Corpo alinhado com a mente, disciplina e meta.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navegação</h4>
+        <a href="#sobre">Sobre</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#resultados">Resultados</a>
+        <a href="#time">Time</a>
+        <a href="#planos">Planos</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Contato</h4>
+        <a href="https://wa.me/5500000000000" target="_blank" rel="noopener noreferrer" class="footer-contact-link">WhatsApp</a>
+        <a href="mailto:contato@metabodyclub.com" class="footer-contact-link">E-mail</a>
+        <p class="footer-cref">Responsáveis Técnicos<br />Daniel Lino · Diego Redorat · Gustavo Saito</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 MetaBody Club. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/ts/main.ts"></script>
+</body>
+</html>

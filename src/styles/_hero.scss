@@ -1,0 +1,420 @@
+// ── Hero ──────────────────────────────────────────
+@use 'variables' as *;
+
+// ─────────────────────────────────────────────────
+// Container principal
+// ─────────────────────────────────────────────────
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 85vh;
+  display: flex;
+  align-items: flex-end;       // conteúdo ancorado no rodapé
+  overflow: hidden;
+  background: #07111A;         // fallback enquanto bg carrega
+}
+
+// ─────────────────────────────────────────────────
+// 1. Fundo da academia
+// ─────────────────────────────────────────────────
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url('/images/hero-bg.png');
+  background-size: cover;
+  background-position: center top;
+  // zoom sutil de entrada
+  animation: heroBgZoom 8s ease-out both;
+}
+
+@keyframes heroBgZoom {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1); }
+}
+
+// ─────────────────────────────────────────────────
+// 2. Treinador recortado (trainer.png sem fundo)
+// ─────────────────────────────────────────────────
+
+// Wrapper para aplicar a vinheta sem quebrar o <img>
+.hero-trainer-wrap {
+  position: absolute;
+  z-index: 2;
+  // Ajuste de posicionamento focado em mobile primeiro
+  bottom: 22%; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90vw;
+  max-width: 450px;
+
+  // Usa mask via linear-gradient de baixo para cima + fade sutil nas laterais
+  // Isso esconde bem a base da foto de forma bem perfeitinha
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 70%,
+    transparent 95%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    black 70%,
+    transparent 95%
+  );
+
+  animation: trainerReveal 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.hero-trainer {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+@keyframes trainerReveal {
+  from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+// ─────────────────────────────────────────────────
+// 3. Vinheta — funde foto com o fundo escuro
+// ─────────────────────────────────────────────────
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    // Escurecimento de baixo MAIS ALTO para mascarar de vez o corte da foto
+    linear-gradient(
+      to top,
+      #07111A              0%,
+      #07111A              20%,  // Zona sólida estendida
+      rgba(#07111A, 0.95)  35%,
+      rgba(#07111A, 0.8)   45%,
+      rgba(#07111A, 0.4)   60%,
+      transparent          75%
+    ),
+    // Topo suave para a navbar
+    linear-gradient(
+      to bottom,
+      rgba(#07111A, 0.4)  0%,
+      transparent         15%
+    ),
+    // Vinheta radial um pouco mais densa
+    radial-gradient(
+      ellipse 100% 120% at 50% 50%,
+      transparent 35%,
+      rgba(#07111A, 0.6) 100%
+    );
+}
+
+// ─────────────────────────────────────────────────
+// 4. Inner: conteúdo de texto
+// ─────────────────────────────────────────────────
+.hero-inner {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  // Elevando um pouco o gap inferior para respiro no mobile
+  padding: 0 1.5rem 3.5rem;
+}
+
+.hero-content {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ─────────────────────────────────────────────────
+// Título (headline/slogan)
+// ─────────────────────────────────────────────────
+.hero-title {
+  font-weight: 900;
+  font-size: clamp(1.8rem, 7vw, 3.2rem);
+  line-height: 1.2;
+  color: $white;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 24px rgba(#07111A, 0.5);
+  font-family: $font-sans;
+}
+
+// Subtítulo de apoio
+.hero-subtitle {
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  line-height: 1.6;
+  color: rgba($white, 0.8);
+  margin-bottom: 1.8rem;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// ─────────────────────────────────────────────────
+// CTAs
+// ─────────────────────────────────────────────────
+.hero-cta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+  animation: ctaFadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+
+  .btn-primary,
+  .btn-ghost {
+    width: 100%;
+    text-align: center;
+    padding: 0.95rem 2.2rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+@keyframes ctaFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Badge de preço
+// ─────────────────────────────────────────────────
+.hero-price-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  background: rgba($white, 0.08);
+  border: 1px solid rgba($white, 0.15);
+  border-radius: 50px;
+  padding: 0.6rem 1.3rem;
+  backdrop-filter: blur(12px);
+  width: auto;
+  animation: badgeFadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
+
+  .badge-from {
+    font-size: 0.65rem;
+    color: rgba($white, 0.5);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .badge-price {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: $white;
+    letter-spacing: -0.015em;
+    padding: 0 0.65rem;
+    border-left:  1px solid rgba($white, 0.2);
+    border-right: 1px solid rgba($white, 0.2);
+  }
+
+  .badge-period {
+    font-size: 0.6rem;
+    color: rgba($white, 0.45);
+    font-weight: 500;
+    text-transform: lowercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+@keyframes badgeFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Scroll hint
+// ─────────────────────────────────────────────────
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  opacity: 0.35;
+
+  span {
+    display: block;
+    width: 22px;
+    height: 36px;
+    border: 1.5px solid rgba($white, 0.35);
+    border-radius: 11px;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 7px;
+      background: $green-light;
+      border-radius: 2px;
+      box-shadow: 0 0 6px rgba($green-light, 0.8);
+      animation: scrollDot 2.2s ease infinite;
+    }
+  }
+}
+
+@keyframes scrollDot {
+  0%   { top: 5px;  opacity: 1; }
+  75%  { top: 20px; opacity: 0; }
+  100% { top: 5px;  opacity: 0; }
+}
+
+// ─────────────────────────────────────────────────
+// Desktop (≥ 1024px) — duas colunas
+// ─────────────────────────────────────────────────
+@media (min-width: 1024px) {
+
+  // Ancora o conteúdo no centro vertical
+  .hero {
+    align-items: center;
+    min-height: 88vh;
+  }
+
+  // ── Treinador: ancora à direita, altura quase total ──
+  .hero-trainer-wrap {
+    position: absolute;
+    bottom: 0;
+    right: 4%;
+    left: auto;
+    transform: none;
+    width: auto;
+    max-width: none;
+    height: 95%;
+
+    // Máscara desktop: fade suave só na base (não nas laterais)
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      black 60%,
+      transparent 96%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      black 60%,
+      transparent 96%
+    );
+
+    animation: trainerRevealDesktop 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  }
+
+  .hero-trainer {
+    display: block;
+    width: auto;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  @keyframes trainerRevealDesktop {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  // ── Overlay desktop: gradiente horizontal suave ──
+  // Escurece apenas a metade esquerda onde fica o texto
+  .hero-overlay {
+    background:
+      linear-gradient(
+        to right,
+        #07111A              0%,
+        #07111A              18%,
+        rgba(#07111A, 0.88)  32%,
+        rgba(#07111A, 0.45)  50%,
+        rgba(#07111A, 0.1)   68%,
+        transparent          82%
+      ),
+      // Topo — navbar
+      linear-gradient(
+        to bottom,
+        rgba(#07111A, 0.45)  0%,
+        transparent          14%
+      ),
+      // Base — ancoragem
+      linear-gradient(
+        to top,
+        rgba(#07111A, 0.7)   0%,
+        transparent          22%
+      );
+  }
+
+  // ── Inner: max-width centralizado ──
+  .hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 5rem;
+    display: flex;
+    align-items: center;
+    min-height: 85vh;
+    width: 100%;
+  }
+
+  // ── Conteúdo: coluna esquerda ──
+  .hero-content {
+    text-align: left;
+    max-width: 520px;
+    margin: 0;
+  }
+
+  // ── Título maior e mais impactante ──
+  .hero-title {
+    font-size: clamp(2.8rem, 4.5vw, 4.8rem);
+    line-height: 1.15;
+    margin-bottom: 1.2rem;
+  }
+
+  // ── Subtítulo com melhor espaçamento ──
+  .hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.65;
+    margin-bottom: 2rem;
+    max-width: 100%;
+  }
+
+  // ── CTAs lado a lado ──
+  .hero-cta-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+
+    .btn-primary,
+    .btn-ghost {
+      width: auto;
+      padding: 0.95rem 2.4rem;
+    }
+  }
+
+  // ── Badge alinhado à esquerda ──
+  .hero-price-badge {
+    justify-content: flex-start;
+    width: auto;
+  }
+}

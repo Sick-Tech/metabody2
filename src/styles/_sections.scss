@@ -1,0 +1,388 @@
+// ── Proof Strip ───────────────────────────────────
+@use 'variables' as *;
+
+.proof-strip {
+  background: $blue-dark;
+  padding: 2.5rem 2rem;
+  border-top: 1px solid rgba($cyan-mid, 0.15);
+  border-bottom: 1px solid rgba($cyan-mid, 0.15);
+}
+
+.proof-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.proof-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 3rem;
+  text-align: center;
+
+  strong {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: $green-light;
+    line-height: 1;
+    background: linear-gradient(135deg, $green-light, $cyan-light);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  span {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: $blue-pale;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+  }
+}
+
+.proof-divider {
+  width: 1px;
+  height: 3rem;
+  background: rgba($cyan-mid, 0.2);
+}
+
+// ── Results ───────────────────────────────────────
+.transform-section { background: var(--surface); }
+
+// ── Carrossel wrapper com setas ──
+.results-carousel-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+// ── Viewport: mostra apenas os cards visíveis ──
+.results-carousel-viewport {
+  flex: 1;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  min-height: 320px;
+}
+
+// ── Trilha: contém os cards, pode fazer translate ──
+.results-photo-grid {
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+// ── Card individual ──
+.result-photo-card {
+  flex-shrink: 0;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: $blue-deepest;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  position: relative;
+  transition: transform $ease, box-shadow $ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.28);
+  }
+}
+
+// Foto ocupa toda a largura, proporção consistente
+.result-photo {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background-size: cover;
+  background-position: center top;
+  position: relative;
+
+  // Gradiente de baixo para cima para legibilidade da info
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba($blue-deepest, 0.92) 0%,
+      rgba($blue-deepest, 0.5)  35%,
+      transparent               65%
+    );
+    border-radius: inherit;
+  }
+
+  // Placeholders com cor enquanto foto não é inserida
+  &--1 {
+    background-color: $blue-dark;
+    background-image:
+      url('/images/results/result-1.jpeg'),
+      linear-gradient(160deg, $blue-mid 0%, $blue-dark 100%);
+  }
+  &--2 {
+    background-color: $blue-dark;
+    background-image:
+      url('/images/results/result-2.jpeg'),
+      linear-gradient(160deg, $green-mid 0%, $blue-dark 100%);
+  }
+  &--3 {
+    background-color: $blue-dark;
+    background-image:
+      url('/images/results/result-3.jpeg'),
+      linear-gradient(160deg, $cyan-base 0%, $blue-dark 100%);
+  }
+  &--4 {
+    background-color: $blue-dark;
+    background-image:
+      url('/images/results/result-4.jpeg'),
+      linear-gradient(160deg, $green-dark 0%, $blue-deepest 100%);
+  }
+}
+
+// Info sobreposta na base da foto
+.result-photo-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 0.8rem 0.8rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.result-photo-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.result-tag {
+  display: inline-block;
+  background: rgba($green-light, 0.18);
+  color: $green-light;
+  border: 1px solid rgba($green-light, 0.35);
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: 50px;
+  width: fit-content;
+  margin-bottom: 0.1rem;
+
+  &--cyan {
+    background: rgba($cyan-mid, 0.18);
+    color: $cyan-mid;
+    border-color: rgba($cyan-mid, 0.35);
+  }
+}
+
+.result-name {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: $white;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-stat {
+  font-weight: 900;
+  font-size: 0.8rem;
+  color: $green-light;
+  line-height: 1.1;
+  white-space: nowrap;
+
+  span {
+    font-size: 0.62rem;
+    font-weight: 500;
+    color: rgba($white, 0.5);
+  }
+}
+
+// ── Botões de navegação (setas) ──
+.carousel-nav {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba($green-light, 0.12);
+  border: 1.5px solid rgba($green-light, 0.3);
+  color: $green-light;
+  cursor: pointer;
+  transition: all $ease;
+  padding: 0;
+  font-size: 0;
+  place-items: center;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+
+  &:hover:not(:disabled) {
+    background: rgba($green-light, 0.2);
+    border-color: $green-light;
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px rgba($green-light, 0.2);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &--prev { order: -1; }
+  &--next { order: 1; }
+}
+
+.results-testimonial {
+  text-align: center;
+  padding: 2.5rem 1.75rem;
+  background: linear-gradient(135deg, $blue-dark 0%, $blue-deepest 100%);
+  border-radius: var(--radius-lg);
+  border-left: 4px solid $green-base;
+
+  blockquote {
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    font-style: italic;
+    color: $white;
+    line-height: 1.65;
+    margin-bottom: 1rem;
+  }
+
+  cite {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: $cyan-mid;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+}
+
+// ── Services ──────────────────────────────────────
+.services-section { background: $white; }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.service-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  border: 1px solid rgba($blue-pale, 0.8);
+  transition: transform $ease, box-shadow $ease, border-color $ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $green-mid, $green-light);
+    transform: scaleX(0);
+    transition: transform $ease;
+    transform-origin: left;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba($blue-dark, 0.1);
+    border-color: rgba($green-base, 0.3);
+
+    &::before { transform: scaleX(1); }
+  }
+
+  &--accent::before {
+    background: linear-gradient(90deg, $cyan-base, $cyan-mid);
+  }
+
+  &--accent:hover { border-color: rgba($cyan-mid, 0.3); }
+}
+
+.service-icon {
+  width: 54px;
+  height: 54px;
+  background: $green-pale;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+
+  .service-card--accent & { background: rgba($cyan-base, 0.1); }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    stroke: $green-mid;
+  }
+
+  .service-card--accent & svg { stroke: $cyan-mid; }
+}
+
+.service-card {
+  h3 {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--g-dark);
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    line-height: 1.72;
+  }
+}
+
+// Wrapper de texto dos cards (usado no layout mobile horizontal)
+.service-card-body {
+  display: contents; // no desktop, age como se não existisse — filhos participam do layout normal
+}
+
+// ── Desktop: Carrossel com tamanho limitado ──
+@media (min-width: 1024px) {
+  .results-carousel-viewport {
+    max-width: calc(100% - 100px);
+    margin: 0 auto;
+    min-height: 380px;
+  }
+
+  .result-photo-card {
+    width: 240px;
+    flex-basis: 240px;
+    flex-grow: 0;
+  }
+
+  .result-photo {
+    aspect-ratio: 3 / 4;
+  }
+
+  .result-name { font-size: 0.9rem; }
+  .result-stat { font-size: 0.85rem; }
+}

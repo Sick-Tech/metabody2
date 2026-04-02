@@ -1,0 +1,1018 @@
+// ── Responsive ────────────────────────────────────
+@use 'variables' as *;
+
+// Tablet (≤ 1024px)
+@media (max-width: 1024px) {
+  // results-photo-grid já é 2×2 por padrão — sem override necessário
+
+  .services-grid { grid-template-columns: 1fr 1fr; }
+
+  .plans-grid { gap: 1.5rem; }
+
+  .team-section {
+    padding: 4.5rem 1.75rem !important;
+    .section-title { font-size: 2rem; }
+    .section-subtitle { font-size: 1rem; margin-bottom: 3rem; }
+  }
+
+  .team-grid { 
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+
+  .team-card {
+    padding: 2.25rem 1.75rem;
+  }
+
+  .team-photo-circle {
+    width: 140px;
+    height: 175px;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 2rem;
+  }
+
+  .team-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .team-bio-short {
+    font-size: 0.9rem;
+  }
+
+  .mvv-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  // Radial Composition (Journey Section) - Tablet
+  .journey-section {
+    padding: 3.5rem 1.75rem 2.5rem !important;
+  }
+
+  .radial-composition {
+    grid-template-columns: 1fr 360px 1fr;
+    gap: 2.4rem 1.6rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .radial-center {
+    width: 240px;
+    height: 240px;
+  }
+
+  .center-image {
+    width: 220px;
+    height: 220px;
+  }
+
+  .circle-ring {
+    &--outer {
+      width: 750px;
+      height: 750px;
+    }
+
+    &--inner {
+      width: 430px;
+      height: 430px;
+    }
+  }
+
+  .radial-pillar {
+    max-width: 190px;
+    padding: 1.5rem 1.3rem;
+
+    .pillar-badge {
+      width: 44px;
+      height: 44px;
+      font-size: 0.9rem;
+      margin-bottom: 0.85rem;
+    }
+
+    h3 {
+      font-size: 1.03rem;
+      margin-bottom: 0.65rem;
+      min-height: 2.1rem;
+    }
+
+    p {
+      font-size: 0.83rem;
+      line-height: 1.55;
+    }
+  }
+
+  .values-carousel-wrapper {
+    gap: 1.25rem;
+  }
+
+  .values-nav {
+    width: 44px;
+    height: 44px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .values-grid {
+    gap: 1.75rem;
+    padding: 0.75rem 0 0.5rem 0;
+  }
+
+  .value-card {
+    flex: 0 0 310px;
+    padding: 2.25rem 1.75rem;
+    min-height: 230px;
+  }
+
+  .value-number {
+    font-size: 2.1rem;
+  }
+
+  .value-card h4 {
+    font-size: 1rem;
+  }
+
+  .value-card p {
+    font-size: 0.9rem;
+  }
+
+  .footer-container { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+
+// Mobile (≤ 768px)
+@media (max-width: 768px) {
+  // Navbar
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 998;
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+
+    &.open {
+      display: block;
+      opacity: 1;
+    }
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100vw;
+    height: 100dvh; // respeita barra do browser mobile
+    min-height: 100vh; // fallback
+    background: $blue-deepest;
+    flex-direction: column;
+    padding: 5rem 2.5rem 2.5rem;
+    gap: 0;
+    transition: right 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+    overflow-y: auto;
+
+    &.open { right: 0; }
+
+    a {
+      font-size: 1.15rem;
+      color: rgba($white, 0.85);
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba($white, 0.07);
+
+      &:last-of-type { border-bottom: none; }
+    }
+
+    // ── Botão de login exclusivo do menu mobile ──
+    .nav-login-mobile {
+      display: flex !important;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 2rem;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, $green-base 0%, $cyan-mid 100%);
+      color: $blue-deepest !important;
+      font-size: 1rem !important;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      border-radius: 12px;
+      text-transform: uppercase;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba($green-base, 0.4);
+      transition: opacity 0.2s, transform 0.2s;
+      border-bottom: none !important;
+
+      svg {
+        flex-shrink: 0;
+        stroke: $blue-deepest;
+      }
+
+      &::after { display: none; }
+
+      &:hover,
+      &:active {
+        opacity: 0.88;
+        transform: translateY(-1px);
+        color: $blue-deepest !important;
+      }
+    }
+  }
+
+  .btn-nav  { display: none; }
+  .hamburger { display: flex; }
+
+  // Hero
+  .br-desktop { display: none; }
+
+  // Conteúdo e CTAs
+  .hero-cta-group { flex-direction: column; align-items: center; }
+  .btn-primary,
+  .btn-ghost {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+  }
+
+  // Proof
+  .proof-divider { display: none; }
+  .proof-item { padding: 0.75rem 1.5rem; width: 50%; }
+
+  // Results Carousel — Mobile
+  .results-carousel-wrapper {
+    gap: 1rem;
+  }
+
+  .carousel-nav {
+    width: 40px;
+    height: 40px;
+    background: rgba($green-light, 0.15);
+    border: 1.5px solid rgba($green-light, 0.35);
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .results-carousel-viewport {
+    min-height: 380px;
+  }
+
+  .result-photo {
+    aspect-ratio: 2 / 3;
+  }
+
+  .result-name { font-size: 0.75rem; }
+  .result-stat { font-size: 0.7rem; }
+
+  // Services
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .service-card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.1rem;
+    padding: 1.4rem 1.25rem;
+    border-left: 3px solid $green-base;
+    border-top: 1px solid rgba($blue-pale, 0.8);
+    border-right: 1px solid rgba($blue-pale, 0.8);
+    border-bottom: 1px solid rgba($blue-pale, 0.8);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    background: var(--surface);
+
+    &--accent {
+      border-left-color: $cyan-mid;
+    }
+
+    &::before {
+      display: none;
+    }
+
+    .service-icon {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 0;
+    }
+  }
+
+  .service-card-body {
+    display: block; // sobrepõe o display:contents do desktop
+    flex: 1;
+
+    h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      font-size: 0.86rem;
+      line-height: 1.65;
+    }
+  }
+
+  // Pain
+  .pain-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  // — Bloco "Está Cansado De" —
+  .pain-col {
+    padding-bottom: 2.75rem;
+    position: relative;
+
+    // linha divisória entre os dois blocos
+    &:first-child::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, $cyan-mid, transparent);
+      margin-top: 2.75rem;
+    }
+  }
+
+  .pain-list {
+    gap: 0;
+    margin-top: 1.5rem;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(#a8cfe0, 0.15);
+      font-size: 0.9rem;
+
+      &:last-child { border-bottom: none; }
+
+      // garante que o texto (span) nunca herde cor de gradiente
+      span:last-child {
+        color: #d4eaf5 !important;
+        -webkit-text-fill-color: #d4eaf5 !important;
+        background: none !important;
+        font-weight: 500;
+        line-height: 1.55;
+      }
+    }
+  }
+
+  .icon-x {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    background: rgba($cyan-mid, 0.15);
+    border: 1px solid rgba($cyan-mid, 0.35);
+    border-radius: 50%;
+
+    svg {
+      width: 10px;
+      height: 10px;
+      stroke: $cyan-mid;
+    }
+  }
+
+  // — Bloco "Aqui é Diferente" —
+  .pain-col--right {
+    padding: 0;
+    background: transparent;
+    border-top: none;
+    border-radius: 0;
+  }
+
+  // card premium mobile
+  .pain-col--right .benefit-card-header {
+    background: linear-gradient(135deg, $blue-mid 0%, $blue-dark 100%);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 1.6rem 1.5rem 1.4rem;
+    border-top: 3px solid transparent;
+    border-image: linear-gradient(90deg, $green-base, $cyan-mid) 1;
+    border-image-slice: 1;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+
+    .section-eyebrow {
+      color: #5dd4f5;     // ciano claro — leitura imediata sobre escuro
+      opacity: 1;
+      letter-spacing: 0.12em;
+    }
+
+    .section-title {
+      color: #f0f8ff;     // branco-azulado suave — conforto visual máximo
+      margin-bottom: 0;
+    }
+  }
+
+  .benefit-list {
+    background: #ffffff;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    padding: 0.5rem 1.5rem 1.5rem;
+    gap: 0;
+    margin-top: 0;
+    box-shadow: 0 12px 40px rgba($blue-deepest, 0.22);
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba($blue-mid, 0.12);
+      font-size: 0.9rem;
+
+      &:last-child { border-bottom: none; }
+
+      // texto sempre legível — força cor escura sobre fundo branco
+      span:last-child {
+        color: #1e3a4a !important;
+        -webkit-text-fill-color: #1e3a4a !important;
+        background: none !important;
+        font-weight: 500;
+        line-height: 1.55;
+      }
+    }
+  }
+
+  .icon-check {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    background: rgba($green-base, 0.12);
+    border: 1px solid rgba($green-base, 0.3);
+    border-radius: 50%;
+
+    svg {
+      width: 10px;
+      height: 10px;
+      stroke: $green-mid;
+    }
+  }
+
+  // Journey
+  .journey-steps {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .step {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
+    padding: 0;
+    gap: 1.25rem;
+    width: 100%;
+    padding-bottom: 2rem;
+    position: relative;
+
+    &:last-child { padding-bottom: 0; }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 58px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, $green-mid, $green-light);
+    }
+
+    &:last-child::after { display: none; }
+  }
+
+  .step-connector { display: none; }
+  .step-number    { flex-shrink: 0; margin-bottom: 0; }
+  .step-content   { padding-top: 12px; }
+
+  // Radial Composition (Journey Section) - Mobile
+  .journey-section {
+    padding: 3rem 1.75rem 2rem !important;
+
+    .section-title {
+      font-size: 1.65rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    .section-subtitle {
+      font-size: 0.95rem !important;
+      margin-bottom: 1.8rem !important;
+    }
+  }
+
+  .circle-ring {
+    display: none;
+  }
+
+  .radial-composition {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "center"
+      "top"
+      "right"
+      "bottom"
+      "left";
+    gap: 1.8rem;
+    max-width: 300px;
+    margin: 0 auto 1.8rem;
+    padding: 0;
+  }
+
+  .radial-center {
+    grid-area: center;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+  }
+
+  .center-image {
+    width: 200px;
+    height: 200px;
+    box-shadow:
+      0 0 60px rgba($green-base, 0.28),
+      0 15px 40px rgba($green-base, 0.15),
+      inset 0 0 20px rgba($white, 0.6);
+  }
+
+  .radial-pillar {
+    grid-area: auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 1.5rem 1.3rem;
+    background: rgba($white, 0.85);
+    border: 2px solid rgba($green-light, 0.15);
+    border-radius: 18px;
+
+    &--top,
+    &--right,
+    &--bottom,
+    &--left {
+      grid-area: auto;
+    }
+
+    .pillar-badge {
+      width: 42px;
+      height: 42px;
+      font-size: 0.9rem;
+      margin-bottom: 0.85rem;
+    }
+
+    h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.6rem;
+      min-height: auto;
+    }
+
+    p {
+      font-size: 0.81rem;
+      line-height: 1.55;
+    }
+  }
+
+  .journey-cta-bottom {
+    margin-top: 2rem;
+  }
+
+  // Team Mobile
+  .team-section {
+    padding: 3.5rem 1.5rem !important;
+    .section-eyebrow { font-size: 0.75rem; margin-bottom: 0.5rem; }
+    .section-title { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .section-subtitle { font-size: 0.95rem; margin-bottom: 2.5rem; }
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .team-card {
+    padding: 2rem 1.5rem;
+    border-radius: 24px;
+  }
+
+  .team-photo-circle {
+    width: 130px;
+    height: 162px;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 1.75rem;
+  }
+
+  .team-badge-cref {
+    width: 48px;
+    height: 48px;
+    font-size: 0.6rem;
+  }
+
+  .team-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .team-role {
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .team-bio-short {
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .team-tags {
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .badge {
+    padding: 0.35rem 0.8rem;
+    font-size: 0.65rem;
+  }
+
+  .btn-learn-more {
+    padding: 0.65rem 1.5rem;
+    font-size: 0.8rem;
+    gap: 0.5rem;
+  }
+
+  .team-modal-header {
+    grid-template-columns: 140px 1fr;
+    gap: 1.25rem;
+    padding: 2rem 1.75rem;
+  }
+
+  .team-modal-photo {
+    width: 140px;
+    height: 180px;
+  }
+
+  .team-modal-header-info h2 {
+    font-size: 1.4rem;
+  }
+
+  // MVV Mobile
+  .mvv-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .mvv-block {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .mvv-header {
+    gap: 1rem;
+  }
+
+  .values-title {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    font-weight: 900;
+  }
+
+  .values-carousel-wrapper {
+    gap: 1rem;
+  }
+
+  .values-nav {
+    width: 40px;
+    height: 40px;
+    border: 1.2px solid rgba($green-base, 0.25);
+    background: rgba($green-base, 0.05);
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .values-grid {
+    gap: 1.25rem;
+    padding: 0.5rem 0 0.5rem 0;
+  }
+
+  .value-card {
+    flex: 0 0 calc(100vw - 3rem);
+    max-width: 290px;
+    padding: 2rem 1.5rem;
+    min-height: 220px;
+  }
+
+  .value-number {
+    font-size: 1.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .value-card h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 900;
+  }
+
+  .value-card p {
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  // Team
+  .plans-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .plan-card {
+    padding: 2rem 1.75rem;
+
+    &--pro {
+      transform: translateY(-4px);
+
+      &:hover {
+        transform: translateY(-6px);
+      }
+    }
+  }
+
+  .plan-badge-pro {
+    top: -10px;
+    right: 2rem;
+    font-size: 0.65rem;
+    padding: 0.4rem 1rem;
+  }
+
+  .plan-card-header {
+    margin-bottom: 1.25rem;
+
+    .plan-title {
+      font-size: 1.5rem;
+    }
+  }
+
+  .plan-description {
+    font-size: 0.93rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .plan-options {
+    gap: 1.1rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 0;
+  }
+
+  .plan-option {
+    padding: 1rem;
+  }
+
+  .plan-pricing {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .plan-price-variant {
+    &:first-child {
+      .plan-value {
+        font-size: 1rem;
+      }
+    }
+
+    &:last-child {
+      .plan-value {
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  .btn-plan {
+    padding: 1rem 1.75rem;
+    font-size: 0.88rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .plan-benefits {
+    padding: 1.25rem;
+    margin-bottom: 1.75rem;
+
+    .plan-benefits-title {
+      margin-bottom: 0.75rem;
+      font-size: 0.72rem;
+    }
+  }
+
+  .benefits-list {
+    gap: 0.65rem;
+
+    li {
+      font-size: 0.88rem;
+    }
+  }
+
+  .benefit-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  // Footer
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2.5rem 1.5rem 1.5rem;
+  }
+  .footer-brand { grid-column: auto; }
+
+  // FAQ - Tablet
+  .faq-section {
+    padding: 4.5rem 1.75rem 3.5rem !important;
+  }
+
+  .faq-list {
+    gap: 0.9rem;
+  }
+
+  .faq-question {
+    padding: 1.3rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .faq-answer {
+    &.open {
+      max-height: 260px;
+      padding: 0 1.5rem 1.2rem;
+    }
+
+    p {
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+  }
+
+  // CTA - Tablet
+  .cta-section {
+    padding: 4.5rem 1.75rem 4rem !important;
+  }
+
+  .cta-inner {
+    max-width: 650px;
+  }
+
+  .cta-title {
+    margin-bottom: 1.3rem;
+  }
+
+  .cta-sub {
+    font-size: 1.05rem;
+    margin-bottom: 2.2rem;
+  }
+}
+
+// Small mobile (≤ 480px)
+@media (max-width: 480px) {
+  .section-container { padding: 3.5rem 1.25rem; }
+  .proof-item { padding: 0.6rem 0.75rem; width: 50%; }
+  .proof-item strong { font-size: 1.6rem; }
+  .hero-price-badge { flex-wrap: wrap; justify-content: center; }
+  .results-testimonial { padding: 2rem 1.25rem; }
+  .btn-cta { font-size: 0.88rem; padding: 1rem 1.75rem; }
+
+  // Pain — small screens
+  .pain-col--right .benefit-card-header { padding: 1.35rem 1.25rem 1.2rem; }
+  .benefit-list { padding: 0.25rem 1.25rem 1.25rem; }
+
+  // Plans — small screens
+  .plan-card {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .plan-option {
+    padding: 0.9rem;
+  }
+
+  .plan-card-header {
+    .plan-title {
+      font-size: 1.4rem;
+    }
+  }
+
+  .plan-description {
+    font-size: 0.92rem;
+  }
+
+  .plan-price-variant {
+    &:first-child {
+      .plan-value {
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  // FAQ — small screens
+  .faq-section {
+    padding: 3.5rem 1.25rem 2.5rem !important;
+  }
+
+  .faq-list {
+    gap: 0.85rem;
+  }
+
+  .faq-item {
+    border-radius: 16px;
+  }
+
+  .faq-question {
+    padding: 1.2rem 1.3rem;
+    font-size: 0.92rem;
+    gap: 1rem;
+  }
+
+  .faq-chevron {
+    width: 20px;
+    height: 20px;
+  }
+
+  .faq-answer {
+    &.open {
+      max-height: 240px;
+      padding: 0 1.3rem 1.1rem;
+    }
+
+    p {
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+  }
+
+  // CTA — small screens
+  .cta-section {
+    padding: 3.5rem 1.25rem 3rem !important;
+  }
+
+  .cta-inner {
+    max-width: 100%;
+  }
+
+  .cta-title {
+    font-size: clamp(1.65rem, 4vw, 3rem);
+    margin-bottom: 1.1rem;
+  }
+
+  .cta-sub {
+    font-size: 0.98rem;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+
+  .btn-cta-main {
+    padding: 0.95rem 2.2rem;
+    font-size: 0.95rem;
+  }
+
+  // Footer — small screens  
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    padding: 2rem 1.25rem 1rem;
+  }
+
+  .footer-brand {
+    .footer-logo {
+      font-size: 1.2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
+  }
+
+  .footer-links,
+  .footer-contact {
+    h4 {
+      font-size: 0.65rem;
+      margin-bottom: 0.8rem;
+    }
+
+    a {
+      font-size: 0.82rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .footer-cref {
+    font-size: 0.7rem;
+    margin-top: 0.8rem;
+  }
+
+  .footer-bottom {
+    padding: 1.2rem 1.25rem;
+
+    p {
+      font-size: 0.72rem;
+    }
+  }
+}

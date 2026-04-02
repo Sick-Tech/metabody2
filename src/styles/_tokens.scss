@@ -1,0 +1,43 @@
+// ============================================================
+// CSS Custom Properties geradas a partir das variáveis SCSS
+// ============================================================
+@use 'variables' as *;
+
+:root {
+  // Azul escuro (60%)
+  --g-dark:   #{$blue-deepest};
+  --g-mid:    #{$blue-dark};
+  --g-base:   #{$blue-mid};
+  --g-light:  #{$blue-base};
+  --g-soft:   #{$blue-soft};
+  --g-pale:   #{$blue-pale};
+
+  // Verde (30%)
+  --b-dark:   #{$green-dark};
+  --b-mid:    #{$green-mid};
+  --b-base:   #{$green-base};
+  --b-light:  #{$green-light};
+  --b-pale:   #{$green-pale};
+
+  // Ciano / Verde-limão (10%)
+  --t-dark:   #{$cyan-dark};
+  --t-base:   #{$cyan-base};
+  --t-mid:    #{$cyan-mid};
+  --t-light:  #{$cyan-light};
+  --t-pale:   #{$cyan-pale};
+
+  // Neutros
+  --white:    #{$white};
+  --ink:      #{$ink};
+  --ink-soft: #{$ink-soft};
+  --surface:  #{$surface};
+
+  // Typography
+  --font-sans:  #{$font-sans};
+  --font-serif: #{$font-serif};
+
+  // Misc
+  --radius:    #{$radius};
+  --radius-lg: #{$radius-lg};
+  --ease:      #{$ease};
+}

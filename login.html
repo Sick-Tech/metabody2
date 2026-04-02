@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MetaBody Club — Acesse sua área exclusiva de aluno." />
+  <title>Login | MetaBody Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-deepest: #07131C;
+      --blue-dark:    #0D2233;
+      --blue-mid:     #1A3A52;
+      --blue-base:    #2A5470;
+      --blue-soft:    #4A7A9B;
+      --blue-pale:    #C8DDE8;
+      --green-dark:   #1B5E20;
+      --green-mid:    #2E7D32;
+      --green-base:   #4CAF50;
+      --green-light:  #76C442;
+      --green-pale:   #E8F5E9;
+      --cyan-mid:     #29A8D4;
+      --white:        #FFFFFF;
+      --ink:          #0A1F2E;
+      --ink-soft:     #2A4A5E;
+      --radius:       12px;
+      --radius-lg:    20px;
+      --ease:         0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--blue-deepest);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--blue-deepest); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan-mid); border-radius: 3px; }
+
+    /* ── Layout principal ───────────────────────────── */
+    .login-page {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 1rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── Card wrapper (split no desktop) ───────────── */
+    .login-card {
+      background: #0f1e2a;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Lado esquerdo — formulário ─────────────────── */
+    .login-left {
+      padding: 1.75rem 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Logo */
+    .login-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .login-logo-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--green-base);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .login-logo-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--white);
+    }
+
+    .login-logo-text {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--white);
+    }
+
+    /* Título */
+    .login-headline {
+      font-size: clamp(1.45rem, 6vw, 2.1rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 0.65rem;
+      letter-spacing: -0.02em;
+    }
+
+    .login-headline em {
+      font-style: normal;
+      color: var(--green-light);
+    }
+
+    .login-sub {
+      font-size: 0.82rem;
+      color: rgba(200, 221, 232, 0.65);
+      line-height: 1.65;
+      margin-bottom: 1.75rem;
+    }
+
+    /* remove quebras de linha forçadas no mobile */
+    .login-sub br { display: none; }
+
+    /* Formulário */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: rgba(200, 221, 232, 0.7);
+      text-transform: uppercase;
+    }
+
+    .form-input-wrap {
+      position: relative;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 0.85rem 2.8rem 0.85rem 1rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      color: var(--white);
+      outline: none;
+      transition: border-color var(--ease), background var(--ease), box-shadow var(--ease);
+    }
+
+    .form-input::placeholder { color: rgba(200, 221, 232, 0.3); }
+
+    .form-input:focus {
+      border-color: rgba(76, 175, 80, 0.6);
+      background: rgba(255,255,255,0.07);
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.12);
+    }
+
+    .form-input-icon {
+      position: absolute;
+      right: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(200, 221, 232, 0.35);
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .form-input-icon svg { width: 16px; height: 16px; stroke: currentColor; }
+
+    /* Toggle senha */
+    .form-input-icon--btn {
+      pointer-events: all;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      color: rgba(200, 221, 232, 0.35);
+      display: flex;
+      align-items: center;
+      transition: color var(--ease);
+    }
+    .form-input-icon--btn:hover { color: var(--green-light); }
+
+    /* Linha lembrar + esqueci */
+    .form-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.25rem;
+    }
+
+    .form-check {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .form-check input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      transition: border-color var(--ease), background var(--ease);
+      flex-shrink: 0;
+    }
+
+    .form-check input[type="checkbox"]:checked {
+      background: var(--green-base);
+      border-color: var(--green-base);
+    }
+
+    .form-check input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 1px;
+      width: 5px;
+      height: 9px;
+      border: 2px solid var(--white);
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+
+    .form-check-label {
+      font-size: 0.78rem;
+      color: rgba(200, 221, 232, 0.6);
+    }
+
+    .form-forgot {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--cyan-mid);
+      transition: color var(--ease);
+    }
+    .form-forgot:hover { color: var(--green-light); }
+
+    /* Botão principal */
+    .btn-login {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(76, 175, 80, 0.35);
+      transition: filter var(--ease), transform var(--ease), box-shadow var(--ease);
+      margin-top: 0.5rem;
+    }
+
+    .btn-login:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 32px rgba(76, 175, 80, 0.45);
+    }
+
+    .btn-login:active { transform: translateY(0); }
+
+    /* Links inferiores */
+    .login-links {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .login-register {
+      font-size: 0.82rem;
+      color: rgba(200, 221, 232, 0.55);
+    }
+
+    .login-register a {
+      color: var(--cyan-mid);
+      font-weight: 700;
+      transition: color var(--ease);
+    }
+    .login-register a:hover { color: var(--green-light); }
+
+    .login-back {
+      font-size: 0.78rem;
+      color: rgba(200, 221, 232, 0.4);
+      transition: color var(--ease);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .login-back:hover { color: rgba(200, 221, 232, 0.75); }
+
+    .login-back svg { width: 12px; height: 12px; stroke: currentColor; }
+
+    /* Divisor */
+    .login-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin: 0;
+    }
+
+    /* ── Lado direito — features ────────────────────── */
+    .login-right {
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 1.5rem 1.25rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .login-right-title {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(200, 221, 232, 0.35);
+      margin-bottom: 0.1rem;
+    }
+
+    /* Feature cards — no mobile: layout horizontal compacto */
+    .feature-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 0.9rem 1rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.85rem;
+      transition: border-color var(--ease), background var(--ease);
+    }
+
+    .feature-card:hover {
+      border-color: rgba(76, 175, 80, 0.2);
+      background: rgba(76, 175, 80, 0.04);
+    }
+
+    /* Ícone do feature card */
+    .feature-card-icon {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      background: rgba(76, 175, 80, 0.1);
+      border: 1px solid rgba(76, 175, 80, 0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-light);
+    }
+
+    .feature-card-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.6;
+    }
+
+    .feature-card-top {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .feature-card-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.3;
+    }
+
+    .feature-card-desc {
+      font-size: 0.72rem;
+      color: rgba(200, 221, 232, 0.5);
+      line-height: 1.5;
+    }
+
+    /* Imagem — oculta no mobile, visível no desktop */
+    .feature-card-img { display: none; }
+
+    /* ── Rodapé ─────────────────────────────────────── */
+    .login-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      padding: 0.75rem 0 0.25rem;
+      font-size: 0.65rem;
+      color: rgba(200, 221, 232, 0.3);
+    }
+
+    .login-footer-left {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .login-footer-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .login-footer-badge svg { width: 10px; height: 10px; stroke: currentColor; }
+
+    .login-footer-badge--green { color: var(--green-base); }
+    .login-footer-badge--cyan  { color: var(--cyan-mid); }
+
+    /* ── Tablet / Desktop: split layout ────────────── */
+    @media (min-width: 768px) {
+      body {
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      .login-page {
+        padding: 2rem;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .login-card {
+        flex-direction: row;
+        border-radius: 24px;
+      }
+
+      .login-left {
+        width: 420px;
+        flex-shrink: 0;
+        padding: 3rem 2.5rem;
+        border-right: 1px solid rgba(255,255,255,0.06);
+        justify-content: center;
+      }
+
+      .login-sub br { display: inline; }
+
+      .login-right {
+        flex: 1;
+        border-top: none;
+        padding: 3rem 2.5rem;
+        gap: 1.25rem;
+        justify-content: center;
+      }
+
+      /* no desktop: volta ao layout vertical com imagem */
+      .feature-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.1rem 1.25rem;
+        gap: 0.6rem;
+        border-radius: var(--radius-lg);
+      }
+
+      .feature-card-icon { display: none; }
+
+      .feature-card-top { gap: 0.2rem; }
+      .feature-card-title { font-size: 0.9rem; }
+      .feature-card-desc  { font-size: 0.78rem; }
+
+      .feature-card-img {
+        display: flex;
+        width: 100%;
+        aspect-ratio: 16 / 7;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+        color: rgba(200, 221, 232, 0.2);
+        overflow: hidden;
+      }
+
+      .feature-card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .feature-card-img svg {
+        width: 32px;
+        height: 32px;
+        stroke: currentColor;
+        stroke-width: 1.2;
+      }
+
+      .login-footer { font-size: 0.68rem; padding: 1rem 0 0.5rem; }
+    }
+
+    @media (min-width: 1024px) {
+      .login-left  { width: 460px; padding: 3.5rem 3rem; }
+      .login-right { padding: 3.5rem 3rem; gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="login-page">
+
+    <div class="login-card">
+
+      <!-- ░░ ESQUERDA — Formulário ░░ -->
+      <div class="login-left">
+
+        <!-- Logo -->
+        <div class="login-logo">
+          <div class="login-logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <span class="login-logo-text">MetaBody</span>
+        </div>
+
+        <!-- Título -->
+        <h1 class="login-headline">
+          Bem-vindo à sua<br /><em>área exclusiva.</em>
+        </h1>
+        <p class="login-sub">
+          Acesse sua área MetaBody para acompanhar treinos,<br />
+          orientações, evolução e sua jornada de transformação<br />
+          com mais clareza e praticidade.
+        </p>
+
+        <!-- Form -->
+        <form class="login-form" novalidate>
+
+          <div class="form-group">
+            <label class="form-label" for="email">E-mail</label>
+            <div class="form-input-wrap">
+              <input
+                id="email"
+                type="email"
+                class="form-input"
+                placeholder="seu@email.com"
+                autocomplete="email"
+              />
+              <span class="form-input-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <path d="M2 7l10 7 10-7"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Senha</label>
+            <div class="form-input-wrap">
+              <input
+                id="password"
+                type="password"
+                class="form-input"
+                placeholder="••••••••"
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="form-input-icon form-input-icon--btn"
+                id="togglePassword"
+                aria-label="Mostrar senha"
+              >
+                <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-check">
+              <input type="checkbox" id="remember" />
+              <span class="form-check-label">Lembrar acesso</span>
+            </label>
+            <a href="#" class="form-forgot">Esqueci minha senha</a>
+          </div>
+
+          <button type="submit" class="btn-login">
+            Entrar na área do aluno
+          </button>
+
+        </form>
+
+        <!-- Links -->
+        <div class="login-links">
+          <p class="login-register">
+            Ainda não possui acesso? <a href="#">Solicitar cadastro</a>
+          </p>
+          <a href="./index.html" class="login-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+            Voltar ao site
+          </a>
+        </div>
+
+      </div>
+
+      <!-- ░░ DIREITA — Features ░░ -->
+      <div class="login-right">
+
+        <p class="login-right-title">O que você encontra aqui</p>
+
+        <div class="feature-card">
+          <div class="feature-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 4v16M18 4v16M6 12h12M3 6h3M18 6h3M3 18h3M18 18h3"/>
+            </svg>
+          </div>
+          <div class="feature-card-top">
+            <h3 class="feature-card-title">Treinos e planos personalizados</h3>
+            <p class="feature-card-desc">
+              Acesso a treinos, orientações e estratégias ajustadas aos seus objetivos e rotina.
+            </p>
+          </div>
+          <div class="feature-card-img">
+            <!-- <img src="/images/feature-treinos.jpg" alt="Treinos" /> -->
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 4v16M18 4v16M6 12h12M3 6h3M18 6h3M3 18h3M18 18h3"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </div>
+          <div class="feature-card-top">
+            <h3 class="feature-card-title">Acompanhamento da evolução</h3>
+            <p class="feature-card-desc">
+              Progresso, histórico e acompanhamento centralizados para sua jornada.
+            </p>
+          </div>
+          <div class="feature-card-img">
+            <!-- <img src="/images/feature-evolucao.jpg" alt="Evolução" /> -->
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div class="feature-card-top">
+            <h3 class="feature-card-title">Experiência segura e organizada</h3>
+            <p class="feature-card-desc">
+              Área exclusiva para facilitar o acesso às informações com total segurança.
+            </p>
+          </div>
+          <div class="feature-card-img">
+            <!-- <img src="/images/feature-seguranca.jpg" alt="Segurança" /> -->
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /.login-card -->
+
+    <!-- Rodapé -->
+    <footer class="login-footer">
+      <div class="login-footer-left">
+        <span class="login-footer-badge login-footer-badge--green">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+          Ambiente com acesso protegido
+        </span>
+        <span style="color: rgba(200,221,232,0.15)">·</span>
+        <span class="login-footer-badge login-footer-badge--cyan">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          Navegação segura
+        </span>
+      </div>
+      <span>© 2026 MetaBody. Todos os direitos reservados.</span>
+    </footer>
+
+  </main>
+
+  <script>
+    // Toggle mostrar/ocultar senha
+    const toggle = document.getElementById('togglePassword');
+    const pwd    = document.getElementById('password');
+    const icon   = document.getElementById('eyeIcon');
+
+    const eyeOpen   = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+    const eyeClosed = `<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+
+    let visible = false;
+    toggle.addEventListener('click', () => {
+      visible = !visible;
+      pwd.type = visible ? 'text' : 'password';
+      icon.innerHTML = visible ? eyeClosed : eyeOpen;
+      toggle.setAttribute('aria-label', visible ? 'Ocultar senha' : 'Mostrar senha');
+    });
+  </script>
+
+</body>
+</html>
