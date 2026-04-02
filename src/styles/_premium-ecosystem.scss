@@ -165,7 +165,6 @@
 
     img {
       border-radius: 24px;
-      display: block;
     }
   }
 }
@@ -266,12 +265,14 @@
 }
 
 // ─────────────────────────────────────────────────
-// Trilhas Mockup (DEPRECATED - keeping for reference)
-// The mockup content is now integrated via public image (mock2.png)
+// Trilhas Mockup (Card 2)
 // ─────────────────────────────────────────────────
-// Hidden styles - these are no longer used in Card 2
 .trilhas-mockup {
-  display: none;
+  background: rgba($blue-deepest, 0.5);
+  border-radius: $radius;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba($cyan-mid, 0.15);
 }
 
 .trilhas-item {
