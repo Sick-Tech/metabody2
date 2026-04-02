@@ -21,11 +21,13 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url('/images/hero-bg.png');
+  background-image: url('/public/images/team/fundohero.png');
   background-size: cover;
-  background-position: center top;
+  background-position: center;
   // zoom sutil de entrada
   animation: heroBgZoom 8s ease-out both;
+  // leve blur no fundo
+  filter: blur(2px);
 }
 
 @keyframes heroBgZoom {
