@@ -77,6 +77,9 @@
   // O botão de login existe apenas no menu mobile; esconder no desktop
   .nav-login-mobile { display: none; }
 
+  // O botão de fechar (X) existe apenas no menu mobile; esconder no desktop
+  .nav-close { display: none; }
+
   a {
     color: rgba($white, 0.7);
     font-size: 0.8rem;
