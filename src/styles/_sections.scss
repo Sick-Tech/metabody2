@@ -124,28 +124,28 @@
     background-color: $blue-dark;
     background-image:
       url('/images/results/result-1.jpeg'),
-      linear-gradient(160deg, $blue-mid 0%, $blue-dark 100%);
+      linear-gradient(160deg, $blue-dark 0%, $blue-dark 100%);
   }
 
   &--2 {
     background-color: $blue-dark;
     background-image:
       url('/images/results/result-2.jpeg'),
-      linear-gradient(160deg, $green-mid 0%, $blue-dark 100%);
+      linear-gradient(160deg, $blue-dark 0%, $blue-dark 100%);
   }
 
   &--3 {
     background-color: $blue-dark;
     background-image:
       url('/images/results/result-3.jpeg'),
-      linear-gradient(160deg, $cyan-base 0%, $blue-dark 100%);
+      linear-gradient(160deg, $blue-dark 0%, $blue-dark 100%);
   }
 
   &--4 {
     background-color: $blue-dark;
     background-image:
       url('/images/results/result-4.jpeg'),
-      linear-gradient(160deg, $green-dark 0%, $blue-deepest 100%);
+      linear-gradient(160deg, $blue-dark 0%, $blue-dark 100%);
   }
 }
 
