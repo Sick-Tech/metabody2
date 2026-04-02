@@ -36,6 +36,12 @@
   cursor: pointer;
   line-height: 1;
 
+  .logo-image {
+    height: 32px;
+    width: auto;
+    display: block;
+  }
+
   .logo-meta { color: $white; }
 
   .logo-body {

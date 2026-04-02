@@ -189,6 +189,32 @@
       &:last-of-type { border-bottom: none; }
     }
 
+    // ── Botão de fechar (X) exclusivo do menu mobile ──
+    .nav-close {
+      position: absolute;
+      top: 1rem;
+      right: 2.5rem;
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      color: rgba($white, 0.8);
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        stroke: currentColor;
+      }
+
+      &:hover {
+        color: $white;
+      }
+    }
+
     // ── Botão de login exclusivo do menu mobile ──
     .nav-login-mobile {
       display: flex !important;

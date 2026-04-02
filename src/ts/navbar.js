@@ -18,6 +18,12 @@ export class Navbar {
             writable: true,
             value: void 0
         });
+        Object.defineProperty(this, "navClose", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         Object.defineProperty(this, "overlay", {
             enumerable: true,
             configurable: true,
@@ -57,6 +63,7 @@ export class Navbar {
         this.el = this.getEl('#navbar');
         this.hamburger = this.getEl('#hamburger');
         this.navLinks = this.getEl('#navLinks');
+        this.navClose = document.querySelector('#navClose');
         this.overlay = document.querySelector('#navOverlay');
         this.sections = document.querySelectorAll('section[id]');
         this.anchors = document.querySelectorAll('.nav-links a');
@@ -93,6 +100,8 @@ export class Navbar {
         });
         // Close on overlay click
         this.overlay?.addEventListener('click', () => this.closeMenu());
+        // Close on close button click
+        this.navClose?.addEventListener('click', () => this.closeMenu());
     }
     initIntersectionObserver() {
         const options = {
