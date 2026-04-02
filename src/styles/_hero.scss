@@ -42,8 +42,8 @@
 .hero-logo-image-wrap {
   position: absolute;
   z-index: 2;
-  // Mobile: bem alto, acima do texto
-  bottom: 68%; 
+  // Mobile: acima do texto (um pouco mais baixo)
+  bottom: 62%; 
   left: 50%;
   transform: translateX(-50%);
   width: 70vw;
@@ -294,7 +294,7 @@
     bottom: auto;
     right: 2%;
     left: auto;
-    top: 50%;
+    top: 35%;
     transform: translateY(-50%);
     width: auto;
     max-width: none;
