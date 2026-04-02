@@ -37,9 +37,14 @@
   line-height: 1;
 
   .logo-image {
-    height: 32px;
+    height: 56px;
     width: auto;
     display: block;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+    filter: drop-shadow(none);
   }
 
   .logo-meta { color: $white; }
