@@ -21,9 +21,9 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url('/public/images/team/fundohero.png');
+  background-image: url('/images/hero-bg.png');
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   // zoom sutil de entrada
   animation: heroBgZoom 8s ease-out both;
 }
@@ -34,30 +34,37 @@
 }
 
 // ─────────────────────────────────────────────────
-// 2. Logo do MetaBody no topo da hero (responsivo)
+// 2. Logo MetaBody (posicionada dinamicamente)
 // ─────────────────────────────────────────────────
 
-.hero-logo-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  animation: logoFadeDown 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+.hero-logo-image-wrap {
+  position: absolute;
+  z-index: 2;
+  // Mobile: centralizado e alto
+  bottom: 35%; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  max-width: 320px;
+
+  animation: logoImageReveal 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }
 
-.hero-logo {
-  width: clamp(80px, 20vw, 140px);
+.hero-logo-image {
+  display: block;
+  width: 100%;
   height: auto;
   object-fit: contain;
   pointer-events: none;
 }
 
-@keyframes logoFadeDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes logoImageReveal {
+  from { opacity: 0; transform: translateX(-50%) scale(0.9); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
 // ─────────────────────────────────────────────────
-// 3. Vinheta — destaca o fundo com overlay
+// 3. Vinheta — funde foto com o fundo escuro
 // ─────────────────────────────────────────────────
 .hero-overlay {
   position: absolute;
@@ -65,19 +72,27 @@
   z-index: 3;
   pointer-events: none;
   background:
-    // Gradiente vertical para destacar o background
+    // Escurecimento de baixo MAIS ALTO para mascarar de vez o corte da foto
     linear-gradient(
-      180deg,
-      rgba(#07111A, 0.35) 0%,
-      rgba(#07111A, 0.2)  30%,
-      rgba(#07111A, 0.1)  60%,
-      rgba(#07111A, 0.45) 100%
+      to top,
+      #07111A              0%,
+      #07111A              20%,  // Zona sólida estendida
+      rgba(#07111A, 0.95)  35%,
+      rgba(#07111A, 0.8)   45%,
+      rgba(#07111A, 0.4)   60%,
+      transparent          75%
     ),
-    // Vinheta radial para profundidade
+    // Topo suave para a navbar
+    linear-gradient(
+      to bottom,
+      rgba(#07111A, 0.4)  0%,
+      transparent         15%
+    ),
+    // Vinheta radial um pouco mais densa
     radial-gradient(
-      ellipse 100% 100% at 50% 50%,
-      transparent 30%,
-      rgba(#07111A, 0.3) 100%
+      ellipse 100% 120% at 50% 50%,
+      transparent 35%,
+      rgba(#07111A, 0.6) 100%
     );
 }
 
@@ -97,7 +112,7 @@
   max-width: 420px;
   margin: 0 auto;
   text-align: center;
-  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
 
 @keyframes heroFadeUp {
@@ -271,29 +286,56 @@
     min-height: 88vh;
   }
 
-  // Logo desktop: elevado, responsivo
-  .hero-logo-wrap {
-    margin-bottom: 2rem;
+  // Logo image desktop: posicionada à direita
+  .hero-logo-image-wrap {
+    position: absolute;
+    bottom: auto;
+    right: 8%;
+    left: auto;
+    transform: none;
+    width: auto;
+    max-width: none;
+    height: 65%;
+
+    animation: logoImageRevealDesktop 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
   }
 
-  .hero-logo {
-    width: clamp(100px, 18vw, 180px);
+  .hero-logo-image {
+    display: block;
+    width: auto;
+    height: 100%;
+    object-fit: contain;
   }
 
-  // Overlay desktop: mantém destaque para o background
+  @keyframes logoImageRevealDesktop {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  // Overlay desktop: gradiente horizontal suave
+  // Escurece apenas a metade esquerda onde fica o texto
   .hero-overlay {
     background:
       linear-gradient(
-        180deg,
-        rgba(#07111A, 0.4) 0%,
-        rgba(#07111A, 0.15) 30%,
-        rgba(#07111A, 0.05) 60%,
-        rgba(#07111A, 0.5)  100%
+        to right,
+        #07111A              0%,
+        #07111A              18%,
+        rgba(#07111A, 0.88)  32%,
+        rgba(#07111A, 0.45)  50%,
+        rgba(#07111A, 0.1)   68%,
+        transparent          82%
       ),
-      radial-gradient(
-        ellipse 100% 100% at 50% 50%,
-        transparent 25%,
-        rgba(#07111A, 0.25) 100%
+      // Topo — navbar
+      linear-gradient(
+        to bottom,
+        rgba(#07111A, 0.45)  0%,
+        transparent          14%
+      ),
+      // Base — ancoragem
+      linear-gradient(
+        to top,
+        rgba(#07111A, 0.7)   0%,
+        transparent          22%
       );
   }
 

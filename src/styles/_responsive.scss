@@ -256,13 +256,10 @@
   // Hero
   .br-desktop { display: none; }
 
-  // Logo responsivo mobile
-  .hero-logo-wrap {
-    margin-bottom: 1.2rem;
-  }
-
-  .hero-logo {
-    width: clamp(70px, 18vw, 120px);
+  // Logo image responsivo mobile
+  .hero-logo-image-wrap {
+    width: 75vw;
+    max-width: 280px;
   }
 
   // Conteúdo e CTAs
