@@ -13,8 +13,12 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       input: {
-        main:  path.resolve(__dirname, 'index.html'),
-        login: path.resolve(__dirname, 'login.html'),
+        main:        path.resolve(__dirname, 'index.html'),
+        login:       path.resolve(__dirname, 'login.html'),
+        adminLogin:  path.resolve(__dirname, 'admin-login.html'),
+        admin:       path.resolve(__dirname, 'admin.html'),
+        dashboard:   path.resolve(__dirname, 'dashboard.html'),
+        trilha:      path.resolve(__dirname, 'trilha.html'),
       },
     },
   },
