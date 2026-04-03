@@ -1,0 +1,68 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "./",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=3600"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/admin-login",
+      "destination": "/admin-login.html",
+      "permanent": false
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html",
+      "permanent": false
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/dashboard.html",
+      "permanent": false
+    },
+    {
+      "source": "/login",
+      "destination": "/login.html",
+      "permanent": false
+    },
+    {
+      "source": "/trilha",
+      "destination": "/trilha.html",
+      "permanent": false
+    }
+  ],
+  "routes": [
+    {
+      "src": "/admin-login(.*)",
+      "dest": "/admin-login.html"
+    },
+    {
+      "src": "/admin(.*)",
+      "dest": "/admin.html"
+    },
+    {
+      "src": "/dashboard(.*)",
+      "dest": "/dashboard.html"
+    },
+    {
+      "src": "/login(.*)",
+      "dest": "/login.html"
+    },
+    {
+      "src": "/trilha(.*)",
+      "dest": "/trilha.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
