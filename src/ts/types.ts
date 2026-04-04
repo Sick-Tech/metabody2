@@ -23,3 +23,6 @@ export interface AnimationObserverOptions {
   threshold?: number
   rootMargin?: string
 }
+
+// ── Live Sessions (Ao Vivo) ──
+export * from './types/live'
