@@ -525,48 +525,124 @@
       }
 
       /* no desktop: volta ao layout vertical com imagem */
-      .feature-card {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1.1rem 1.25rem;
-        gap: 0.6rem;
-        border-radius: var(--radius-lg);
-      }
+.feature-card {
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.9rem 1rem;
+  gap: 0.4rem;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-      .feature-card-icon { display: none; }
+.feature-card-icon { display: none; }
 
-      .feature-card-top { gap: 0.2rem; }
-      .feature-card-title { font-size: 0.9rem; }
-      .feature-card-desc  { font-size: 0.78rem; }
+.feature-card-top { gap: 0.2rem; }
+.feature-card-title { font-size: 0.9rem; }
+.feature-card-desc  { font-size: 0.78rem; }
 
-      .feature-card-img {
-        display: flex;
-        width: 100%;
-        aspect-ratio: 16 / 7;
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.07);
-        border-radius: 10px;
-        align-items: center;
-        justify-content: center;
-        color: rgba(200, 221, 232, 0.2);
-        overflow: hidden;
-      }
+.feature-card-img {
+  display: flex;
+  width: 100%;
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  margin-top: 0;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transform: translateY(-8px);
+  transform-origin: top center;
+  transition:
+    max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.28s ease,
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    margin-top 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.28s ease,
+    background-color 0.28s ease,
+    visibility 0s linear 0.5s;
+  will-change: max-height, opacity, transform;
+}
 
-      .feature-card-img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 10px;
-      }
+.feature-card:hover {
+  border-color: rgba(76, 175, 80, 0.3);
+  background: rgba(76, 175, 80, 0.06);
+}
 
-      .feature-card-img svg {
-        width: 32px;
-        height: 32px;
-        stroke: currentColor;
-        stroke-width: 1.2;
-      }
+.feature-card.expanded .feature-card-img {
+  max-height: 360px;
+  opacity: 1;
+  visibility: visible;
+  margin-top: 0.7rem;
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.07);
+  transform: translateY(0);
+  transition:
+    max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.28s ease,
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    margin-top 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.28s ease,
+    background-color 0.28s ease,
+    visibility 0s linear 0s;
+}
 
-      .login-footer { font-size: 0.68rem; padding: 1rem 0 0.5rem; }
+.feature-card-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 340px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 12px;
+  transform: scale(0.985);
+  transform-origin: center;
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.28s ease;
+  backface-visibility: hidden;
+}
+
+.feature-card--trilhas .feature-card-img {
+  padding: 0;
+}
+
+.feature-card--trilhas .feature-card-img img {
+  width: 100%;
+  height: clamp(220px, 26vw, 300px);
+  max-height: none;
+  margin-left: 0;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 12px;
+  transform: scale(1.015);
+}
+
+.feature-card--trilhas.expanded .feature-card-img {
+  max-height: 320px;
+}
+
+.feature-card--trilhas.expanded .feature-card-img img {
+  transform: scale(1.03);
+}
+
+.feature-card-img svg {
+  width: 32px;
+  height: 32px;
+  stroke: currentColor;
+  stroke-width: 1.2;
+}
+
+.login-footer { font-size: 0.68rem; padding: 1rem 0 0.5rem; }
     }
 
     @media (min-width: 1024px) {
@@ -748,23 +824,20 @@
           </div>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card feature-card--trilhas">
           <div class="feature-card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 4v16M18 4v16M6 12h12M3 6h3M18 6h3M3 18h3M18 18h3"/>
             </svg>
           </div>
           <div class="feature-card-top">
-            <h3 class="feature-card-title">Treinos e planos personalizados</h3>
+            <h3 class="feature-card-title">Trilhas de conteúdo organizado</h3>
             <p class="feature-card-desc">
-              Acesso a treinos, orientações e estratégias ajustadas aos seus objetivos e rotina.
+              Plataforma completa com trilhas em vídeo, módulos profundos e aulas interativas sobre treino, nutrição e mentalidade.
             </p>
           </div>
           <div class="feature-card-img">
-            <!-- <img src="/images/feature-treinos.jpg" alt="Treinos" /> -->
-            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 4v16M18 4v16M6 12h12M3 6h3M18 6h3M3 18h3M18 18h3"/>
-            </svg>
+            <img src="/images/team/mock2.png" alt="Trilhas em Vídeo - App mobile com conteúdo" />
           </div>
         </div>
 
@@ -775,16 +848,13 @@
             </svg>
           </div>
           <div class="feature-card-top">
-            <h3 class="feature-card-title">Acompanhamento da evolução</h3>
+            <h3 class="feature-card-title">Clube de vantagens e benefícios</h3>
             <p class="feature-card-desc">
-              Progresso, histórico e acompanhamento centralizados para sua jornada.
+              Acesso exclusivo a parceiros premium, descontos em produtos, conteúdos exclusivos e sorteios da comunidade.
             </p>
           </div>
           <div class="feature-card-img">
-            <!-- <img src="/images/feature-evolucao.jpg" alt="Evolução" /> -->
-            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-            </svg>
+            <img src="/images/team/mock1.png" alt="Clube de Vantagens - Dashboard com Parceiros Premium" />
           </div>
         </div>
 
@@ -795,16 +865,13 @@
             </svg>
           </div>
           <div class="feature-card-top">
-            <h3 class="feature-card-title">Experiência segura e organizada</h3>
+            <h3 class="feature-card-title">Mentoria em tempo real</h3>
             <p class="feature-card-desc">
-              Área exclusiva para facilitar o acesso às informações com total segurança.
+              Sessões ao vivo, encontros de comunidade e Q&A com profissionais para suporte contínuo e acompanhamento humanizado.
             </p>
           </div>
           <div class="feature-card-img">
-            <!-- <img src="/images/feature-seguranca.jpg" alt="Segurança" /> -->
-            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
+            <img src="/images/team/mock3.png" alt="Sessões ao Vivo - Dashboard com mentoria em tempo real" />
           </div>
         </div>
 
@@ -863,6 +930,66 @@
       }
       document.getElementById('themeToggle')?.addEventListener('click', () => {
         applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+      });
+    })();
+
+    // ── Feature cards expandível (desktop) ───────────
+    (function() {
+      const featureCards = document.querySelectorAll('.feature-card');
+      const clickedCards = new Set();
+      let expandedCard = null;
+
+      featureCards.forEach(card => {
+        // Mouseenter: abre este e fecha o anterior (se não clicado)
+        card.addEventListener('mouseenter', () => {
+          // Se algum card foi clicado, não muda nada
+          if (clickedCards.size > 0) return;
+
+          // Fecha o card anterior que estava aberto por hover
+          if (expandedCard && expandedCard !== card) {
+            expandedCard.classList.remove('expanded');
+          }
+
+          // Abre este card
+          expandedCard = card;
+          card.classList.add('expanded');
+        });
+
+        // Click: marca como clicado permanentemente
+        card.addEventListener('click', (e) => {
+          e.stopPropagation();
+
+          if (clickedCards.has(card)) {
+            // Desclica
+            clickedCards.delete(card);
+            card.classList.remove('expanded');
+            expandedCard = null;
+          } else {
+            // Fecha todos os outros (click ou hover)
+            featureCards.forEach(c => {
+              if (c !== card) {
+                clickedCards.delete(c);
+                c.classList.remove('expanded');
+              }
+            });
+            // Abre este como clicado
+            clickedCards.add(card);
+            card.classList.add('expanded');
+            expandedCard = null;
+          }
+        });
+      });
+
+      // Fechar cards clicados ao clicar fora
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.feature-card')) {
+          featureCards.forEach(card => {
+            if (clickedCards.has(card)) {
+              clickedCards.delete(card);
+              card.classList.remove('expanded');
+            }
+          });
+        }
       });
     })();
   </script>
