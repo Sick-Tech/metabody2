@@ -147,6 +147,20 @@
       url('/images/results/result-4.jpeg'),
       linear-gradient(160deg, $blue-dark 0%, $blue-dark 100%);
   }
+
+  &--5 {
+    background-color: $blue-dark;
+    background-image:
+      url('/images/results/result-5.jpeg'),
+      linear-gradient(160deg, $blue-dark 0%, $blue-dark 100%);
+  }
+
+  &--6 {
+    background-color: $blue-dark;
+    background-image:
+      url('/images/results/result-6.jpeg'),
+      linear-gradient(160deg, $blue-dark 0%, $blue-dark 100%);
+  }
 }
 
 // Info sobreposta na base da foto

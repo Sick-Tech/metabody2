@@ -95,10 +95,10 @@
   padding: 3rem;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  gap: 3rem;
+  align-items: stretch;
+  gap: 2rem;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   transition: all $ease;
 
   // Subtle glow background
@@ -141,31 +141,46 @@
 }
 
 // ─────────────────────────────────────────────────
-// Card Mockup Wrapper
+// Card Mockup Wrapper - CREATIVE FULLBLEED DESIGN
 // ─────────────────────────────────────────────────
 .ecosystem-card-mockup {
-  flex: 0 0 auto;
+  flex: 1;
   width: 100%;
-  max-width: 420px;
+  max-width: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  margin: -3rem;
+  margin-inline: 0;
+  padding: 3rem 0;
 
   img {
     width: 100%;
     height: auto;
     display: block;
+    max-height: 480px;
+    object-fit: contain;
     border-radius: $radius-lg;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35),
+                0 12px 24px rgba($cyan-mid, 0.08);
+    transition: all $ease;
   }
 
-  // Card 2 com imagem mobile: reduzir tamanho
+  &:hover img {
+    transform: scale(1.02);
+    box-shadow: 0 28px 56px rgba(0, 0, 0, 0.4),
+                0 16px 32px rgba($cyan-mid, 0.12);
+  }
+
+  // Card 2 com imagem mobile: otimizar para propor vertical
   &--mobile {
-    max-width: 320px;
+    max-width: none;
 
     img {
-      border-radius: 24px;
-      display: block;
+      max-width: 360px;
+      max-height: 520px;
+      border-radius: 28px;
     }
   }
 }
@@ -266,12 +281,14 @@
 }
 
 // ─────────────────────────────────────────────────
-// Trilhas Mockup (DEPRECATED - keeping for reference)
-// The mockup content is now integrated via public image (mock2.png)
+// Trilhas Mockup (Card 2)
 // ─────────────────────────────────────────────────
-// Hidden styles - these are no longer used in Card 2
 .trilhas-mockup {
-  display: none;
+  background: rgba($blue-deepest, 0.5);
+  border-radius: $radius;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba($cyan-mid, 0.15);
 }
 
 .trilhas-item {
@@ -516,8 +533,8 @@
 @media (max-width: 1200px) {
   .ecosystem-card {
     padding: 2.5rem;
-    gap: 2rem;
     flex-direction: column !important;
+    gap: 1.5rem;
 
     &:nth-child(2) {
       flex-direction: column !important;
@@ -525,14 +542,22 @@
   }
 
   .ecosystem-card-mockup {
+    margin: -2.5rem;
+    margin-top: 0;
+    margin-bottom: -2.5rem;
     max-width: 100%;
-    width: 100%;
-    order: -1;
-  }
 
-  .ecosystem-card-mockup--mobile {
-    max-width: 280px;
-    margin: 0 auto;
+    img {
+      max-height: 420px;
+    }
+
+    &--mobile {
+      max-width: 100%;
+      img {
+        max-width: 100%;
+        max-height: 400px;
+      }
+    }
   }
 }
 
@@ -572,6 +597,7 @@
   .ecosystem-card {
     padding: 2rem;
     flex-direction: column !important;
+    gap: 1.5rem;
 
     &:nth-child(2) {
       flex-direction: column !important;
@@ -604,14 +630,7 @@
   }
 
   .ecosystem-card-mockup {
-    max-width: 100%;
-    width: 100%;
-    order: -1;
-  }
-
-  .ecosystem-card-mockup--mobile {
-    max-width: 260px;
-    margin: 0 auto;
+    display: none;
   }
 
   .trilhas-mockup,
@@ -660,6 +679,7 @@
   .ecosystem-card {
     padding: 1.5rem;
     flex-direction: column !important;
+    gap: 1.5rem;
 
     &:nth-child(2) {
       flex-direction: column !important;
@@ -688,11 +708,7 @@
   }
 
   .ecosystem-card-mockup {
-    width: 100%;
-  }
-
-  .ecosystem-card-mockup--mobile {
-    max-width: 100%;
+    display: none;
   }
 
   .card-features {

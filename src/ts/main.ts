@@ -10,6 +10,7 @@ import { ScrollAnimator, CounterAnimator } from './animations'
 import { ResultsCarousel } from './carousel'
 import { TeamModal }       from './team'
 import { ValuesCarousel }  from './values-carousel'
+import { Live }            from './live'
 
 function bootstrap(): void {
   new Navbar()
@@ -19,6 +20,7 @@ function bootstrap(): void {
   new ResultsCarousel()
   new TeamModal()
   new ValuesCarousel()
+  new Live() // Initialize Live Sessions feature
 }
 
 // Run after DOM is ready

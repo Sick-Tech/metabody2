@@ -288,31 +288,32 @@
     min-height: 88vh;
   }
 
-  // Logo image desktop: posicionada bem à direita, harmonizado com texto à esquerda
+  // Logo image desktop: centralizado verticalmente com o conteúdo
   .hero-logo-image-wrap {
     position: absolute;
     bottom: auto;
-    right: 3%;
+    right: 2%;
     left: auto;
-    top: 28%;
+    top: 50%;
     transform: translateY(-50%);
     width: auto;
-    max-width: none;
-    height: 70%;
+    max-width: 55%;
+    height: auto;
+    max-height: 70vh;
 
     animation: logoImageRevealDesktop 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
   }
 
   .hero-logo-image {
     display: block;
-    width: auto;
-    height: 100%;
+    width: 100%;
+    height: auto;
     object-fit: contain;
   }
 
   @keyframes logoImageRevealDesktop {
-    from { opacity: 0; transform: scale(0.95); }
-    to   { opacity: 1; transform: scale(1); }
+    from { opacity: 0; transform: translateY(-50%) scale(0.95); }
+    to   { opacity: 1; transform: translateY(-50%) scale(1); }
   }
 
   // Overlay desktop: gradiente horizontal suave
@@ -342,13 +343,14 @@
       );
   }
 
-  // ── Inner: max-width centralizado ──
+  // ── Inner: max-width responsivo ──
   .hero-inner {
-    max-width: 1280px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 3rem 5rem 0;
+    padding: 3rem 4rem 3rem 5%;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     min-height: 85vh;
     width: 100%;
   }
@@ -356,7 +358,7 @@
   // ── Conteúdo: coluna esquerda ──
   .hero-content {
     text-align: left;
-    max-width: 520px;
+    max-width: 480px;
     margin: 0;
     flex-shrink: 0;
   }

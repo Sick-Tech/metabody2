@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MetaBody Club — Sessão Ao Vivo" />
+  <title>Sessão Ao Vivo | MetaBody Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <!-- Styles will be imported by Vite -->
+  <style>
+    /* ── Reset ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-deepest: #07131C;
+      --blue-dark:    #0D2233;
+      --blue-mid:     #1A3A52;
+      --blue-base:    #2A5470;
+      --blue-soft:    #4A7A9B;
+      --blue-pale:    #C8DDE8;
+      --green-dark:   #1B5E20;
+      --green-mid:    #2E7D32;
+      --green-base:   #4CAF50;
+      --green-light:  #76C442;
+      --cyan-mid:     #29A8D4;
+      --white:        #FFFFFF;
+      --radius:       12px;
+      --radius-lg:    20px;
+      --ease:         0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--blue-deepest);
+      color: var(--white);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--blue-deepest); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan-mid); border-radius: 3px; }
+
+    /* ── NAVBAR ────────────────────────────────────────── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 19, 28, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 1rem 1.5rem;
+    }
+
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .topbar-back {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--cyan-mid);
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all var(--ease);
+    }
+
+    .topbar-back:hover {
+      background: rgba(76, 175, 80, 0.1);
+      border-color: rgba(76, 175, 80, 0.3);
+      color: var(--green-light);
+    }
+
+    /* ── LOADING STATE ──────────────────────────────── */
+    .live-loading {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .live-error {
+      border-color: rgba(255, 85, 85, 0.3);
+      background: rgba(255, 85, 85, 0.05);
+    }
+
+    .live-page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* ── LOADING SPINNER ────────────────────────────── */
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(41, 168, 212, 0.2);
+      border-top-color: var(--cyan-mid);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── LIVE PAGE HEADER ───────────────────────────── */
+    .live-page-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .live-page-status {
+      display: inline-block;
+      padding: 0.4rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    .live-page-status.live {
+      background: rgba(255, 85, 85, 0.2);
+      color: #FF5555;
+      animation: pulse-live 2s ease-in-out infinite;
+    }
+
+    .live-page-status.scheduled {
+      background: rgba(76, 175, 80, 0.2);
+      color: var(--green-light);
+    }
+
+    .live-page-status.ended {
+      background: rgba(74, 122, 155, 0.2);
+      color: rgba(200, 221, 232, 0.7);
+    }
+
+    .live-page-header h1 {
+      font-size: clamp(1.5rem, 6vw, 2.25rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .live-page-subtitle {
+      font-size: 1rem;
+      color: rgba(200, 221, 232, 0.75);
+      line-height: 1.6;
+      max-width: 700px;
+    }
+
+    /* ── META INFO ──────────────────────────────────── */
+    .live-page-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(41, 168, 212, 0.15);
+      border-radius: 16px;
+      backdrop-filter: blur(4px);
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .meta-item .label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(200, 221, 232, 0.45);
+    }
+
+    .meta-item .value {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.95);
+    }
+
+    /* ── JITSI EMBED CONTAINER ──────────────────────── */
+    .live-jitsi-section {
+      margin-bottom: 3rem;
+    }
+
+    .jitsi-embed-container {
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      background: linear-gradient(135deg, rgba(7, 19, 28, 0.6), rgba(13, 34, 51, 0.6));
+      border: 1px solid rgba(41, 168, 212, 0.25);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(200, 221, 232, 0.6);
+      box-shadow: 0 8px 32px rgba(41, 168, 212, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .jitsi-embed-container.jitsi-ready {
+      background: transparent;
+      border: 1px solid rgba(41, 168, 212, 0.2);
+      box-shadow: 0 8px 32px rgba(41, 168, 212, 0.15);
+    }
+
+    /* ── JITSI LOADING STATE ────────────────────────── */
+    .jitsi-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      font-size: 0.95rem;
+      color: rgba(200, 221, 232, 0.7);
+    }
+
+    .jitsi-loading p {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    /* ── JITSI ERROR STATE ──────────────────────────── */
+    .jitsi-error {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      padding: 2.5rem 2rem;
+    }
+
+    .error-icon {
+      font-size: 2.75rem;
+      opacity: 0.5;
+    }
+
+    .jitsi-error p {
+      margin: 0;
+      line-height: 1.6;
+      color: rgba(200, 221, 232, 0.8);
+    }
+
+    .jitsi-error p:first-of-type {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.95);
+    }
+
+    .jitsi-error p:last-of-type {
+      font-size: 0.9rem;
+      color: rgba(200, 221, 232, 0.6);
+    }
+
+    /* ── REMINDER BUTTON ────────────────────────────── */
+    .live-reminder-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 1.75rem;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all var(--ease);
+      box-shadow: 0 4px 16px rgba(76, 175, 80, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .live-reminder-btn-primary:hover {
+      filter: brightness(1.12);
+      box-shadow: 0 6px 24px rgba(76, 175, 80, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .live-reminder-btn-primary.active {
+      background: rgba(76, 175, 80, 0.2);
+      color: var(--green-light);
+      border: 1.5px solid var(--green-light);
+      box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+    }
+
+    /* ── ENDED MESSAGE ──────────────────────────────── */
+    .live-ended-message {
+      margin-top: 2.5rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(74, 122, 155, 0.12), rgba(74, 122, 155, 0.06));
+      border: 1px solid rgba(74, 122, 155, 0.25);
+      border-radius: 14px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .live-ended-message p {
+      margin: 0.6rem 0;
+      line-height: 1.6;
+      color: rgba(200, 221, 232, 0.8);
+    }
+
+    .live-ended-message .link-back {
+      color: var(--cyan-mid);
+      text-decoration: underline;
+      font-weight: 600;
+      transition: color var(--ease);
+    }
+
+    .live-ended-message .link-back:hover {
+      color: var(--green-light);
+    }
+
+    /* ── ANIMATIONS ─────────────────────────────────── */
+    @keyframes pulse-live {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────── */
+    @media (max-width: 768px) {
+      .live-page-container {
+        padding: 1.5rem 1rem;
+      }
+
+      .topbar {
+        padding: 0.75rem 1rem;
+      }
+
+      .topbar-logo {
+        font-size: 0.95rem;
+      }
+
+      .topbar-back {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+      }
+
+      .live-page-header {
+        margin-bottom: 2rem;
+      }
+
+      .live-page-header h1 {
+        font-size: clamp(1.25rem, 5vw, 1.75rem);
+        margin-bottom: 0.75rem;
+      }
+
+      .live-page-subtitle {
+        font-size: 0.95rem;
+      }
+
+      .live-page-meta {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        padding: 1.25rem;
+        margin-bottom: 2rem;
+      }
+
+      .meta-item {
+        gap: 0.4rem;
+      }
+
+      .meta-item .label {
+        font-size: 0.6rem;
+      }
+
+      .meta-item .value {
+        font-size: 0.9rem;
+      }
+
+      .live-jitsi-section {
+        margin-bottom: 2rem;
+      }
+
+      .jitsi-embed-container {
+        aspect-ratio: 16 / 9;
+        min-height: 250px;
+        border-radius: 12px;
+      }
+
+      .live-reminder-btn-primary {
+        width: 100%;
+        justify-content: center;
+        padding: 0.8rem 1.5rem;
+        font-size: 0.8rem;
+      }
+
+      .live-loading {
+        margin: 2rem auto;
+        padding: 1.5rem;
+        border-radius: 12px;
+      }
+
+      .live-ended-message {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        border-radius: 12px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .live-page-container {
+        padding: 1rem 0.75rem;
+      }
+
+      .topbar-inner {
+        gap: 0.75rem;
+      }
+
+      .live-page-header {
+        margin-bottom: 1.5rem;
+      }
+
+      .live-page-header h1 {
+        font-size: 1.35rem;
+      }
+
+      .live-page-status {
+        font-size: 0.6rem;
+        padding: 0.35rem 0.7rem;
+      }
+
+      .live-page-meta {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 12px;
+      }
+
+      .meta-item .label {
+        font-size: 0.55rem;
+      }
+
+      .meta-item .value {
+        font-size: 0.85rem;
+      }
+
+      .live-jitsi-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .jitsi-embed-container {
+        min-height: 280px;
+      }
+
+      .live-reminder-btn-primary {
+        padding: 0.75rem 1rem;
+        font-size: 0.75rem;
+      }
+
+      .live-loading {
+        margin: 1.5rem auto;
+        padding: 1.25rem;
+      }
+
+      .loading-spinner {
+        width: 32px;
+        height: 32px;
+        border: 2.5px solid rgba(41, 168, 212, 0.2);
+      }
+
+      .live-ended-message {
+        margin-top: 1.5rem;
+        padding: 1.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar-inner {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .jitsi-embed-container {
+        aspect-ratio: auto;
+        min-height: 300px;
+      }
+
+      .live-page-meta {
+        padding: 1rem;
+      }
+
+      .meta-item .label {
+        font-size: 0.65rem;
+      }
+
+      .meta-item .value {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ░░░ TOPBAR ░░░ -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="./index.html" class="topbar-logo">MetaBody Club</a>
+      <a href="./index.html" class="topbar-back">
+        <span>← Voltar</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ░░░ LIVE PAGE CONTENT ░░░ -->
+  <main class="live-page-container">
+    <div id="live-content">
+      <div class="live-loading">
+        <div class="loading-spinner"></div>
+        <p>Carregando sessão...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Jitsi Embed Container (hidden by default, shown when live.status='live') -->
+  <div id="live-jitsi-embed" style="display: none;" class="jitsi-embed-container"></div>
+
+  <script>
+    /**
+     * Live Page Handler
+     * Carrega a live baseada em ?id=...
+     * Integra Jitsi Meet quando status === 'live'
+     * PR2: Jitsi Integration
+     */
+
+    // ─────────────────────────────────────────────────────────────
+    // Mock de dados (será importado do módulo real no futuro)
+    // ─────────────────────────────────────────────────────────────
+
+    const LIVE_SESSIONS_MOCK = [
+      {
+        id: 'live-001-featured',
+        title: 'Mentoria Ao Vivo: Ajuste de Treino e Dieta — Perguntas & Respostas',
+        description: 'Nosso especialista em periodização e nutrição esportiva responde suas dúvidas em tempo real. Traga suas dúvidas sobre ajustes de treino, progressão de carga e estratégia de alimentação.',
+        startsAt: new Date(Date.now()).toISOString(),
+        endsAt: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+        status: 'live',
+        roomName: 'metabody-mentoria-ajuste-treino-dieta',
+        hostName: 'Lucas Mendes',
+        hostSubtitle: 'Especialista em Periodização & Nutrição',
+        badgeLabel: 'Aberto a Todos',
+        isFeatured: true,
+        topic: 'Ajuste de treino e dieta — Perguntas & Respostas',
+      },
+      {
+        id: 'live-002-upcoming-1',
+        title: 'Q&A Nutrição Esportiva: Suplementação Inteligente',
+        description: 'Saiba como escolher os suplementos corretos, dosagens, timing ideal e como conciliar com sua alimentação real.',
+        startsAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+        endsAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000 + 45 * 60 * 1000).toISOString(),
+        status: 'scheduled',
+        roomName: 'metabody-qa-nutricao-suplementacao',
+        hostName: 'Beatriz Costa',
+        hostSubtitle: 'Nutricionista Esportiva',
+        badgeLabel: 'Exclusivo Pro',
+        isFeatured: false,
+        topic: 'Suplementação Inteligente',
+      },
+      {
+        id: 'live-003-upcoming-2',
+        title: 'Treino Funcional Ao Vivo: Sessão Prática',
+        description: 'Pratique conosco uma sessão completa de treino funcional com foco em mobilidade, força e condicionamento.',
+        startsAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+        endsAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000 + 60 * 60 * 1000).toISOString(),
+        status: 'scheduled',
+        roomName: 'metabody-treino-funcional-principal',
+        hostName: 'Rafael Silva',
+        hostSubtitle: 'Personal Trainer & Coach de Mobilidade',
+        badgeLabel: 'Aberto a Todos',
+        isFeatured: false,
+        topic: 'Treino Funcional — Sessão Prática',
+      },
+      {
+        id: 'live-005-ended',
+        title: 'Mentoria Anterior: Ajustes de Rotina e Consistência',
+        description: 'Sessão encerrada. Tema: Como manter a consistência em treino mesmo com rotina apertada.',
+        startsAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+        endsAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000 + 60 * 60 * 1000).toISOString(),
+        status: 'ended',
+        roomName: 'metabody-mentoria-rotina-consistencia',
+        hostName: 'Lucas Mendes',
+        hostSubtitle: 'Especialista em Periodização & Nutrição',
+        badgeLabel: 'Aberto a Todos',
+        isFeatured: false,
+        topic: 'Ajustes de Rotina e Consistência',
+      },
+    ]
+
+    // ─────────────────────────────────────────────────────────────
+    // Jitsi Meeting Embed Manager
+    // ─────────────────────────────────────────────────────────────
+
+    class LiveMeetingEmbed {
+      constructor(containerId, live, options = {}) {
+        this.containerId = containerId
+        this.live = live
+        this.options = options
+        this.containerElement = null
+        this.jitsiApi = null
+        this.isScriptLoaded = false
+        this.isScriptLoading = false
+        this.scriptLoadPromise = null
+      }
+
+      async render() {
+        try {
+          await this.ensureJitsiScriptLoaded()
+          this.containerElement = document.getElementById(this.containerId)
+          if (!this.containerElement) {
+            throw new Error(`Container com ID "${this.containerId}" não encontrado`)
+          }
+          this.containerElement.innerHTML = ''
+          this.createJitsiMeeting()
+          this.options?.onReady?.()
+        } catch (error) {
+          console.error('[LiveMeetingEmbed] Erro ao renderizar:', error)
+          this.options?.onError?.(error)
+          throw error
+        }
+      }
+
+      async ensureJitsiScriptLoaded() {
+        if (this.isScriptLoaded) {
+          return
+        }
+
+        if (this.isScriptLoading && this.scriptLoadPromise) {
+          return this.scriptLoadPromise
+        }
+
+        this.isScriptLoading = true
+        this.scriptLoadPromise = new Promise((resolve, reject) => {
+          if (window.JitsiMeetExternalAPI) {
+            this.isScriptLoaded = true
+            this.isScriptLoading = false
+            resolve()
+            return
+          }
+
+          const script = document.createElement('script')
+          script.src = 'https://meet.jit.si/external_api.js'
+          script.type = 'text/javascript'
+          script.async = true
+
+          script.onload = () => {
+            this.isScriptLoaded = true
+            this.isScriptLoading = false
+            resolve()
+          }
+
+          script.onerror = () => {
+            this.isScriptLoading = false
+            const error = new Error('Falha ao carregar Jitsi external_api.js')
+            reject(error)
+          }
+
+          document.head.appendChild(script)
+        })
+
+        return this.scriptLoadPromise
+      }
+
+      createJitsiMeeting() {
+        if (!this.containerElement) {
+          throw new Error('Container não existe')
+        }
+
+        if (!window.JitsiMeetExternalAPI) {
+          throw new Error('Jitsi API não está carregada')
+        }
+
+        try {
+          const domain = 'meet.jit.si'
+          const roomName = this.sanitizeRoomName(this.live.roomName)
+
+          const options = {
+            width: '100%',
+            height: '100%',
+            roomName: roomName,
+            parentNode: this.containerElement,
+            userInfo: {
+              displayName: this.options?.displayName || 'Participante MetaBody',
+            },
+            lang: this.options?.lang || 'pt-BR',
+            interfaceConfigOverwrite: {
+              SHOW_CHROME_EXTENSION_BANNER: false,
+              MOBILE_APP_PROMO: false,
+              SHOW_WATERMARK: false,
+              TOOLBOX_ALWAYS_VISIBLE: false,
+              DEFAULT_REMOTE_DISPLAY_NAME: 'Participante',
+              SHOW_BRAND_WATERMARK: false,
+            },
+            configOverwrite: {
+              // Audio/Video defaults: start muted to reduce friction
+              startWithAudioMuted: true,        // Microfone desligado por padrão
+              startWithVideoMuted: true,        // Câmera desligada por padrão
+              startAudioOnly: false,
+              disableAudioLevels: false,
+              disableSimulcast: false,
+              enableLayerSuspension: true,
+
+              // Network & Performance
+              p2p: {
+                enabled: true,
+              },
+
+              // Privacy & Analytics
+              analytics: {
+                disabled: true,
+              },
+              localRecording: {
+                enabled: false,
+              },
+
+              // UI Polish
+              toolbarButtons: [
+                'microphone',      // Permitir ativar microfone depois
+                'camera',          // Permitir ativar câmera depois
+                'downloadsettings',
+                'fullscreen',
+                'fodeviceselection',
+                'hangup',
+              ],
+            },
+          }
+
+          this.jitsiApi = new window.JitsiMeetExternalAPI(domain, options)
+          this.setupJitsiEventListeners()
+        } catch (error) {
+          console.error('[LiveMeetingEmbed] Erro ao instanciar Jitsi:', error)
+          throw error
+        }
+      }
+
+      setupJitsiEventListeners() {
+        if (!this.jitsiApi) return
+
+        this.jitsiApi.addEventListener('readyToClose', () => {
+          console.log('[Jitsi] Reunião fechada pelo usuário')
+          this.cleanup()
+        })
+
+        this.jitsiApi.addEventListener('onError', (error) => {
+          console.error('[Jitsi] Erro na reunião:', error)
+        })
+
+        this.jitsiApi.addEventListener('videoConferenceJoined', () => {
+          console.log('[Jitsi] Entrou na sala')
+        })
+
+        this.jitsiApi.addEventListener('videoConferenceLeft', () => {
+          console.log('[Jitsi] Saiu da sala')
+        })
+      }
+
+      sanitizeRoomName(roomName) {
+        return roomName
+          .toLowerCase()
+          .replace(/[^a-z0-9\-_]/g, '-')
+          .replace(/--+/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .slice(0, 100)
+      }
+
+      destroy() {
+        try {
+          if (this.jitsiApi) {
+            this.jitsiApi.dispose()
+            this.jitsiApi = null
+          }
+          this.cleanup()
+        } catch (error) {
+          console.warn('[LiveMeetingEmbed] Erro ao destruir Jitsi:', error)
+        }
+      }
+
+      cleanup() {
+        if (this.containerElement) {
+          this.containerElement.innerHTML = ''
+        }
+      }
+
+      getApi() {
+        return this.jitsiApi
+      }
+
+      isReady() {
+        return this.jitsiApi !== null
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Page State Manager
+    // ─────────────────────────────────────────────────────────────
+
+    let currentJitsiEmbed = null
+
+    function getLiveIdFromUrl() {
+      const params = new URLSearchParams(window.location.search)
+      return params.get('id')
+    }
+
+    function findLive(id) {
+      return LIVE_SESSIONS_MOCK.find((live) => live.id === id)
+    }
+
+    function formatDateTime(dateStr) {
+      const date = new Date(dateStr)
+      const day = String(date.getDate()).padStart(2, '0')
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const hour = String(date.getHours()).padStart(2, '0')
+      const minute = String(date.getMinutes()).padStart(2, '0')
+      const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+      const dayName = days[date.getDay()]
+      return `${dayName}, ${day}/${month} às ${hour}:${minute}`
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Render Functions
+    // ─────────────────────────────────────────────────────────────
+
+    function renderLivePage(live) {
+      const statusClass = live.status
+      const statusLabel =
+        live.status === 'live'
+          ? 'Ao Vivo'
+          : live.status === 'scheduled'
+          ? 'Agendada'
+          : 'Encerrada'
+
+      let jitsiSection = ''
+      let reminderBtn = ''
+
+      // Renderizar Jitsi apenas se status === 'live'
+      if (live.status === 'live') {
+        jitsiSection = `
+          <div class="live-jitsi-section">
+            <div id="live-jitsi-embed" class="jitsi-embed-container"></div>
+          </div>
+        `
+      }
+
+      // Botão de notificação apenas se agendada
+      if (live.status === 'scheduled') {
+        reminderBtn = `
+          <button class="live-reminder-btn live-reminder-btn-primary" id="reminder-btn">
+            <span class="reminder-icon">🔔</span>
+            Quero ser notificado
+          </button>
+        `
+      }
+
+      // Se encerrada, mostrar mensagem clara
+      let endedMessage = ''
+      if (live.status === 'ended') {
+        endedMessage = `
+          <div class="live-ended-message">
+            <p>Esta sessão já foi encerrada.</p>
+            <p>Acesse outras sessões na <a href="./index.html" class="link-back">página inicial</a>.</p>
+          </div>
+        `
+      }
+
+      const html = `
+        <div class="live-page-header">
+          <span class="live-page-status ${statusClass}">${statusLabel}</span>
+          <h1>${live.title}</h1>
+          <p class="live-page-subtitle">${live.description}</p>
+        </div>
+
+        <div class="live-page-meta">
+          <div class="meta-item">
+            <span class="label">Data & Hora</span>
+            <span class="value">${formatDateTime(live.startsAt)}</span>
+          </div>
+          <div class="meta-item">
+            <span class="label">Facilitador</span>
+            <span class="value">${live.hostName}</span>
+          </div>
+          ${live.hostSubtitle
+            ? `
+          <div class="meta-item">
+            <span class="label">Especialidade</span>
+            <span class="value">${live.hostSubtitle}</span>
+          </div>
+          `
+            : ''}
+          ${live.badgeLabel
+            ? `
+          <div class="meta-item">
+            <span class="label">Acesso</span>
+            <span class="value">${live.badgeLabel}</span>
+          </div>
+          `
+            : ''}
+        </div>
+
+        ${jitsiSection}
+
+        ${reminderBtn}
+
+        ${endedMessage}
+      `
+
+      document.getElementById('live-content').innerHTML = html
+
+      // Setup reminder button listener
+      const btn = document.getElementById('reminder-btn')
+      if (btn) {
+        btn.addEventListener('click', () => {
+          btn.classList.add('active')
+          btn.innerHTML = '<span class="reminder-icon">✔️</span> Notificação ativa'
+          console.log(`Lembrete ativado para: ${live.id}`)
+        })
+      }
+
+      // Se live, renderizar Jitsi
+      if (live.status === 'live') {
+        renderJitsiEmbed(live)
+      }
+    }
+
+    function renderJitsiEmbed(live) {
+      // Destruir embed anterior se existir
+      if (currentJitsiEmbed) {
+        currentJitsiEmbed.destroy()
+        currentJitsiEmbed = null
+      }
+
+      const embedContainer = document.getElementById('live-jitsi-embed')
+      if (!embedContainer) {
+        console.error('Container para Jitsi não encontrado')
+        return
+      }
+
+      // Mostrar loading state
+      embedContainer.innerHTML = `
+        <div class="jitsi-loading">
+          <div class="loading-spinner"></div>
+          <p>Conectando à sala...</p>
+        </div>
+      `
+
+      // Criar e renderizar embed
+      currentJitsiEmbed = new LiveMeetingEmbed('live-jitsi-embed', live, {
+        displayName: 'Participante MetaBody',
+        lang: 'pt-BR',
+        onReady: () => {
+          console.log('[LivePage] Jitsi pronto')
+          embedContainer.classList.add('jitsi-ready')
+        },
+        onError: (error) => {
+          console.error('[LivePage] Erro ao carregar Jitsi:', error)
+          embedContainer.innerHTML = `
+            <div class="jitsi-error">
+              <p><strong>Não foi possível conectar à sala ao vivo</strong></p>
+              <p>Tente recarregar a página ou, se o problema persistir, contate o suporte.</p>
+            </div>
+          `
+        },
+      })
+
+      currentJitsiEmbed.render().catch((error) => {
+        console.error('[LivePage] Falha ao renderizar Jitsi:', error)
+        embedContainer.innerHTML = `
+          <div class="jitsi-error">
+            <div class="error-icon">⚠️</div>
+            <p><strong>Erro ao conectar</strong></p>
+            <p>${error.message}</p>
+          </div>
+        `
+      })
+    }
+
+    function renderError(message) {
+      document.getElementById('live-content').innerHTML = `
+        <div class="live-error">
+          <p><strong>Erro ao carregar sessão</strong></p>
+          <p>${message}</p>
+          <p style="margin-top: 1rem; font-size: 0.9rem;">
+            <a href="./index.html" style="color: var(--cyan-mid); text-decoration: underline;">Voltar à página inicial</a>
+          </p>
+        </div>
+      `
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Initialize Page
+    // ─────────────────────────────────────────────────────────────
+
+    window.addEventListener('load', () => {
+      const liveId = getLiveIdFromUrl()
+
+      if (!liveId) {
+        renderError('Nenhuma sessão especificada.')
+        return
+      }
+
+      const live = findLive(liveId)
+
+      if (!live) {
+        renderError(`Sessão não encontrada: ${liveId}`)
+        return
+      }
+
+      renderLivePage(live)
+    })
+
+    // Cleanup ao sair da página
+    window.addEventListener('beforeunload', () => {
+      if (currentJitsiEmbed) {
+        currentJitsiEmbed.destroy()
+      }
+    })
+  </script>
+
+
+
+</body>
+</html>
