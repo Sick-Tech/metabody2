@@ -136,18 +136,18 @@
 
     /* ── LIVE PAGE HEADER ───────────────────────────── */
     .live-page-header {
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
 
     .live-page-status {
       display: inline-block;
-      padding: 0.4rem 0.8rem;
+      padding: 0.4rem 0.85rem;
       border-radius: 6px;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.75rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
     }
 
     .live-page-status.live {
@@ -167,70 +167,77 @@
     }
 
     .live-page-header h1 {
-      font-size: clamp(1.5rem, 6vw, 2.2rem);
-      font-weight: 900;
-      line-height: 1.2;
-      margin-bottom: 0.75rem;
+      font-size: clamp(1.5rem, 6vw, 2.25rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
     }
 
     .live-page-subtitle {
-      font-size: 0.95rem;
-      color: rgba(200, 221, 232, 0.7);
+      font-size: 1rem;
+      color: rgba(200, 221, 232, 0.75);
       line-height: 1.6;
+      max-width: 700px;
     }
 
     /* ── META INFO ──────────────────────────────────── */
     .live-page-meta {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-      padding: 1.25rem;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(41, 168, 212, 0.15);
+      border-radius: 16px;
+      backdrop-filter: blur(4px);
     }
 
     .meta-item {
       display: flex;
       flex-direction: column;
-      gap: 0.3rem;
+      gap: 0.5rem;
     }
 
     .meta-item .label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: rgba(200, 221, 232, 0.5);
+      letter-spacing: 0.1em;
+      color: rgba(200, 221, 232, 0.45);
     }
 
     .meta-item .value {
       font-size: 0.95rem;
       font-weight: 700;
+      color: rgba(255, 255, 255, 0.95);
     }
 
     /* ── JITSI EMBED CONTAINER ──────────────────────── */
     .live-jitsi-section {
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
     }
 
     .jitsi-embed-container {
       aspect-ratio: 16 / 9;
       width: 100%;
-      background: linear-gradient(135deg, rgba(7, 19, 28, 0.8), rgba(13, 34, 51, 0.8));
-      border: 1px solid rgba(41, 168, 212, 0.2);
-      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(7, 19, 28, 0.6), rgba(13, 34, 51, 0.6));
+      border: 1px solid rgba(41, 168, 212, 0.25);
+      border-radius: 16px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       color: rgba(200, 221, 232, 0.6);
+      box-shadow: 0 8px 32px rgba(41, 168, 212, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
     }
 
     .jitsi-embed-container.jitsi-ready {
       background: transparent;
-      border: none;
+      border: 1px solid rgba(41, 168, 212, 0.2);
+      box-shadow: 0 8px 32px rgba(41, 168, 212, 0.15);
     }
 
     /* ── JITSI LOADING STATE ────────────────────────── */
@@ -239,11 +246,17 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
+      gap: 1.25rem;
       text-align: center;
       width: 100%;
       height: 100%;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      color: rgba(200, 221, 232, 0.7);
+    }
+
+    .jitsi-loading p {
+      margin: 0;
+      font-weight: 500;
     }
 
     /* ── JITSI ERROR STATE ──────────────────────────── */
@@ -252,80 +265,82 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
+      gap: 1.25rem;
       text-align: center;
       width: 100%;
       height: 100%;
-      font-size: 0.9rem;
-      padding: 2rem;
+      padding: 2.5rem 2rem;
     }
 
     .error-icon {
-      font-size: 2.5rem;
-      opacity: 0.6;
+      font-size: 2.75rem;
+      opacity: 0.5;
     }
 
     .jitsi-error p {
       margin: 0;
-      line-height: 1.5;
+      line-height: 1.6;
+      color: rgba(200, 221, 232, 0.8);
     }
 
     .jitsi-error p:first-of-type {
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.95);
     }
 
     .jitsi-error p:last-of-type {
-      font-size: 0.85rem;
-      color: rgba(200, 221, 232, 0.5);
+      font-size: 0.9rem;
+      color: rgba(200, 221, 232, 0.6);
     }
 
     /* ── REMINDER BUTTON ────────────────────────────── */
     .live-reminder-btn-primary {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.85rem 1.5rem;
+      gap: 0.6rem;
+      padding: 0.9rem 1.75rem;
       background: linear-gradient(135deg, var(--green-mid), var(--green-light));
       color: var(--white);
-      font-weight: 800;
+      font-weight: 700;
       font-size: 0.85rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       transition: all var(--ease);
-      box-shadow: 0 4px 16px rgba(76, 175, 80, 0.25);
+      box-shadow: 0 4px 16px rgba(76, 175, 80, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 
     .live-reminder-btn-primary:hover {
-      filter: brightness(1.1);
-      box-shadow: 0 6px 24px rgba(76, 175, 80, 0.35);
+      filter: brightness(1.12);
+      box-shadow: 0 6px 24px rgba(76, 175, 80, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
       transform: translateY(-2px);
     }
 
     .live-reminder-btn-primary.active {
       background: rgba(76, 175, 80, 0.2);
       color: var(--green-light);
-      border: 1px solid var(--green-light);
-      box-shadow: 0 0 16px rgba(76, 175, 80, 0.3);
+      border: 1.5px solid var(--green-light);
+      box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
     }
 
     /* ── ENDED MESSAGE ──────────────────────────────── */
     .live-ended-message {
-      margin-top: 2rem;
-      padding: 1.5rem;
-      background: rgba(74, 122, 155, 0.1);
-      border: 1px solid rgba(74, 122, 155, 0.2);
-      border-radius: 12px;
+      margin-top: 2.5rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(74, 122, 155, 0.12), rgba(74, 122, 155, 0.06));
+      border: 1px solid rgba(74, 122, 155, 0.25);
+      border-radius: 14px;
       text-align: center;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
 
     .live-ended-message p {
-      margin: 0.5rem 0;
-      line-height: 1.5;
+      margin: 0.6rem 0;
+      line-height: 1.6;
+      color: rgba(200, 221, 232, 0.8);
     }
 
     .live-ended-message .link-back {
@@ -364,28 +379,132 @@
         padding: 0.4rem 0.8rem;
       }
 
+      .live-page-header {
+        margin-bottom: 2rem;
+      }
+
       .live-page-header h1 {
         font-size: clamp(1.25rem, 5vw, 1.75rem);
+        margin-bottom: 0.75rem;
+      }
+
+      .live-page-subtitle {
+        font-size: 0.95rem;
       }
 
       .live-page-meta {
         grid-template-columns: 1fr;
+        gap: 1.25rem;
+        padding: 1.25rem;
+        margin-bottom: 2rem;
+      }
+
+      .meta-item {
+        gap: 0.4rem;
+      }
+
+      .meta-item .label {
+        font-size: 0.6rem;
+      }
+
+      .meta-item .value {
+        font-size: 0.9rem;
+      }
+
+      .live-jitsi-section {
+        margin-bottom: 2rem;
       }
 
       .jitsi-embed-container {
         aspect-ratio: 16 / 9;
         min-height: 250px;
+        border-radius: 12px;
       }
 
       .live-reminder-btn-primary {
         width: 100%;
         justify-content: center;
-        padding: 0.75rem 1.25rem;
+        padding: 0.8rem 1.5rem;
+        font-size: 0.8rem;
       }
 
       .live-loading {
         margin: 2rem auto;
         padding: 1.5rem;
+        border-radius: 12px;
+      }
+
+      .live-ended-message {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        border-radius: 12px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .live-page-container {
+        padding: 1rem 0.75rem;
+      }
+
+      .topbar-inner {
+        gap: 0.75rem;
+      }
+
+      .live-page-header {
+        margin-bottom: 1.5rem;
+      }
+
+      .live-page-header h1 {
+        font-size: 1.35rem;
+      }
+
+      .live-page-status {
+        font-size: 0.6rem;
+        padding: 0.35rem 0.7rem;
+      }
+
+      .live-page-meta {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 12px;
+      }
+
+      .meta-item .label {
+        font-size: 0.55rem;
+      }
+
+      .meta-item .value {
+        font-size: 0.85rem;
+      }
+
+      .live-jitsi-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .jitsi-embed-container {
+        min-height: 280px;
+      }
+
+      .live-reminder-btn-primary {
+        padding: 0.75rem 1rem;
+        font-size: 0.75rem;
+      }
+
+      .live-loading {
+        margin: 1.5rem auto;
+        padding: 1.25rem;
+      }
+
+      .loading-spinner {
+        width: 32px;
+        height: 32px;
+        border: 2.5px solid rgba(41, 168, 212, 0.2);
+      }
+
+      .live-ended-message {
+        margin-top: 1.5rem;
+        padding: 1.25rem;
       }
     }
 
@@ -615,21 +734,36 @@
               SHOW_BRAND_WATERMARK: false,
             },
             configOverwrite: {
-              disableAudioLevels: false,
+              // Audio/Video defaults: start muted to reduce friction
+              startWithAudioMuted: true,        // Microfone desligado por padrão
+              startWithVideoMuted: true,        // Câmera desligada por padrão
               startAudioOnly: false,
-              startWithAudioMuted: false,
-              startWithVideoMuted: false,
+              disableAudioLevels: false,
               disableSimulcast: false,
               enableLayerSuspension: true,
+
+              // Network & Performance
               p2p: {
                 enabled: true,
               },
+
+              // Privacy & Analytics
               analytics: {
                 disabled: true,
               },
               localRecording: {
                 enabled: false,
               },
+
+              // UI Polish
+              toolbarButtons: [
+                'microphone',      // Permitir ativar microfone depois
+                'camera',          // Permitir ativar câmera depois
+                'downloadsettings',
+                'fullscreen',
+                'fodeviceselection',
+                'hangup',
+              ],
             },
           }
 
