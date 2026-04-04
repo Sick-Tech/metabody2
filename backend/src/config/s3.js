@@ -22,6 +22,24 @@ const EXT_MAP = {
 };
 
 /**
+ * Upload direto de stream → S3 (sem CORS — backend faz o upload)
+ */
+async function uploadFileStream({ folder, mimeType, body, contentLength }) {
+  const ext = EXT_MAP[mimeType];
+  if (!ext) throw Object.assign(new Error('Tipo de arquivo não permitido.'), { status: 400 });
+  if (!ALLOWED_FOLDERS.has(folder)) throw Object.assign(new Error('Pasta inválida.'), { status: 400 });
+  const key = `${folder}/${uuidv4()}.${ext}`;
+  await s3.send(new PutObjectCommand({
+    Bucket:        BUCKET,
+    Key:           key,
+    ContentType:   mimeType,
+    Body:          body,
+    ContentLength: contentLength || undefined,
+  }));
+  return { key, publicUrl: `${CDN}/${key}` };
+}
+
+/**
  * Gera URL pré-assinada para upload direto do cliente → S3
  * O cliente faz PUT direto na AWS, sem passar pela API
  */
@@ -54,4 +72,4 @@ async function deleteObject(key) {
   await s3.send(new DeleteObjectCommand({ Bucket: BUCKET, Key: key }));
 }
 
-module.exports = { getUploadPresignedUrl, getDownloadPresignedUrl, deleteObject };
+module.exports = { getUploadPresignedUrl, getDownloadPresignedUrl, deleteObject, uploadFileStream };

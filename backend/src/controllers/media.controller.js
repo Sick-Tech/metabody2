@@ -1,10 +1,24 @@
-const { getUploadPresignedUrl, getDownloadPresignedUrl, deleteObject } = require('../config/s3');
+const { getUploadPresignedUrl, getDownloadPresignedUrl, deleteObject, uploadFileStream } = require('../config/s3');
+
+// POST /api/v1/media/upload/direct?folder=videos&mimeType=video%2Fmp4
+// O arquivo vem no body como stream binário — backend envia ao S3 sem CORS
+exports.uploadDirect = async (req, res) => {
+  try {
+    const { folder, mimeType } = req.query;
+    const contentLength = parseInt(req.headers['content-length'] || '0', 10) || undefined;
+    const result = await uploadFileStream({ folder, mimeType, body: req, contentLength });
+    res.json(result);
+  } catch (err) {
+    console.error('[uploadDirect]', err.message);
+    res.status(err.status || 500).json({ error: err.message || 'Erro interno.' });
+  }
+};
 
 // POST /api/v1/media/upload/video
 exports.getVideoUploadUrl = async (req, res) => {
   try {
-    const { mimeType, moduleId } = req.body;
-    const result = await getUploadPresignedUrl({ folder: `videos/${moduleId}`, mimeType });
+    const { mimeType } = req.body;
+    const result = await getUploadPresignedUrl({ folder: 'videos', mimeType });
     res.json(result);
   } catch (err) {
     res.status(err.status || 500).json({ error: err.message || 'Erro interno.' });

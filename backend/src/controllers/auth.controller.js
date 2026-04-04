@@ -79,7 +79,7 @@ exports.adminLogin = async (req, res) => {
     await query(`UPDATE users SET refresh_token = $1, last_login = NOW() WHERE id = $2`, [hashToken(refreshToken), user.id]);
 
     setAuthCookies(res, accessToken, refreshToken);
-    res.json({ user: { id: user.id, name: user.name, role: user.role } });
+    res.json({ user: { id: user.id, name: user.name, role: user.role }, accessToken });
   } catch {
     res.status(500).json({ error: 'Erro interno.' });
   }

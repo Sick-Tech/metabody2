@@ -23,8 +23,8 @@ const ctrl    = require('../controllers/media.controller');
 const { requireAuth, requireAdmin } = require('../middleware/auth.middleware');
 
 router.post('/upload/video',
-  requireAdmin, // só admin faz upload de vídeo de trilha
-  [body('mimeType').equals('video/mp4'), body('moduleId').notEmpty()],
+  requireAdmin,
+  [body('mimeType').equals('video/mp4')],
   ctrl.getVideoUploadUrl
 );
 
@@ -33,6 +33,10 @@ router.post('/upload/image',
   [body('mimeType').isIn(['image/jpeg', 'image/png', 'image/webp']), body('folder').notEmpty()],
   ctrl.getImageUploadUrl
 );
+
+// Upload direto via backend (evita CORS no S3)
+// Body: raw binary do arquivo | Query: ?folder=videos&mimeType=video%2Fmp4
+router.post('/upload/direct', requireAdmin, ctrl.uploadDirect);
 
 router.get('/video-url',   requireAuth,  ctrl.getVideoStreamUrl); // ?key=videos/...
 

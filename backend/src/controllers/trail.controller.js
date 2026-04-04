@@ -9,17 +9,48 @@ const wrap = fn => async (req, res) => {
 exports.listTrails = wrap(async (_req, res) => {
   const { rows } = await query(
     `SELECT t.id, t.name, t.description, t.thumbnail_url, t.published,
-            COUNT(m.id) total_modules
+            COUNT(m.id)::int AS total_modules
      FROM trails t LEFT JOIN modules m ON m.trail_id = t.id AND m.published = true
      WHERE t.published = true GROUP BY t.id ORDER BY t.created_at`
   );
   res.json(rows);
 });
 
+exports.listAllTrails = wrap(async (_req, res) => {
+  const { rows } = await query(
+    `SELECT t.id, t.name, t.description, t.thumbnail_url, t.published,
+            COUNT(m.id)::int AS total_modules
+     FROM trails t LEFT JOIN modules m ON m.trail_id = t.id
+     GROUP BY t.id ORDER BY t.created_at`
+  );
+  res.json(rows);
+});
+
+exports.getTrailAdmin = wrap(async (req, res) => {
+  const [trail, modules, videos] = await Promise.all([
+    query(`SELECT * FROM trails WHERE id=$1`, [req.params.id]),
+    query(`SELECT id,title,description,duration_min,order_num,published FROM modules WHERE trail_id=$1 ORDER BY order_num`, [req.params.id]),
+    query(
+      `SELECT mv.id, mv.module_id, mv.title, mv.duration_min, mv.order_num
+       FROM module_videos mv JOIN modules m ON m.id=mv.module_id
+       WHERE m.trail_id=$1 ORDER BY mv.module_id, mv.order_num`,
+      [req.params.id]
+    ),
+  ]);
+  if (!trail.rows[0]) return res.status(404).json({ error: 'Trilha não encontrada.' });
+  const videosByModule = {};
+  videos.rows.forEach(v => {
+    if (!videosByModule[v.module_id]) videosByModule[v.module_id] = [];
+    videosByModule[v.module_id].push(v);
+  });
+  const modulesWithVideos = modules.rows.map(m => ({ ...m, videos: videosByModule[m.id] || [] }));
+  res.json({ ...trail.rows[0], modules: modulesWithVideos });
+});
+
 exports.getTrail = wrap(async (req, res) => {
   const [trail, modules] = await Promise.all([
     query(`SELECT * FROM trails WHERE id=$1 AND published=true`, [req.params.id]),
-    query(`SELECT id,title,description,duration_min,order_num,published FROM modules WHERE trail_id=$1 ORDER BY order_num`, [req.params.id]),
+    query(`SELECT id,title,description,duration_min,order_num,published FROM modules WHERE trail_id=$1 AND published=true ORDER BY order_num`, [req.params.id]),
   ]);
   if (!trail.rows[0]) return res.status(404).json({ error: 'Trilha não encontrada.' });
   res.json({ ...trail.rows[0], modules: modules.rows });
@@ -32,11 +63,23 @@ exports.getModule = wrap(async (req, res) => {
     [req.params.moduleId, req.params.id]
   );
   if (!rows[0]) return res.status(404).json({ error: 'Módulo não encontrado.' });
-  const module = rows[0];
-  if (module.video_s3_key) {
+  const module = { ...rows[0] };
+  // Videos from module_videos table
+  const { rows: videoRows } = await query(
+    `SELECT id, title, s3_key, duration_min, order_num FROM module_videos WHERE module_id=$1 ORDER BY order_num`,
+    [module.id]
+  );
+  const videos = await Promise.all(videoRows.map(async v => {
+    const item = { id: v.id, title: v.title, duration_min: v.duration_min, order_num: v.order_num };
+    if (v.s3_key) item.videoUrl = await getDownloadPresignedUrl(v.s3_key, 3600);
+    return item;
+  }));
+  // Legacy: if no module_videos but has video_s3_key, expose it
+  if (!videos.length && module.video_s3_key) {
     module.videoUrl = await getDownloadPresignedUrl(module.video_s3_key, 3600);
   }
   delete module.video_s3_key;
+  module.videos = videos;
   res.json(module);
 });
 
@@ -113,94 +156,31 @@ exports.toggleModulePublish = wrap(async (req, res) => {
   res.json(rows[0]);
 });
 
-exports.getTrail = async (req, res) => {
-  const [trail, modules] = await Promise.all([
-    query(`SELECT * FROM trails WHERE id=$1 AND published=true`, [req.params.id]),
-    query(`SELECT id,title,description,duration_min,order_num,published FROM modules WHERE trail_id=$1 ORDER BY order_num`, [req.params.id]),
-  ]);
-  if (!trail.rows[0]) return res.status(404).json({ error: 'Trilha não encontrada.' });
-  res.json({ ...trail.rows[0], modules: modules.rows });
-};
-
-exports.getModule = async (req, res) => {
-  const { rows } = await query(
-    `SELECT m.* FROM modules m JOIN trails t ON t.id=m.trail_id
-     WHERE m.id=$1 AND m.trail_id=$2 AND m.published=true AND t.published=true`,
-    [req.params.moduleId, req.params.id]
+exports.addModuleVideo = wrap(async (req, res) => {
+  const { title, s3Key, durationMin } = req.body;
+  const { id: trailId, moduleId } = req.params;
+  const { rows: mRows } = await query(
+    `SELECT id FROM modules WHERE id=$1 AND trail_id=$2`, [moduleId, trailId]
   );
-  if (!rows[0]) return res.status(404).json({ error: 'Módulo não encontrado.' });
-  const module = rows[0];
-  // URL temporária do vídeo (1h de validade)
-  if (module.video_s3_key) {
-    module.videoUrl = await getDownloadPresignedUrl(module.video_s3_key, 3600);
-  }
-  delete module.video_s3_key; // nunca expor a chave S3
-  res.json(module);
-};
-
-exports.createTrail = async (req, res) => {
-  const { name, description, thumbnailUrl } = req.body;
-  const id = uuidv4();
+  if (!mRows[0]) return res.status(404).json({ error: 'Módulo não encontrado.' });
+  const { rows: orderRows } = await query(
+    `SELECT COALESCE(MAX(order_num),0)+1 AS next FROM module_videos WHERE module_id=$1`, [moduleId]
+  );
   const { rows } = await query(
-    `INSERT INTO trails (id,name,description,thumbnail_url,published) VALUES ($1,$2,$3,$4,false) RETURNING *`,
-    [id, name, description, thumbnailUrl]
+    `INSERT INTO module_videos (id,module_id,title,s3_key,duration_min,order_num)
+     VALUES (uuid_generate_v4(),$1,$2,$3,$4,$5) RETURNING id,title,duration_min,order_num`,
+    [moduleId, title || '', s3Key || null, durationMin ? parseInt(durationMin) : null, orderRows[0].next]
   );
   res.status(201).json(rows[0]);
-};
+});
 
-exports.updateTrail = async (req, res) => {
-  const { name, description, thumbnailUrl } = req.body;
-  const { rows } = await query(
-    `UPDATE trails SET name=COALESCE($1,name), description=COALESCE($2,description), thumbnail_url=COALESCE($3,thumbnail_url) WHERE id=$4 RETURNING *`,
-    [name, description, thumbnailUrl, req.params.id]
+exports.deleteModuleVideo = wrap(async (req, res) => {
+  const { moduleId, videoId } = req.params;
+  const { rowCount } = await query(
+    `DELETE FROM module_videos WHERE id=$1 AND module_id=$2`, [videoId, moduleId]
   );
-  res.json(rows[0]);
-};
+  if (!rowCount) return res.status(404).json({ error: 'Vídeo não encontrado.' });
+  res.json({ deleted: true });
+});
 
-exports.deleteTrail = async (req, res) => {
-  await query(`DELETE FROM trails WHERE id=$1`, [req.params.id]);
-  res.json({ message: 'Trilha removida.' });
-};
-
-exports.togglePublish = async (req, res) => {
-  const { rows } = await query(
-    `UPDATE trails SET published = NOT published WHERE id=$1 RETURNING id, published`,
-    [req.params.id]
-  );
-  res.json(rows[0]);
-};
-
-exports.addModule = async (req, res) => {
-  const { title, description, durationMin, orderNum, videoS3Key } = req.body;
-  const id = uuidv4();
-  const { rows } = await query(
-    `INSERT INTO modules (id,trail_id,title,description,duration_min,order_num,video_s3_key,published)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,false) RETURNING id,title,order_num,published`,
-    [id, req.params.id, title, description, durationMin, orderNum, videoS3Key]
-  );
-  res.status(201).json(rows[0]);
-};
-
-exports.updateModule = async (req, res) => {
-  const { title, description, durationMin, orderNum, videoS3Key } = req.body;
-  const { rows } = await query(
-    `UPDATE modules SET title=COALESCE($1,title), description=COALESCE($2,description),
-     duration_min=COALESCE($3,duration_min), order_num=COALESCE($4,order_num),
-     video_s3_key=COALESCE($5,video_s3_key) WHERE id=$6 AND trail_id=$7 RETURNING *`,
-    [title, description, durationMin, orderNum, videoS3Key, req.params.moduleId, req.params.id]
-  );
-  res.json(rows[0]);
-};
-
-exports.deleteModule = async (req, res) => {
-  await query(`DELETE FROM modules WHERE id=$1 AND trail_id=$2`, [req.params.moduleId, req.params.id]);
-  res.json({ message: 'Módulo removido.' });
-};
-
-exports.toggleModulePublish = async (req, res) => {
-  const { rows } = await query(
-    `UPDATE modules SET published = NOT published WHERE id=$1 RETURNING id, published`,
-    [req.params.moduleId]
-  );
-  res.json(rows[0]);
-};
+// fim do módulo

@@ -34,7 +34,7 @@ router.get('/activity', ctrl.getActivity);
 // Alunos
 router.get   ('/students',           ctrl.listStudents);
 router.post  ('/students',
-  [body('name').notEmpty(), body('email').isEmail(), body('password').isLength({ min: 8 }), body('plan').notEmpty()],
+  [body('name').notEmpty(), body('email').isEmail(), body('password').isLength({ min: 8 })],
   ctrl.createStudent
 );
 router.get   ('/students/:id',       ctrl.getStudent);

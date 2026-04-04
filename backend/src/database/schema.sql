@@ -77,6 +77,17 @@ CREATE TABLE IF NOT EXISTS modules (
   UNIQUE (trail_id, order_num)
 );
 
+-- ── MODULE_VIDEOS (vídeos individuais dentro de um módulo) ──
+CREATE TABLE IF NOT EXISTS module_videos (
+  id           UUID        PRIMARY KEY DEFAULT uuid_generate_v4(),
+  module_id    UUID        NOT NULL REFERENCES modules(id) ON DELETE CASCADE,
+  title        TEXT        NOT NULL DEFAULT '',
+  s3_key       TEXT,
+  duration_min INT,
+  order_num    INT         NOT NULL DEFAULT 0,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 -- ── MODULE_PROGRESS ──────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS module_progress (
   user_id    UUID    NOT NULL REFERENCES users(id) ON DELETE CASCADE,

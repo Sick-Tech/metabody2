@@ -24,6 +24,8 @@ const { requireAuth, requireAdmin } = require('../middleware/auth.middleware');
 
 // Rotas de aluno
 router.get('/',                         requireAuth,  ctrl.listTrails);
+router.get('/admin/all',                requireAdmin, ctrl.listAllTrails);
+router.get('/admin/:id',                requireAdmin, ctrl.getTrailAdmin);
 router.get('/:id',                      requireAuth,  ctrl.getTrail);
 router.get('/:id/modules/:moduleId',    requireAuth,  ctrl.getModule);
 
@@ -37,11 +39,15 @@ router.delete('/:id',                      requireAdmin, ctrl.deleteTrail);
 router.put   ('/:id/publish',              requireAdmin, ctrl.togglePublish);
 
 router.post  ('/:id/modules',
-  requireAdmin, [body('title').notEmpty(), body('order').isInt()],
+  requireAdmin, [body('title').notEmpty(), body('orderNum').isInt({ min: 0 })],
   ctrl.addModule
 );
 router.put   ('/:id/modules/:moduleId',    requireAdmin, ctrl.updateModule);
 router.delete('/:id/modules/:moduleId',    requireAdmin, ctrl.deleteModule);
 router.put   ('/:id/modules/:moduleId/publish', requireAdmin, ctrl.toggleModulePublish);
+
+// Vídeos individuais dentro de um módulo
+router.post  ('/:id/modules/:moduleId/videos',          requireAdmin, ctrl.addModuleVideo);
+router.delete('/:id/modules/:moduleId/videos/:videoId', requireAdmin, ctrl.deleteModuleVideo);
 
 module.exports = router;

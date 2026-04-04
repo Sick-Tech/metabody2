@@ -219,24 +219,6 @@
       display: flex; align-items: center; gap: 0.65rem;
     }
 
-    .header-notif {
-      position: relative;
-      width: 36px; height: 36px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 8px; color: var(--ink);
-      transition: color var(--ease), background var(--ease);
-    }
-
-    .header-notif svg { width: 17px; height: 17px; stroke: currentColor; stroke-width: 1.8; }
-    .header-notif:hover { color: var(--white); background: rgba(255,255,255,0.05); }
-
-    .notif-dot {
-      position: absolute; top: 6px; right: 6px;
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--red);
-      border: 1.5px solid var(--bg);
-    }
-
     .header-admin-info {
       display: flex; align-items: center; gap: 0.5rem;
     }
@@ -677,6 +659,135 @@
       background: rgba(255,255,255,0.01);
     }
 
+    /* ── Trail Editor Modal ──────────────────────────── */
+    .te-tabs {
+      display: flex; gap: 0; border-bottom: 1px solid var(--border);
+      margin: -1.5rem -1.5rem 1.5rem;
+      padding: 0 1.5rem;
+    }
+    .te-tab {
+      padding: 0.75rem 1.125rem; font-size: 0.8rem; font-weight: 700;
+      color: var(--ink-muted); border: none; background: none; cursor: pointer;
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+      transition: color .15s, border-color .15s; letter-spacing: .01em;
+    }
+    .te-tab.active { color: var(--green); border-bottom-color: var(--green); }
+    .te-tab:hover:not(.active) { color: var(--ink); }
+
+    .te-panel { display: none; flex-direction: column; gap: 1rem; }
+    .te-panel.active { display: flex; }
+
+    .te-section-label {
+      font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .06em; color: var(--ink-muted); margin-bottom: 0.25rem;
+    }
+
+    /* thumb upload zone */
+    .te-thumb-zone {
+      position: relative; width: 100%; aspect-ratio: 16/9;
+      border-radius: 0.625rem; overflow: hidden;
+      border: 1.5px dashed var(--border);
+      background: rgba(255,255,255,0.025);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.5rem; color: var(--ink-muted); font-size: 0.8rem; cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .te-thumb-zone:hover { border-color: var(--green); background: rgba(76,175,80,0.04); }
+    .te-thumb-zone img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .te-thumb-zone .te-thumb-overlay {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.4rem;
+      background: rgba(0,0,0,0.55); opacity: 0; transition: opacity .2s;
+      font-size: 0.78rem; font-weight: 600; color: #fff;
+    }
+    .te-thumb-zone:hover .te-thumb-overlay { opacity: 1; }
+    .te-thumb-zone svg { width: 1.5rem; height: 1.5rem; stroke: currentColor; }
+
+    /* module cards in editor */
+    .te-mod-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .te-mod-card {
+      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+      padding: 0.625rem 0.75rem;
+      background: rgba(255,255,255,0.025); border: 1px solid var(--border);
+      border-radius: 0.5rem; transition: border-color .15s, background .15s;
+    }
+    .te-mod-card:hover { border-color: rgba(255,255,255,0.1); }
+    .te-mod-card.expanded { border-color: rgba(76,175,80,0.3); background: rgba(76,175,80,0.03); }
+    .te-mod-expand {
+      flex: 0 0 100%; display: flex; flex-direction: column; gap: 0.75rem;
+      padding-top: 0.75rem; border-top: 1px solid var(--border); margin-top: 0.1rem;
+    }
+    .btn-mod-save {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      background: linear-gradient(135deg, var(--green-m), var(--green));
+      border-radius: var(--r); font-size: 0.72rem; font-weight: 800;
+      color: var(--white); letter-spacing: 0.02em;
+      box-shadow: 0 2px 10px rgba(76,175,80,0.25);
+      transition: filter var(--ease), transform var(--ease);
+    }
+    .btn-mod-save:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-mod-save:disabled { opacity: 0.5; cursor: not-allowed; }
+    .te-mod-num {
+      width: 1.5rem; height: 1.5rem; border-radius: 0.35rem; flex-shrink: 0;
+      background: rgba(255,255,255,0.05); display: flex; align-items: center;
+      justify-content: center; font-size: 0.6rem; font-weight: 900; color: var(--ink-dim);
+    }
+    .te-mod-body { flex: 1; min-width: 0; }
+    .te-mod-title { font-size: 0.82rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .te-mod-meta { font-size: 0.68rem; color: var(--ink-muted); margin-top: 0.1rem; display: flex; gap: 0.5rem; align-items: center; }
+
+    /* upload zone for video inside module form */
+    .te-upload-zone {
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem 0.875rem;
+      border: 1.5px dashed var(--border); border-radius: 0.5rem; cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .te-upload-zone:hover { border-color: var(--green); background: rgba(76,175,80,0.04); }
+    .te-upload-zone svg { width: 1.125rem; height: 1.125rem; flex-shrink: 0; color: var(--green); }
+    .te-upload-zone span { font-size: 0.82rem; color: var(--ink-muted); }
+    .te-upload-zone.has-file span { color: var(--ink); }
+
+    .te-progress { margin-top: 0.5rem; }
+    .te-progress-lbl { font-size: 0.72rem; color: var(--ink-muted); margin-bottom: 0.3rem; }
+    .te-progress-bar-wrap { background: var(--border); border-radius: 99px; height: 5px; overflow: hidden; }
+    .te-progress-bar { height: 100%; background: var(--green); border-radius: 99px; transition: width .1s; width: 0%; }
+
+    .te-empty {
+      text-align: center; padding: 1.5rem 0; color: var(--ink-muted); font-size: 0.82rem;
+      border: 1px dashed var(--border); border-radius: 0.5rem;
+    }
+
+    /* video list & add-video form inside module expand */
+    .te-subsec-divider { border: none; border-top: 1px solid var(--border); margin: 0.1rem 0; }
+    .te-vidlist-hdr { display: flex; align-items: center; justify-content: space-between; }
+    .te-btn-add-vid {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.7rem; font-weight: 700; color: var(--cyan);
+      padding: 0.28rem 0.6rem; border: 1px solid rgba(41,168,212,0.25);
+      border-radius: 0.35rem; background: rgba(41,168,212,0.07);
+      cursor: pointer; transition: background .15s;
+    }
+    .te-btn-add-vid:hover { background: rgba(41,168,212,0.14); }
+    .te-btn-add-vid svg { width: .7rem; height: .7rem; }
+    .te-vid-list { display: flex; flex-direction: column; gap: 0.3rem; }
+    .te-vid-item {
+      display: flex; align-items: center; gap: 0.55rem;
+      padding: 0.42rem 0.6rem;
+      background: rgba(255,255,255,0.025); border: 1px solid var(--border);
+      border-radius: 0.4rem; font-size: 0.78rem;
+    }
+    .te-vid-item svg { width: 0.8rem; height: 0.8rem; flex-shrink: 0; color: var(--cyan); }
+    .te-vid-title { flex: 1; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .te-vid-dur { font-size: 0.67rem; color: var(--ink-muted); flex-shrink: 0; }
+    .te-add-vid-form {
+      background: rgba(41,168,212,0.04); border: 1px solid rgba(41,168,212,0.15);
+      border-radius: 0.5rem; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.6rem;
+    }
+
+    [data-theme="light"] .te-mod-card { background: rgba(0,0,0,0.02); }
+    [data-theme="light"] .te-thumb-zone { background: rgba(0,0,0,0.02); }
+
     /* ── LIVES ─────────────────────────────────────── */
     .lives-tabs {
       display: flex; gap: 0.35rem;
@@ -1005,7 +1116,7 @@
       <div class="nav-item" data-nav="students">
         <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Alunos
-        <span class="nav-badge" id="newStudentsBadge">2</span>
+        <span class="nav-badge" id="newStudentsBadge" style="display:none"></span>
       </div>
       <span class="sidebar-section-label">Conteúdo</span>
       <div class="nav-item" data-nav="content">
@@ -1059,10 +1170,6 @@
         <svg class="icon-light" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         <svg class="icon-dark" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
-      <button class="header-notif" title="Notificações">
-        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <span class="notif-dot"></span>
-      </button>
       <div class="header-admin-info">
         <div class="header-admin-avatar">AD</div>
       </div>
@@ -1090,12 +1197,8 @@
                 <div class="kpi-icon kpi-icon--green">
                   <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
-                <span class="kpi-trend kpi-trend--up">
-                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-                  +18%
-                </span>
               </div>
-              <div class="kpi-value">128</div>
+              <div class="kpi-value" id="kpiTotalStudents">—</div>
               <div class="kpi-label">Total Alunos</div>
             </div>
             <div class="kpi-card">
@@ -1103,12 +1206,8 @@
                 <div class="kpi-icon kpi-icon--cyan">
                   <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                 </div>
-                <span class="kpi-trend kpi-trend--up">
-                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-                  +11%
-                </span>
               </div>
-              <div class="kpi-value">104</div>
+              <div class="kpi-value" id="kpiActiveStudents">—</div>
               <div class="kpi-label">Alunos Ativos</div>
             </div>
             <div class="kpi-card">
@@ -1116,12 +1215,8 @@
                 <div class="kpi-icon kpi-icon--amber">
                   <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 </div>
-                <span class="kpi-trend kpi-trend--up">
-                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-                  +22%
-                </span>
               </div>
-              <div class="kpi-value">R$&nbsp;18,4k</div>
+              <div class="kpi-value" id="kpiRevenue">—</div>
               <div class="kpi-label">Receita / mês</div>
             </div>
             <div class="kpi-card">
@@ -1129,74 +1224,14 @@
                 <div class="kpi-icon kpi-icon--purple">
                   <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49"/></svg>
                 </div>
-                <span class="kpi-trend kpi-trend--up">
-                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-                  +5%
-                </span>
               </div>
-              <div class="kpi-value">74%</div>
+              <div class="kpi-value" id="kpiEngagement">—</div>
               <div class="kpi-label">Taxa Engajamento</div>
             </div>
           </div>
 
-          <!-- Gráfico + Atividade -->
-          <div class="two-col">
-            <!-- Gráfico de receita -->
-            <div class="card">
-              <div class="card-header">
-                <span class="card-title">Receita Mensal (R$)</span>
-                <span class="card-link">2026</span>
-              </div>
-              <div class="chart-wrap">
-                <div class="chart-bars">
-                  <div class="chart-bar-group">
-                    <div class="chart-bar-inner">
-                      <div class="chart-bar" style="height:52%"></div>
-                    </div>
-                    <span class="chart-bar-label">Nov</span>
-                  </div>
-                  <div class="chart-bar-group">
-                    <div class="chart-bar-inner">
-                      <div class="chart-bar" style="height:61%"></div>
-                    </div>
-                    <span class="chart-bar-label">Dez</span>
-                  </div>
-                  <div class="chart-bar-group">
-                    <div class="chart-bar-inner">
-                      <div class="chart-bar" style="height:70%"></div>
-                    </div>
-                    <span class="chart-bar-label">Jan</span>
-                  </div>
-                  <div class="chart-bar-group">
-                    <div class="chart-bar-inner">
-                      <div class="chart-bar" style="height:78%"></div>
-                    </div>
-                    <span class="chart-bar-label">Fev</span>
-                  </div>
-                  <div class="chart-bar-group">
-                    <div class="chart-bar-inner">
-                      <div class="chart-bar" style="height:88%"></div>
-                    </div>
-                    <span class="chart-bar-label">Mar</span>
-                  </div>
-                  <div class="chart-bar-group">
-                    <div class="chart-bar-inner">
-                      <div class="chart-bar" style="height:100%; opacity:1;"></div>
-                    </div>
-                    <span class="chart-bar-label">Abr</span>
-                  </div>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-top:0.75rem;padding:0 0.25rem">
-                  <span style="font-size:0.65rem;font-weight:700;color:var(--ink-dim);">R$ 9.800</span>
-                  <span style="font-size:0.65rem;font-weight:700;color:var(--ink-dim);">R$ 11.200</span>
-                  <span style="font-size:0.65rem;font-weight:700;color:var(--ink-dim);">R$ 13.500</span>
-                  <span style="font-size:0.65rem;font-weight:700;color:var(--ink-dim);">R$ 15.100</span>
-                  <span style="font-size:0.65rem;font-weight:700;color:var(--ink-dim);">R$ 16.800</span>
-                  <span style="font-size:0.65rem;font-weight:800;color:var(--green);">R$ 18.400</span>
-                </div>
-              </div>
-            </div>
-
+          <!-- Atividade recente -->
+          <div class="two-col" style="grid-template-columns:1fr">
             <!-- Atividade recente -->
             <div class="card">
               <div class="card-header">
@@ -1461,44 +1496,7 @@
     let partnersData = [];
 
     /* ── Trilhas mantêm dados locais (cores/módulos não estão no banco) ── */
-    const trailsData = [
-      {
-        id:'treino', name:'Trilha de Treino', color:'#76C442', status:'published', enrolled:0,
-        modules:[
-          { num:1, title:'Como montar sua semana de treinos com eficiência', duration:'38:24', status:'published' },
-          { num:2, title:'Técnicas de execução e prevenção de lesões', duration:'45:12', status:'published' },
-          { num:3, title:'Periodização e progressive overload na prática', duration:'52:40', status:'published' },
-          { num:4, title:'Recomposição corporal: treino e dieta integrados', duration:'51:30', status:'draft' },
-        ]
-      },
-      {
-        id:'nutricao', name:'Trilha de Nutrição', color:'#29A8D4', status:'published', enrolled:0,
-        modules:[
-          { num:1, title:'Fundamentos da alimentação para atletas', duration:'35:00', status:'published' },
-          { num:2, title:'Estratégias alimentares para ganho de massa e definição', duration:'44:10', status:'published' },
-          { num:3, title:'Suplementação inteligente: o que funciona de verdade', duration:'41:55', status:'draft' },
-          { num:4, title:'Protocolos nutricionais avançados e ajustes de dieta', duration:'48:20', status:'draft' },
-        ]
-      },
-      {
-        id:'mentalidade', name:'Trilha de Mentalidade', color:'#FBD24C', status:'published', enrolled:0,
-        modules:[
-          { num:1, title:'Construindo disciplina real: hábitos que sustentam a transformação', duration:'29:55', status:'published' },
-          { num:2, title:'Superando sabotagens mentais e bloqueios emocionais', duration:'37:18', status:'draft' },
-          { num:3, title:'Identidade, propósito e a mentalidade do atleta de alta performance', duration:'42:00', status:'draft' },
-        ]
-      },
-      {
-        id:'performance', name:'Trilha de Performance', color:'#A78BFA', status:'draft', enrolled:0,
-        modules:[
-          { num:1, title:'Fundamentos da alta performance atlética', duration:'45:00', status:'draft' },
-          { num:2, title:'Periodização avançada por blocos', duration:'58:30', status:'draft' },
-          { num:3, title:'Biohacking: sono, recuperação e adaptação', duration:'42:15', status:'draft' },
-          { num:4, title:'Monitoramento de desempenho e dados', duration:'38:40', status:'draft' },
-          { num:5, title:'Pico de forma: tapering e estratégia competitiva', duration:'51:00', status:'draft' },
-        ]
-      },
-    ];
+    const trailsData = [];
 
     /* ── Utilitários de data ─────────────────────────── */
     function relativeTime(dateStr) {
@@ -1559,11 +1557,11 @@
 
     /* ── KPIs ─────────────────────────────────────────── */
     function updateKPIs(stats) {
-      const vals = document.querySelectorAll('.kpi-value');
-      if (vals[0]) vals[0].textContent = stats.totalStudents;
-      if (vals[1]) vals[1].textContent = stats.activeStudents;
-      if (vals[2]) vals[2].innerHTML   = `R$&nbsp;${(stats.monthRevenue / 1000).toFixed(1)}k`;
-      if (vals[3]) vals[3].textContent = `${stats.engagement}%`;
+      const el = (id) => document.getElementById(id);
+      if (el('kpiTotalStudents'))  el('kpiTotalStudents').textContent  = stats.totalStudents ?? '—';
+      if (el('kpiActiveStudents')) el('kpiActiveStudents').textContent = stats.activeStudents ?? '—';
+      if (el('kpiRevenue'))        el('kpiRevenue').innerHTML          = stats.monthRevenue != null ? `R$&nbsp;${(stats.monthRevenue / 1000).toFixed(1)}k` : '—';
+      if (el('kpiEngagement'))     el('kpiEngagement').textContent     = stats.engagement != null ? `${stats.engagement}%` : '—';
     }
 
     /* ── Atividade recente ───────────────────────────── */
@@ -1654,67 +1652,663 @@
     }
 
     /* ── Render Trilhas ────────────────────────────── */
-    function renderTrails() {
+    const TRAIL_COLORS = ['#76C442','#29A8D4','#FBD24C','#A78BFA','#F97316','#EC4899'];
+
+    function renderTrails(data) {
       const container = document.getElementById('trailsAdminList');
+      if (!container) return;
       container.innerHTML = '';
-      trailsData.forEach(trail => {
-        const published = trail.modules.filter(m => m.status === 'published').length;
-        const isPublished = trail.status === 'published';
-        const card = document.createElement('div');
-        card.className = 'trail-admin-card';
+      if (!data || !data.length) {
+        container.innerHTML = '<div class="empty-state"><p>Nenhuma trilha criada ainda. Clique em “Nova Trilha” para começar.</p></div>';
+        return;
+      }
+      data.forEach((trail, idx) => {
+        const color       = TRAIL_COLORS[idx % TRAIL_COLORS.length];
+        const isPublished = trail.published;
+        const total       = trail.total_modules ?? 0;
+        const thumbHtml   = trail.thumbnail_url
+          ? `<img src="${esc(trail.thumbnail_url)}" alt="" style="width:2.5rem;height:2.5rem;border-radius:0.375rem;object-fit:cover;flex-shrink:0;border:1px solid var(--border)">`
+          : `<div class="trail-admin-color-dot" style="background:${color};box-shadow:0 0 6px ${color}88"></div>`;
+        const card        = document.createElement('div');
+        card.className    = 'trail-admin-card';
+        card.dataset.id   = trail.id;
         card.innerHTML = `
           <div class="trail-admin-header">
-            <div class="trail-admin-color-dot" style="background:${trail.color};box-shadow:0 0 6px ${trail.color}88"></div>
+            ${thumbHtml}
             <div class="trail-admin-info">
-              <div class="trail-admin-name">${trail.name}</div>
+              <div class="trail-admin-name">${esc(trail.name)}</div>
               <div class="trail-admin-meta">
-                <span class="trail-admin-stat">${trail.modules.length} aulas</span>
-                <span class="trail-admin-stat">•</span>
-                <span class="trail-admin-stat">${published} publicadas</span>
-                <span class="trail-admin-stat">•</span>
-                <span class="trail-admin-stat">${trail.enrolled} alunos</span>
-                <span class="badge badge--${isPublished?'active':'draft'}" style="font-size:0.52rem">${isPublished?'Publicado':'Rascunho'}</span>
+                <span class="trail-admin-stat">${total} aula${total !== 1 ? 's' : ''}</span>
+                <span class="badge badge--${isPublished ? 'active' : 'draft'}" style="font-size:0.52rem">${isPublished ? 'Publicado' : 'Rascunho'}</span>
               </div>
             </div>
             <div class="trail-admin-actions">
-              <button class="btn-icon" title="Editar trilha" onclick="openModal('trail')">
-                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              <button class="btn-icon" title="Gerenciar módulos" onclick="openTrailEditor('${trail.id}')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </button>
-              <div class="btn-toggle ${isPublished?'on':''}" title="Publicar/Ocultar" onclick="this.classList.toggle('on');showToast('Status da trilha atualizado.')"></div>
-              <button class="trail-admin-expand" onclick="this.closest('.trail-admin-card').classList.toggle('expanded')">
-                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="trail-admin-modules">
-            ${trail.modules.map(m => `
-              <div class="module-admin-item">
-                <div class="module-admin-num">${String(m.num).padStart(2,'0')}</div>
-                <div class="module-admin-info">
-                  <div class="module-admin-title">${m.title}</div>
-                  <div class="module-admin-dur">${m.duration} · ${m.status === 'published' ? '<span style="color:var(--green)">Publicado</span>' : '<span style="color:var(--amber)">Rascunho</span>'}</div>
-                </div>
-                <div class="actions">
-                  <button class="btn-icon" title="Editar aula" onclick="openModal('module')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                  </button>
-                  <div class="btn-toggle ${m.status==='published'?'on':''}" style="width:32px;height:17px" title="Publicar" onclick="this.classList.toggle('on');showToast('Status da aula atualizado.')"></div>
-                  <button class="btn-icon btn-icon--danger" title="Remover aula">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
-                  </button>
-                </div>
-              </div>
-            `).join('')}
-            <div class="trail-modules-footer">
-              <button class="btn-secondary" onclick="openModal('module')">
-                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                Adicionar aula
+              <div class="btn-toggle ${isPublished ? 'on' : ''}" title="Publicar/Ocultar" onclick="toggleTrailPublish('${trail.id}', this)"></div>
+              <button class="btn-icon btn-icon--danger" title="Excluir trilha" onclick="deleteTrail('${trail.id}', this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
               </button>
             </div>
           </div>
         `;
         container.appendChild(card);
       });
+    }
+
+    /* ── Excluir Trilha ────────────────────────────── */
+    async function deleteTrail(id, btn) {
+      if (!confirm('Tem certeza que deseja excluir esta trilha? Esta ação não pode ser desfeita.')) return;
+      btn.disabled = true;
+      try {
+        const r = await fetch(`${API}/trails/${id}`, {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: { 'Authorization': `Bearer ${_adminToken}` }
+        });
+        if (!r.ok) throw new Error();
+        const card = btn.closest('.trail-admin-card');
+        if (card) card.remove();
+        showToast('Trilha excluída com sucesso.');
+      } catch {
+        btn.disabled = false;
+        showToast('Erro ao excluir trilha.');
+      }
+    }
+
+    /* ── Upload global (sem CORS — via backend) ───────── */
+    function _teUploadFile(file, folder, mimeType, barEl, lblEl) {
+      lblEl.textContent = 'Enviando…';
+      barEl.style.width = '0%';
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `${API}/media/upload/direct?folder=${encodeURIComponent(folder)}&mimeType=${encodeURIComponent(mimeType)}`);
+        xhr.setRequestHeader('Content-Type', mimeType);
+        xhr.setRequestHeader('Authorization', `Bearer ${_adminToken}`);
+        xhr.withCredentials = true;
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            const pct = Math.round((e.loaded / e.total) * 100);
+            barEl.style.width = pct + '%';
+            lblEl.textContent = `Enviando… ${pct}%`;
+          }
+        };
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              const d = JSON.parse(xhr.responseText);
+              barEl.style.width = '100%';
+              lblEl.textContent = '✓ Upload concluído!';
+              resolve(d);
+            } catch { reject(new Error('Resposta inválida do servidor.')); }
+          } else {
+            const msg = (() => { try { return JSON.parse(xhr.responseText).error; } catch { return null; } })();
+            reject(new Error(msg || `Falha no upload (${xhr.status}).`));
+          }
+        };
+        xhr.onerror = () => reject(new Error('Erro de conexão com o servidor.'));
+        xhr.send(file);
+      });
+    }
+
+    /* ── Expandir/colapsar form de edição de módulo ──── */
+    function toggleModExpand(moduleId) {
+      const card   = document.getElementById(`mod-card-${moduleId}`);
+      const expand = document.getElementById(`mod-expand-${moduleId}`);
+      if (!card || !expand) return;
+      const isOpen = expand.style.display !== 'none';
+      expand.style.display = isOpen ? 'none' : '';
+      card.classList.toggle('expanded', !isOpen);
+    }
+
+    /* ── Salvar edição individual de módulo (só metadados) ─── */
+    async function saveModuleEdit(trailId, moduleId) {
+      const titleEl = document.getElementById(`me-title-${moduleId}`);
+      const orderEl = document.getElementById(`me-order-${moduleId}`);
+      const durEl   = document.getElementById(`me-dur-${moduleId}`);
+      const descEl  = document.getElementById(`me-desc-${moduleId}`);
+      const saveBtn = document.getElementById(`me-save-${moduleId}`);
+      const title = titleEl?.value.trim();
+      if (!title) { showToast('Título é obrigatório.'); return; }
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Salvando…';
+      try {
+        const orderVal = orderEl?.value;
+        const payload = {
+          title,
+          description: descEl?.value.trim() || null,
+          durationMin: durEl?.value ? parseInt(durEl.value) : null,
+          orderNum:    orderVal !== '' ? parseInt(orderVal) : undefined,
+        };
+        const r = await fetch(`${API}/trails/${trailId}/modules/${moduleId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
+          credentials: 'include',
+          body: JSON.stringify(payload),
+        });
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(d.error || 'Erro ao salvar módulo.');
+        const ttl2 = document.getElementById(`mod-ttl-${moduleId}`);
+        if (ttl2) ttl2.textContent = title;
+        showToast('Módulo salvo!');
+        toggleModExpand(moduleId);
+        await loadTrails();
+      } catch (err) {
+        showToast(err.message || 'Erro ao salvar módulo.');
+      }
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:.85rem;height:.85rem"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar informações`;
+    }
+
+    /* ── Vídeos do Módulo ─────────────────────────────────── */
+    function _showAddVideoForm(trailId, moduleId) {
+      const form = document.getElementById(`me-avf-${moduleId}`);
+      if (form) form.style.display = '';
+    }
+
+    function _cancelAddVideo(moduleId) {
+      const form = document.getElementById(`me-avf-${moduleId}`);
+      if (form) form.style.display = 'none';
+      ['me-avp-', 'me-avzone-', 'me-avtitle-', 'me-avdur-', 'me-avfile-', 'me-avvname-'].forEach(pfx => {
+        const el = document.getElementById(pfx + moduleId);
+        if (!el) return;
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.value = '';
+        if (pfx === 'me-avp-') el.style.display = 'none';
+        if (pfx === 'me-avzone-') el.classList.remove('has-file');
+        if (pfx === 'me-avvname-') el.textContent = 'Selecionar MP4…';
+      });
+    }
+
+    async function _submitAddVideo(trailId, moduleId) {
+      const titleEl = document.getElementById(`me-avtitle-${moduleId}`);
+      const durEl   = document.getElementById(`me-avdur-${moduleId}`);
+      const fileEl  = document.getElementById(`me-avfile-${moduleId}`);
+      const progEl  = document.getElementById(`me-avp-${moduleId}`);
+      const barEl   = document.getElementById(`me-avpbar-${moduleId}`);
+      const lblEl   = document.getElementById(`me-avplbl-${moduleId}`);
+      const btn     = document.getElementById(`me-avbtn-${moduleId}`);
+      const title   = titleEl?.value.trim();
+      const file    = fileEl?.files[0] ?? null;
+      if (!title && !file) { showToast('Informe o título ou selecione um vídeo.'); return; }
+      btn.disabled = true; btn.textContent = 'Enviando…';
+      let s3Key = null;
+      if (file) {
+        progEl.style.display = ''; barEl.style.width = '0%';
+        try {
+          const { key } = await _teUploadFile(file, 'videos', 'video/mp4', barEl, lblEl);
+          s3Key = key;
+        } catch (err) {
+          showToast(err.message || 'Erro ao enviar vídeo.');
+          btn.disabled = false; btn.textContent = '↑ Enviar e Adicionar'; return;
+        }
+      }
+      try {
+        const r = await fetch(`${API}/trails/${trailId}/modules/${moduleId}/videos`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
+          credentials: 'include',
+          body: JSON.stringify({ title: title || file?.name || 'Aula', s3Key, durationMin: durEl?.value ? parseInt(durEl.value) : null }),
+        });
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(d.error || 'Erro ao adicionar vídeo.');
+        const listEl = document.getElementById(`me-vidlist-${moduleId}`);
+        if (listEl) {
+          const emptyMsg = listEl.querySelector('.te-vid-empty');
+          if (emptyMsg) emptyMsg.remove();
+          const item = document.createElement('div');
+          item.className = 'te-vid-item'; item.id = `vid-item-${d.id}`;
+          item.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span class="te-vid-title">${esc(d.title || 'Aula')}</span>
+            ${d.duration_min ? `<span class="te-vid-dur">${d.duration_min}min</span>` : ''}
+            <button class="btn-icon btn-icon--danger" style="width:1.5rem;height:1.5rem;flex-shrink:0;margin-left:auto"
+              title="Remover vídeo" onclick="_deleteModuleVideo('${trailId}','${moduleId}','${d.id}',this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+            </button>`;
+          listEl.appendChild(item);
+          // Update counter badge
+          const count = listEl.querySelectorAll('.te-vid-item').length;
+          const metaEl = document.getElementById(`mod-meta-${moduleId}`);
+          const badge = metaEl?.querySelector('[data-vid-count]');
+          if (badge) badge.textContent = `${count} vídeo${count !== 1 ? 's' : ''}`;
+        }
+        showToast(s3Key ? 'Vídeo enviado e adicionado!' : 'Vídeo adicionado!');
+        _cancelAddVideo(moduleId);
+      } catch (err) { showToast(err.message || 'Erro ao adicionar vídeo.'); }
+      btn.disabled = false; btn.textContent = '↑ Enviar e Adicionar';
+    }
+
+    async function _deleteModuleVideo(trailId, moduleId, videoId, btn) {
+      if (!confirm('Remover este vídeo do módulo?')) return;
+      btn.disabled = true;
+      try {
+        const r = await fetch(`${API}/trails/${trailId}/modules/${moduleId}/videos/${videoId}`, {
+          method: 'DELETE', credentials: 'include',
+          headers: { 'Authorization': `Bearer ${_adminToken}` },
+        });
+        if (!r.ok) throw new Error();
+        const item = document.getElementById(`vid-item-${videoId}`);
+        const listEl = item?.parentElement;
+        item?.remove();
+        if (listEl) {
+          const count = listEl.querySelectorAll('.te-vid-item').length;
+          const metaEl = document.getElementById(`mod-meta-${moduleId}`);
+          const badge = metaEl?.querySelector('[data-vid-count]');
+          if (badge) badge.textContent = `${count} vídeo${count !== 1 ? 's' : ''}`;
+          if (!count) listEl.innerHTML = '<div class="te-vid-empty" style="font-size:0.76rem;color:var(--ink-muted);text-align:center;padding:0.6rem 0">Nenhum vídeo adicionado ainda.</div>';
+        }
+        showToast('Vídeo removido.');
+      } catch { btn.disabled = false; showToast('Erro ao remover vídeo.'); }
+    }
+
+    /* ── Renderizar itens de módulo ─────────────────── */
+    function renderModuleItems(modules, trailId) {
+      if (!modules.length) return '<div class="te-empty">Nenhum módulo criado ainda.</div>';
+      return '<div class="te-mod-list">' + modules.map((m, i) => {
+        const mid      = m.id;
+        const num      = (m.order_num ?? i + 1).toString().padStart(2, '0');
+        const videos   = Array.isArray(m.videos) ? m.videos : [];
+        const vidCount = videos.length;
+
+        const vidItemsHtml = videos.map(v => `
+          <div class="te-vid-item" id="vid-item-${v.id}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span class="te-vid-title">${esc(v.title || 'Aula')}</span>
+            ${v.duration_min ? `<span class="te-vid-dur">${v.duration_min}min</span>` : ''}
+            <button class="btn-icon btn-icon--danger" style="width:1.5rem;height:1.5rem;flex-shrink:0;margin-left:auto"
+              title="Remover vídeo" onclick="_deleteModuleVideo('${trailId}','${mid}','${v.id}',this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+            </button>
+          </div>`).join('');
+
+        return `
+        <div class="te-mod-card" id="mod-card-${mid}">
+          <div class="te-mod-num">${num}</div>
+          <div class="te-mod-body">
+            <div class="te-mod-title" id="mod-ttl-${mid}">${esc(m.title)}</div>
+            <div class="te-mod-meta" id="mod-meta-${mid}">
+              ${m.duration_min ? `<span>${m.duration_min}min · </span>` : ''}
+              <span data-vid-count>${vidCount} vídeo${vidCount !== 1 ? 's' : ''}</span>
+            </div>
+          </div>
+          <span class="badge badge--${m.published ? 'active' : 'draft'}" style="font-size:0.55rem;flex-shrink:0">${m.published ? 'Pub.' : 'Ras.'}</span>
+          <button class="btn-icon" style="width:1.75rem;height:1.75rem;flex-shrink:0;color:var(--ink-muted)" title="Editar módulo" onclick="toggleModExpand('${mid}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="btn-icon btn-icon--danger" style="width:1.75rem;height:1.75rem;flex-shrink:0" title="Excluir módulo" onclick="deleteModule('${trailId}','${mid}',this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+          </button>
+          <!-- Formulário de edição expansível -->
+          <div class="te-mod-expand" id="mod-expand-${mid}" style="display:none">
+
+            <!-- ① Informações do módulo -->
+            <div class="te-section-label">Informações</div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Título</label>
+                <input id="me-title-${mid}" type="text" value="${esc(m.title)}" autocomplete="off">
+              </div>
+              <div class="form-field" style="max-width:6rem">
+                <label>Ordem</label>
+                <input id="me-order-${mid}" type="number" min="0" value="${m.order_num ?? ''}">
+              </div>
+              <div class="form-field" style="max-width:7.5rem">
+                <label>Duração total (min)</label>
+                <input id="me-dur-${mid}" type="number" min="1" value="${m.duration_min ?? ''}">
+              </div>
+            </div>
+            <div class="form-field">
+              <label>Descrição</label>
+              <textarea id="me-desc-${mid}" rows="2">${esc(m.description || '')}</textarea>
+            </div>
+            <div style="display:flex;justify-content:flex-end">
+              <button class="btn-mod-save" id="me-save-${mid}" onclick="saveModuleEdit('${trailId}','${mid}')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:.85rem;height:.85rem"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Salvar informações
+              </button>
+            </div>
+
+            <hr class="te-subsec-divider">
+
+            <!-- ② Vídeos da aula -->
+            <div class="te-vidlist-hdr">
+              <div class="te-section-label" style="margin-bottom:0">Vídeos da Aula</div>
+              <button class="te-btn-add-vid" onclick="_showAddVideoForm('${trailId}','${mid}')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Adicionar vídeo
+              </button>
+            </div>
+
+            <!-- Formulário inline de novo vídeo (oculto por padrão) -->
+            <div class="te-add-vid-form" id="me-avf-${mid}" style="display:none">
+              <div class="form-row">
+                <div class="form-field">
+                  <label>Título do vídeo</label>
+                  <input id="me-avtitle-${mid}" type="text" placeholder="Ex: Introdução ao Método" autocomplete="off">
+                </div>
+                <div class="form-field" style="max-width:7.5rem">
+                  <label>Duração (min)</label>
+                  <input id="me-avdur-${mid}" type="number" min="1" placeholder="Ex: 25">
+                </div>
+              </div>
+              <label class="te-upload-zone" id="me-avzone-${mid}" style="cursor:pointer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                <span id="me-avvname-${mid}">Selecionar MP4…</span>
+                <input id="me-avfile-${mid}" type="file" accept="video/mp4" style="display:none"
+                  onchange="const f=this.files[0];if(f){document.getElementById('me-avvname-${mid}').textContent=f.name+' ('+Math.round(f.size/1024/1024)+' MB)';document.getElementById('me-avzone-${mid}').classList.add('has-file');}">
+              </label>
+              <div class="te-progress" id="me-avp-${mid}" style="display:none">
+                <div class="te-progress-lbl" id="me-avplbl-${mid}">Enviando vídeo…</div>
+                <div class="te-progress-bar-wrap"><div class="te-progress-bar" id="me-avpbar-${mid}"></div></div>
+              </div>
+              <div style="display:flex;gap:0.5rem;justify-content:flex-end">
+                <button style="padding:0.38rem 0.75rem;border:1px solid var(--border);border-radius:0.375rem;font-size:0.72rem;font-weight:600;color:var(--ink-muted);cursor:pointer;background:transparent"
+                  onclick="_cancelAddVideo('${mid}')">Cancelar</button>
+                <button id="me-avbtn-${mid}" class="btn-mod-save" onclick="_submitAddVideo('${trailId}','${mid}')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:.85rem;height:.85rem"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                  Enviar e Adicionar
+                </button>
+              </div>
+            </div>
+
+            <!-- Lista de vídeos -->
+            <div class="te-vid-list" id="me-vidlist-${mid}">
+              ${vidItemsHtml || '<div class="te-vid-empty" style="font-size:0.76rem;color:var(--ink-muted);text-align:center;padding:0.6rem 0">Nenhum vídeo adicionado ainda.</div>'}
+            </div>
+          </div>
+        </div>`;
+      }).join('') + '</div>';
+    }
+
+    /* ── Editor de Trilha (tabs: Trilha | Módulos) ───── */
+    async function openTrailEditor(trailId) {
+      const box   = document.getElementById('modalBox');
+      const title = document.getElementById('modalTitle');
+      const body  = document.getElementById('modalBody');
+      const btn   = document.getElementById('modalSaveBtn');
+
+      box.style.maxWidth = '46rem';
+      title.textContent  = 'Editar Trilha';
+      body.innerHTML     = '<p style="color:var(--ink-muted);padding:1rem 0">Carregando…</p>';
+      btn.disabled       = true;
+      document.getElementById('modalBackdrop').classList.add('open');
+
+      async function fetchTrailAdmin() {
+        const r = await fetch(`${API}/trails/admin/${trailId}`, {
+          credentials: 'include',
+          headers: { 'Authorization': `Bearer ${_adminToken}` }
+        });
+        return r.ok ? r.json() : { name: '', description: '', thumbnail_url: null, modules: [] };
+      }
+
+      // Delega ao upload global
+      const uploadToS3 = (file, folder, mimeType, barEl, lblEl) => _teUploadFile(file, folder, mimeType, barEl, lblEl);
+
+      // ── Render body ────────────────────────────────────
+      function renderBody(trail) {
+        const thumb = trail.thumbnail_url || '';
+        body.innerHTML = `
+          <!-- Tabs -->
+          <div class="te-tabs">
+            <button class="te-tab active" data-panel="panel-trail">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:.85rem;height:.85rem;display:inline;margin-right:.3rem;vertical-align:-.1em"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              Trilha
+            </button>
+            <button class="te-tab" data-panel="panel-modules">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:.85rem;height:.85rem;display:inline;margin-right:.3rem;vertical-align:-.1em"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Módulos <span style="background:rgba(255,255,255,0.07);border-radius:99px;padding:0 0.35rem;font-size:0.65rem;margin-left:0.25rem">${(trail.modules||[]).length}</span>
+            </button>
+          </div>
+
+          <!-- Panel: Trilha -->
+          <div class="te-panel active" id="panel-trail">
+            <div class="te-section-label">Capa da Trilha</div>
+            <label class="te-thumb-zone" id="teThumbZone" style="cursor:pointer">
+              ${thumb ? `<img id="teThumbImg" src="${esc(thumb)}" alt="">` : `<img id="teThumbImg" src="" alt="" style="display:none">`}
+              <div class="te-thumb-overlay">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                ${thumb ? 'Trocar imagem' : 'Selecionar imagem'}
+              </div>
+              ${!thumb ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="width:2rem;height:2rem;opacity:.35"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span style="font-size:0.78rem">Clique para adicionar a capa da trilha</span>
+              <span style="font-size:0.68rem;opacity:.6">JPG, PNG ou WebP · Recomendado 16:9</span>` : ''}
+              <input id="teThumbInput" type="file" accept="image/jpeg,image/png,image/webp" style="display:none">
+            </label>
+            <div class="te-progress" id="teThumbProgress" style="display:none">
+              <div class="te-progress-lbl" id="teThumbLbl">Enviando imagem…</div>
+              <div class="te-progress-bar-wrap"><div class="te-progress-bar" id="teThumbBar"></div></div>
+            </div>
+
+            <div class="te-section-label" style="margin-top:0.5rem">Informações</div>
+            <div class="form-field">
+              <label>Nome da trilha <span style="color:var(--danger)">*</span></label>
+              <input id="teTrailName" type="text" value="${esc(trail.name || '')}" placeholder="Ex: Trilha de Treino" autocomplete="off">
+            </div>
+            <div class="form-field">
+              <label>Descrição <span style="color:var(--danger)">*</span></label>
+              <textarea id="teTrailDesc" rows="3" placeholder="Descreva o objetivo da trilha…">${esc(trail.description || '')}</textarea>
+            </div>
+          </div>
+
+          <!-- Panel: Módulos -->
+          <div class="te-panel" id="panel-modules">
+            <div class="te-section-label">${(trail.modules||[]).length} módulo(s) cadastrado(s)</div>
+            <div id="moduleList">${renderModuleItems(trail.modules || [], trailId)}</div>
+
+            <hr style="border:none;border-top:1px solid var(--border);margin:0.5rem 0">
+
+            <div class="te-section-label">Novo Módulo</div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Título <span style="color:var(--danger)">*</span></label>
+                <input id="modTitle" type="text" placeholder="Ex: Introdução ao Método" autocomplete="off">
+              </div>
+              <div class="form-field">
+                <label>Ordem</label>
+                <input id="modOrder" type="number" min="0" placeholder="Ex: 1">
+              </div>
+            </div>
+            <div class="form-field">
+              <label>Descrição</label>
+              <textarea id="modDesc" rows="2" placeholder="Descreva o conteúdo desta aula…"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Duração total (min)</label>
+                <input id="modDuration" type="number" min="1" placeholder="Ex: 45">
+              </div>
+            </div>
+            <p style="font-size:0.72rem;color:var(--ink-muted);margin-top:0.25rem">
+              💡 Após criar o módulo, clique em ✏️ para adicionar vídeos individualmente.
+            </p>
+          </div>`;
+
+        // Tab switching + Save btn label
+        body.querySelectorAll('.te-tab').forEach(tab => {
+          tab.addEventListener('click', () => {
+            body.querySelectorAll('.te-tab').forEach(t => t.classList.remove('active'));
+            body.querySelectorAll('.te-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.panel).classList.add('active');
+            updateSaveBtn(tab.dataset.panel);
+          });
+        });
+
+        // Preview ao selecionar capa
+        document.getElementById('teThumbInput').addEventListener('change', function() {
+          const f = this.files[0];
+          if (!f) return;
+          const img = document.getElementById('teThumbImg');
+          img.src = URL.createObjectURL(f);
+          img.style.display = '';
+          const zone = document.getElementById('teThumbZone');
+          const overlayEl = zone.querySelector('.te-thumb-overlay');
+          if (overlayEl) overlayEl.textContent = 'Trocar imagem';
+          // remove placeholder text
+          zone.querySelectorAll('span').forEach(s => { if (!s.closest('.te-thumb-overlay')) s.remove(); });
+          zone.querySelectorAll('svg:not(.te-thumb-overlay svg)').forEach((s, i) => { if (i > 0) s.remove(); });
+        });
+      }
+
+      function updateSaveBtn(panel) {
+        btn.textContent = '';
+        const iconSave = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;margin-right:.35rem;vertical-align:-.15em"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>';
+        const iconPlus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;margin-right:.35rem;vertical-align:-.15em"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+        btn.innerHTML = panel === 'panel-trail'
+          ? iconSave + 'Salvar Trilha'
+          : iconPlus + 'Adicionar Módulo';
+      }
+
+      const trail = await fetchTrailAdmin();
+      title.textContent = trail.name || 'Editar Trilha';
+      renderBody(trail);
+      updateSaveBtn('panel-trail');
+      btn.disabled = false;
+
+      // ── Save handler ─────────────────────────────────
+      btn.onclick = async () => {
+        const activeTab = body.querySelector('.te-tab.active')?.dataset.panel;
+
+        // ─ Salvar trilha (info + capa) ─
+        if (activeTab === 'panel-trail') {
+          const name  = document.getElementById('teTrailName')?.value.trim();
+          const desc  = document.getElementById('teTrailDesc')?.value.trim();
+          const thumb = document.getElementById('teThumbInput')?.files[0] ?? null;
+          if (!name || !desc) { showToast('Nome e descrição são obrigatórios.'); return; }
+          btn.disabled = true;
+          let thumbnailUrl = null;
+
+          if (thumb) {
+            const pWrap = document.getElementById('teThumbProgress');
+            const pBar  = document.getElementById('teThumbBar');
+            const pLbl  = document.getElementById('teThumbLbl');
+            pWrap.style.display = '';
+            pBar.style.width = '0%';
+            try {
+              const { publicUrl } = await uploadToS3(thumb, 'thumbnails', thumb.type, pBar, pLbl);
+              thumbnailUrl = publicUrl;
+            } catch (err) {
+              showToast(err.message || 'Erro ao enviar imagem.');
+              btn.disabled = false;
+              return;
+            }
+          }
+
+          try {
+            const payload = { name, description: desc };
+            if (thumbnailUrl) payload.thumbnailUrl = thumbnailUrl;
+            const r = await fetch(`${API}/trails/${trailId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
+              credentials: 'include',
+              body: JSON.stringify(payload),
+            });
+            const d = await r.json().catch(() => ({}));
+            if (!r.ok) throw new Error(d.error || 'Erro ao salvar trilha.');
+            title.textContent = name;
+            showToast('Trilha salva com sucesso!');
+            await loadTrails();
+          } catch (err) {
+            showToast(err.message || 'Erro ao salvar trilha.');
+          }
+          btn.disabled = false;
+
+        // ─ Adicionar módulo ─
+        } else {
+          const modTitle    = document.getElementById('modTitle')?.value.trim();
+          const modDesc     = document.getElementById('modDesc')?.value.trim();
+          const modDuration = document.getElementById('modDuration')?.value;
+          const modOrder    = document.getElementById('modOrder')?.value;
+          if (!modTitle) { showToast('Título do módulo é obrigatório.'); return; }
+          btn.disabled = true;
+
+          try {
+            const payload = {
+              title:       modTitle,
+              description: modDesc || null,
+              durationMin: modDuration ? parseInt(modDuration) : null,
+              orderNum:    modOrder !== '' ? parseInt(modOrder) : 0,
+            };
+            const r = await fetch(`${API}/trails/${trailId}/modules`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
+              credentials: 'include',
+              body: JSON.stringify(payload),
+            });
+            const d = await r.json().catch(() => ({}));
+            if (!r.ok) throw new Error(d.error || 'Erro ao adicionar módulo.');
+            showToast('Módulo criado! Clique em ✏️ para adicionar vídeos.');
+            const updated = await fetchTrailAdmin();
+            document.getElementById('moduleList').innerHTML = renderModuleItems(updated.modules || [], trailId);
+            body.querySelector('[data-panel="panel-modules"] .te-section-label').textContent =
+              `${(updated.modules||[]).length} módulo(s) cadastrado(s)`;
+            document.getElementById('modTitle').value    = '';
+            document.getElementById('modDesc').value     = '';
+            document.getElementById('modDuration').value = '';
+            document.getElementById('modOrder').value    = '';
+            await loadTrails();
+          } catch (err) {
+            showToast(err.message || 'Erro ao adicionar módulo.');
+          }
+          btn.disabled = false;
+        }
+      };
+    }
+
+    /* ── Excluir Módulo ─────────────────────────────── */
+    async function deleteModule(trailId, moduleId, btn) {
+      if (!confirm('Excluir este módulo? Esta ação não pode ser desfeita.')) return;
+      btn.disabled = true;
+      try {
+        const r = await fetch(`${API}/trails/${trailId}/modules/${moduleId}`, {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: { 'Authorization': `Bearer ${_adminToken}` }
+        });
+        if (!r.ok) throw new Error();
+        document.getElementById(`mod-card-${moduleId}`)?.remove();
+        showToast('Módulo excluído.');
+        await loadTrails();
+      } catch {
+        btn.disabled = false;
+        showToast('Erro ao excluir módulo.');
+      }
+    }
+
+    /* ── Publicar/Despublicar Trilha ───────────────── */
+    async function toggleTrailPublish(id, toggleEl) {
+      try {
+        const r = await fetch(`${API}/trails/${id}/publish`, {
+          method: 'PUT',
+          credentials: 'include',
+          headers: { 'Authorization': `Bearer ${_adminToken}` }
+        });
+        if (!r.ok) throw new Error();
+        const data = await r.json();
+        toggleEl.classList.toggle('on', data.published);
+        // Atualiza o badge de status no mesmo card
+        const card  = toggleEl.closest('.trail-admin-card');
+        const badge = card?.querySelector('.badge');
+        if (badge) {
+          badge.className = `badge badge--${data.published ? 'active' : 'draft'}`;
+          badge.textContent = data.published ? 'Publicado' : 'Rascunho';
+        }
+        showToast('Status da trilha atualizado.');
+      } catch {
+        showToast('Erro ao atualizar status da trilha.');
+      }
+    }
+
+    /* ── Carregar Trilhas da API ────────────────────── */
+    async function loadTrails() {
+      try {
+        const r = await fetch(`${API}/trails/admin/all`, {
+          credentials: 'include',
+          headers: { 'Authorization': `Bearer ${_adminToken}` }
+        });
+        if (r.ok) renderTrails(await r.json());
+      } catch { /* silently ignore */ }
     }
 
     /* ── Render Lives ──────────────────────────────── */
@@ -1730,7 +2324,7 @@
       }
       filtered.forEach(l => {
         list.innerHTML += `
-          <div class="live-admin-card">
+          <div class="live-admin-card" data-id="${l.id}">
             <div class="live-date-badge">
               <div class="live-date-day">${l.day}</div>
               <div class="live-date-mon">${l.month}</div>
@@ -1751,12 +2345,32 @@
               <button class="btn-icon" title="Editar" onclick="openModal('live')">
                 <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </button>
-              <button class="btn-icon btn-icon--danger" title="Excluir">
+              <button class="btn-icon btn-icon--danger" title="Excluir" onclick="deleteLive('${l.id}', this)">
                 <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
               </button>
             </div>
           </div>`;
       });
+    }
+
+    /* ── Excluir Live ──────────────────────────────── */
+    async function deleteLive(id, btn) {
+      if (!confirm('Excluir esta live? Esta ação não pode ser desfeita.')) return;
+      btn.disabled = true;
+      try {
+        const r = await fetch(`${API}/lives/${id}`, {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: { 'Authorization': `Bearer ${_adminToken}` }
+        });
+        if (!r.ok) throw new Error();
+        livesData = livesData.filter(l => l.id !== id);
+        renderLives();
+        showToast('Live excluída com sucesso.');
+      } catch {
+        btn.disabled = false;
+        showToast('Erro ao excluir live.');
+      }
     }
 
     document.querySelectorAll('.lives-tab').forEach(tab => {
@@ -1841,33 +2455,41 @@
     /* ── Modal ─────────────────────────────────────── */
     const MODAL_FORMS = {
       student: {
-        title: 'Editar / Novo Aluno',
+        title: 'Novo Aluno',
         fields: `
           <div class="form-row">
-            <div class="form-field"><label>Nome completo</label><input type="text" placeholder="João Silva"/></div>
-            <div class="form-field"><label>E-mail</label><input type="email" placeholder="joao@email.com"/></div>
+            <div class="form-field"><label>Nome completo</label><input id="studentName" type="text" placeholder="João Silva" autocomplete="off"/></div>
+            <div class="form-field"><label>E-mail</label><input id="studentEmail" type="email" placeholder="joao@email.com" autocomplete="off"/></div>
           </div>
-          <div class="form-row">
-            <div class="form-field"><label>Período do plano</label>
-              <select><option>Anual</option><option>Semestral</option><option>Trimestral</option></select>
-            </div>
-            <div class="form-field"><label>Status</label>
-              <select><option value="active">Ativo</option><option value="expiring">Expirando</option><option value="inactive">Expirado</option></select>
-            </div>
-          </div>
-          <div class="form-field"><label>Válido até</label><input type="date"/></div>
-          <div class="form-field"><label>Observações</label><textarea placeholder="Notas sobre este aluno…"></textarea></div>
+          <div class="form-field"><label>Senha <span style="color:var(--ink);font-weight:400">(mínimo 8 caracteres)</span></label><input id="studentPassword" type="password" placeholder="••••••••"/></div>
         `,
       },
       trail: {
-        title: 'Editar / Nova Trilha',
+        title: 'Nova Trilha',
         fields: `
-          <div class="form-field"><label>Nome da trilha</label><input type="text" placeholder="Ex: Trilha de Treino"/></div>
-          <div class="form-field"><label>Descrição</label><textarea placeholder="Descreva a trilha…"></textarea></div>
-          <div class="form-row">
-            <div class="form-field"><label>Cor de acento (hex)</label><input type="text" placeholder="#76C442"/></div>
-            <div class="form-field"><label>Status</label>
-              <select><option>Publicado</option><option>Rascunho</option></select>
+          <div class="form-field"><label>Nome da trilha <span style="color:var(--danger)">*</span></label><input id="trailName" type="text" placeholder="Ex: Trilha de Treino" autocomplete="off"/></div>
+          <div class="form-field"><label>Descrição <span style="color:var(--danger)">*</span></label><textarea id="trailDesc" placeholder="Descreva o objetivo da trilha…" rows="3"></textarea></div>
+          <div class="form-field">
+            <label>Capa da trilha <span style="color:var(--ink-muted);font-weight:400">(JPG, PNG ou WebP — recomendado 16:9)</span></label>
+            <label id="trailThumbLabel" style="display:flex;align-items:center;gap:0.75rem;cursor:pointer;padding:0.625rem 0.875rem;border:1.5px dashed var(--border);border-radius:var(--radius);transition:border-color .2s" onmouseenter="this.style.borderColor='var(--green)'" onmouseleave="this.style.borderColor='var(--border)'">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1.25rem;height:1.25rem;flex-shrink:0;color:var(--green)"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span id="trailThumbName" style="font-size:0.875rem;color:var(--ink-muted)">Clique para selecionar a imagem…</span>
+              <input id="trailThumb" type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="
+                const f=this.files[0];
+                if(f){
+                  const prev=document.getElementById('trailThumbPreview');
+                  document.getElementById('trailThumbName').textContent=f.name;
+                  document.getElementById('trailThumbName').style.color='var(--ink)';
+                  if(prev){prev.src=URL.createObjectURL(f);prev.style.display='';}
+                }
+              ">
+            </label>
+            <img id="trailThumbPreview" src="" alt="" style="display:none;margin-top:0.5rem;width:100%;max-height:160px;object-fit:cover;border-radius:var(--radius);border:1px solid var(--border)">
+          </div>
+          <div id="trailUploadProgress" style="display:none;margin-top:0.25rem">
+            <div style="font-size:0.78rem;color:var(--ink-muted);margin-bottom:0.35rem" id="trailUploadLabel">Enviando imagem…</div>
+            <div style="background:var(--border);border-radius:99px;height:6px;overflow:hidden">
+              <div id="trailProgressBar" style="height:100%;background:var(--green);border-radius:99px;transition:width .15s;width:0%"></div>
             </div>
           </div>
         `,
@@ -1887,19 +2509,18 @@
         `,
       },
       live: {
-        title: 'Editar / Nova Live',
+        title: 'Nova Live',
         fields: `
-          <div class="form-field"><label>Título</label><input type="text" placeholder="Ex: Mentoria ao vivo — Q&A"/></div>
-          <div class="form-field"><label>Descrição</label><textarea placeholder="Descreva a sessão…"></textarea></div>
+          <div class="form-field"><label>Título <span style="color:var(--danger)">*</span></label><input id="liveTitle" type="text" placeholder="Ex: Mentoria ao vivo — Q&amp;A" autocomplete="off"/></div>
+          <div class="form-field"><label>Descrição</label><textarea id="liveDesc" placeholder="Descreva a sessão…" rows="2"></textarea></div>
           <div class="form-row">
-            <div class="form-field"><label>Data</label><input type="date"/></div>
-            <div class="form-field"><label>Horário</label><input type="time"/></div>
+            <div class="form-field"><label>Data <span style="color:var(--danger)">*</span></label><input id="liveDate" type="date"/></div>
+            <div class="form-field"><label>Horário <span style="color:var(--danger)">*</span></label><input id="liveTime" type="time"/></div>
           </div>
           <div class="form-row">
-            <div class="form-field"><label>Duração estimada</label><input type="text" placeholder="Ex: ~90 min"/></div>
-            <div class="form-field"><label>Instrutor</label><input type="text" placeholder="Lucas Mendes"/></div>
+            <div class="form-field"><label>Duração (min)</label><input id="liveDuration" type="number" min="1" placeholder="Ex: 90"/></div>
+            <div class="form-field"><label>Instrutor <span style="color:var(--danger)">*</span></label><input id="liveInstructor" type="text" placeholder="Ex: Lucas Mendes" autocomplete="off"/></div>
           </div>
-          <div class="form-field"><label>Link da transmissão</label><input type="url" placeholder="https://…"/></div>
         `,
       },
       partner: {
@@ -1923,11 +2544,161 @@
     };
 
     function openModal(type) {
+      document.getElementById('modalBox').style.maxWidth = '';
       const form = MODAL_FORMS[type];
       if (!form) return;
       document.getElementById('modalTitle').textContent = form.title;
       document.getElementById('modalBody').innerHTML = form.fields;
-      document.getElementById('modalSaveBtn').onclick = () => { closeModal(); showToast('Salvo com sucesso!'); };
+      const btn = document.getElementById('modalSaveBtn');
+      btn.disabled = false;
+
+      if (type === 'trail') {
+        btn.onclick = async () => {
+          const name      = document.getElementById('trailName')?.value.trim();
+          const desc      = document.getElementById('trailDesc')?.value.trim();
+          const thumbFile = document.getElementById('trailThumb')?.files[0] ?? null;
+          if (!name || !desc) { showToast('Nome e descrição são obrigatórios.'); return; }
+          btn.disabled = true;
+
+          let thumbnailUrl = null;
+
+          // Upload da capa para S3 (se selecionada)
+          if (thumbFile) {
+            const mimeType = thumbFile.type;
+            const progressWrap = document.getElementById('trailUploadProgress');
+            const progressBar  = document.getElementById('trailProgressBar');
+            const progressLbl  = document.getElementById('trailUploadLabel');
+            progressWrap.style.display = '';
+            progressBar.style.width = '0%';
+            try {
+              progressLbl.textContent = 'Obtendo URL de upload…';
+              const urlResp = await fetch(`${API}/media/upload/image`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
+                credentials: 'include',
+                body: JSON.stringify({ mimeType, folder: 'thumbnails' }),
+              });
+              if (!urlResp.ok) {
+                const e = await urlResp.json().catch(() => ({}));
+                throw new Error(e.error || 'Erro ao obter URL de upload.');
+              }
+              const { uploadUrl, publicUrl } = await urlResp.json();
+              progressLbl.textContent = 'Enviando imagem…';
+              await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('PUT', uploadUrl);
+                xhr.setRequestHeader('Content-Type', mimeType);
+                xhr.upload.onprogress = (e) => {
+                  if (e.lengthComputable) {
+                    const pct = Math.round((e.loaded / e.total) * 100);
+                    progressBar.style.width = pct + '%';
+                    progressLbl.textContent = `Enviando imagem… ${pct}%`;
+                  }
+                };
+                xhr.onload  = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error('Falha no upload para S3.'));
+                xhr.onerror = () => reject(new Error('Erro de conexão durante o upload.'));
+                xhr.send(thumbFile);
+              });
+              thumbnailUrl = publicUrl;
+              progressBar.style.width = '100%';
+              progressLbl.textContent = 'Imagem enviada!';
+            } catch (err) {
+              showToast(err.message || 'Erro ao enviar imagem.');
+              btn.disabled = false;
+              return;
+            }
+          }
+
+          try {
+            const r = await fetch(`${API}/trails`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
+              credentials: 'include',
+              body: JSON.stringify({ name, description: desc, thumbnailUrl }),
+            });
+            if (!r.ok) {
+              const data = await r.json().catch(() => ({}));
+              throw new Error(data.error || 'Erro ao criar trilha.');
+            }
+            closeModal();
+            showToast('Trilha criada com sucesso!');
+            await loadTrails();
+          } catch (err) {
+            showToast(err.message || 'Erro ao criar trilha.');
+            btn.disabled = false;
+          }
+        };
+
+      } else if (type === 'student') {
+        btn.onclick = async () => {
+          const name     = document.getElementById('studentName')?.value.trim();
+          const email    = document.getElementById('studentEmail')?.value.trim();
+          const password = document.getElementById('studentPassword')?.value;
+          if (!name || !email || !password) { showToast('Nome, e-mail e senha são obrigatórios.'); return; }
+          btn.disabled = true;
+          try {
+            const r = await fetch(`${API}/admin/students`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
+              credentials: 'include',
+              body: JSON.stringify({ name, email, password }),
+            });
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) throw new Error(data.error || 'Erro ao criar aluno.');
+            closeModal();
+            showToast('Aluno criado com sucesso!');
+            const listR = await fetch(`${API}/admin/students?limit=100`, { headers: { 'Authorization': `Bearer ${_adminToken}` }, credentials: 'include' });
+            if (listR.ok) {
+              const listData = await listR.json();
+              if (Array.isArray(listData.data)) {
+                students = listData.data.map(mapStudent);
+                filteredStudents = [...students];
+                renderStudents();
+              }
+            }
+          } catch (err) {
+            showToast(err.message || 'Erro ao criar aluno.');
+            btn.disabled = false;
+          }
+        };
+
+      } else if (type === 'live') {
+        btn.onclick = async () => {
+          const title      = document.getElementById('liveTitle')?.value.trim();
+          const desc       = document.getElementById('liveDesc')?.value.trim();
+          const liveDate   = document.getElementById('liveDate')?.value;
+          const liveTime   = document.getElementById('liveTime')?.value;
+          const duration   = document.getElementById('liveDuration')?.value;
+          const instructor = document.getElementById('liveInstructor')?.value.trim();
+          if (!title || !liveDate || !liveTime || !instructor) { showToast('Título, data, horário e instrutor são obrigatórios.'); return; }
+          const scheduledAt = new Date(`${liveDate}T${liveTime}:00`).toISOString();
+          btn.disabled = true;
+          try {
+            const r = await fetch(`${API}/lives`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
+              credentials: 'include',
+              body: JSON.stringify({ title, description: desc, scheduledAt, durationMin: duration ? parseInt(duration) : null, instructor }),
+            });
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) throw new Error(data.error || 'Erro ao criar live.');
+            closeModal();
+            showToast('Live criada com sucesso!');
+            const listR = await fetch(`${API}/lives`, { headers: { 'Authorization': `Bearer ${_adminToken}` }, credentials: 'include' });
+            if (listR.ok) {
+              livesData = (await listR.json()).map(mapLive);
+              renderLives();
+            }
+          } catch (err) {
+            showToast(err.message || 'Erro ao criar live.');
+            btn.disabled = false;
+          }
+        };
+
+      } else {
+        btn.onclick = () => { closeModal(); showToast('Salvo com sucesso!'); };
+      }
+
       document.getElementById('modalBackdrop').classList.add('open');
     }
 
@@ -1953,8 +2724,9 @@
 
     /* ── Logout ────────────────────────────────────── */
     async function confirmLogout() {
-      try { await fetch(`${API}/auth/logout`, { method: 'POST', credentials: 'include' }); } catch {}
+      try { await fetch(`${API}/auth/logout`, { method: 'POST', credentials: 'include', headers: { 'Authorization': `Bearer ${_adminToken}` } }); } catch {}
       localStorage.removeItem('mb_user');
+      localStorage.removeItem('mb_access_token');
       window.location.href = './admin-login.html';
     }
 
@@ -1974,7 +2746,7 @@
         if (hAv)   hAv.textContent   = initials;
       }
 
-      const hdrs = {};
+      const hdrs = { 'Authorization': `Bearer ${_adminToken}` };
       const apiFetch = async (path) => {
         const r = await fetch(`${API}${path}`, { headers: hdrs, credentials: 'include' });
         if (r.status === 401) { window.location.replace('./admin-login.html'); return null; }
@@ -1992,11 +2764,14 @@
       if (statsRes.status === 'fulfilled' && statsRes.value?.totalStudents !== undefined) {
         updateKPIs(statsRes.value);
         const badge = document.getElementById('newStudentsBadge');
-        if (badge) badge.textContent = statsRes.value.totalStudents;
+        if (badge && statsRes.value.totalStudents > 0) {
+          badge.textContent = statsRes.value.totalStudents;
+          badge.style.display = '';
+        }
       }
 
-      if (studentsRes.status === 'fulfilled' && Array.isArray(studentsRes.value)) {
-        students = studentsRes.value.map(mapStudent);
+      if (studentsRes.status === 'fulfilled' && Array.isArray(studentsRes.value?.data)) {
+        students = studentsRes.value.data.map(mapStudent);
         filteredStudents = [...students];
         renderStudents();
       }
@@ -2015,8 +2790,8 @@
         renderPartners();
       }
 
-      // Trilhas usam dados locais (cores e módulos não estão no banco ainda)
-      renderTrails();
+      // Trilhas: busca da API
+      await loadTrails();
     }
 
     initAdmin().catch(console.error);

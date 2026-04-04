@@ -7,12 +7,12 @@ const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
  * Middleware: verifica JWT de acesso no header Authorization: Bearer <token>
  */
 function requireAuth(req, res, next) {
-  // Prioriza cookie httpOnly; aceita Authorization header como fallback (Insomnia/curl)
-  const cookieToken  = req.cookies?.mb_access;
+  // Prioriza Authorization header (admin/API); cookie httpOnly como fallback (alunos)
   const headerToken  = req.headers.authorization?.startsWith('Bearer ')
     ? req.headers.authorization.split(' ')[1]
     : null;
-  const token = cookieToken || headerToken;
+  const cookieToken  = req.cookies?.mb_access;
+  const token = headerToken || cookieToken;
   if (!token) {
     return res.status(401).json({ error: 'Token de acesso obrigatório.' });
   }
