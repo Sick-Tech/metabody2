@@ -13,7 +13,7 @@ const s3 = new S3Client({
 const BUCKET = process.env.S3_BUCKET;
 const CDN    = process.env.CLOUDFRONT_URL; // ex: https://d1234.cloudfront.net
 
-const ALLOWED_FOLDERS = new Set(['videos', 'thumbnails', 'avatars', 'partners']);
+const ALLOWED_FOLDERS = new Set(['videos', 'thumbnails', 'avatars', 'partners', 'module-covers']);
 const EXT_MAP = {
   'video/mp4':  'mp4',
   'image/jpeg': 'jpg',

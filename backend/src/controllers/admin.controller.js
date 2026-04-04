@@ -213,3 +213,44 @@ exports.updateAdminPassword = async (req, res) => {
     res.status(500).json({ error: 'Erro interno.' });
   }
 };
+
+exports.getStudentProgress = async (req, res) => {
+  try {
+    const { rows } = await query(
+      `SELECT t.id trail_id, t.name trail_name,
+              m.id module_id, m.title module_title, m.order_num,
+              p.completed, p.watched_at
+       FROM trails t
+       JOIN modules m ON m.trail_id = t.id AND m.published = true
+       LEFT JOIN module_progress p ON p.module_id = m.id AND p.user_id = $1
+       WHERE t.published = true
+       ORDER BY t.name, m.order_num`,
+      [req.params.id]
+    );
+    const trailMap = {};
+    rows.forEach(r => {
+      if (!trailMap[r.trail_id]) {
+        trailMap[r.trail_id] = { trail_id: r.trail_id, trail_name: r.trail_name, modules: [] };
+      }
+      trailMap[r.trail_id].modules.push({
+        module_id: r.module_id,
+        title: r.module_title,
+        order_num: r.order_num,
+        completed: r.completed || false,
+        watched_at: r.watched_at,
+      });
+    });
+    const result = Object.values(trailMap).map(t => ({
+      ...t,
+      total: t.modules.length,
+      completed_count: t.modules.filter(m => m.completed).length,
+      percent: t.modules.length > 0
+        ? Math.round(t.modules.filter(m => m.completed).length / t.modules.length * 100)
+        : 0,
+    }));
+    res.json(result);
+  } catch (err) {
+    console.error('getStudentProgress:', err);
+    res.status(500).json({ error: 'Erro interno.' });
+  }
+};

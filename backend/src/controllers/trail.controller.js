@@ -3,7 +3,10 @@ const { getDownloadPresignedUrl } = require('../config/s3');
 const { v4: uuidv4 } = require('uuid');
 
 const wrap = fn => async (req, res) => {
-  try { await fn(req, res); } catch (err) { res.status(500).json({ error: 'Erro interno.' }); }
+  try { await fn(req, res); } catch (err) {
+    console.error(`[Trail Controller] ${fn.name || '?'}:`, err.message);
+    if (!res.headersSent) res.status(500).json({ error: err.message || 'Erro interno.' });
+  }
 };
 
 exports.listTrails = wrap(async (_req, res) => {
@@ -27,19 +30,28 @@ exports.listAllTrails = wrap(async (_req, res) => {
 });
 
 exports.getTrailAdmin = wrap(async (req, res) => {
-  const [trail, modules, videos] = await Promise.all([
+  const [trail, modules] = await Promise.all([
     query(`SELECT * FROM trails WHERE id=$1`, [req.params.id]),
-    query(`SELECT id,title,description,duration_min,order_num,published FROM modules WHERE trail_id=$1 ORDER BY order_num`, [req.params.id]),
-    query(
+    query(`SELECT id,title,description,duration_min,order_num,published,thumbnail_url FROM modules WHERE trail_id=$1 ORDER BY order_num`, [req.params.id]),
+  ]);
+  if (!trail.rows[0]) return res.status(404).json({ error: 'Trilha não encontrada.' });
+
+  // Busca vídeos — tabela pode ainda não existir em ambientes sem migração
+  let videoRows = [];
+  try {
+    const { rows } = await query(
       `SELECT mv.id, mv.module_id, mv.title, mv.duration_min, mv.order_num
        FROM module_videos mv JOIN modules m ON m.id=mv.module_id
        WHERE m.trail_id=$1 ORDER BY mv.module_id, mv.order_num`,
       [req.params.id]
-    ),
-  ]);
-  if (!trail.rows[0]) return res.status(404).json({ error: 'Trilha não encontrada.' });
+    );
+    videoRows = rows;
+  } catch (e) {
+    console.warn('[getTrailAdmin] module_videos indisponível:', e.message);
+  }
+
   const videosByModule = {};
-  videos.rows.forEach(v => {
+  videoRows.forEach(v => {
     if (!videosByModule[v.module_id]) videosByModule[v.module_id] = [];
     videosByModule[v.module_id].push(v);
   });
@@ -50,7 +62,7 @@ exports.getTrailAdmin = wrap(async (req, res) => {
 exports.getTrail = wrap(async (req, res) => {
   const [trail, modules] = await Promise.all([
     query(`SELECT * FROM trails WHERE id=$1 AND published=true`, [req.params.id]),
-    query(`SELECT id,title,description,duration_min,order_num,published FROM modules WHERE trail_id=$1 AND published=true ORDER BY order_num`, [req.params.id]),
+    query(`SELECT id,title,description,duration_min,order_num,published,thumbnail_url FROM modules WHERE trail_id=$1 AND published=true ORDER BY order_num`, [req.params.id]),
   ]);
   if (!trail.rows[0]) return res.status(404).json({ error: 'Trilha não encontrada.' });
   res.json({ ...trail.rows[0], modules: modules.rows });
@@ -119,23 +131,49 @@ exports.togglePublish = wrap(async (req, res) => {
 });
 
 exports.addModule = wrap(async (req, res) => {
-  const { title, description, durationMin, orderNum, videoS3Key } = req.body;
+  const { title, description, durationMin, videoS3Key } = req.body;
+  let { orderNum } = req.body;
+
+  // Se não forneceu ordem ou há conflito, usa next disponível
+  if (orderNum == null || isNaN(Number(orderNum))) {
+    const { rows: maxRow } = await query(
+      `SELECT COALESCE(MAX(order_num), 0) + 1 AS next FROM modules WHERE trail_id=$1`,
+      [req.params.id]
+    );
+    orderNum = maxRow[0].next;
+  } else {
+    // Verifica se order_num já está em uso e ajusta se necessário
+    const { rows: conflict } = await query(
+      `SELECT 1 FROM modules WHERE trail_id=$1 AND order_num=$2`,
+      [req.params.id, Number(orderNum)]
+    );
+    if (conflict.length) {
+      const { rows: maxRow } = await query(
+        `SELECT COALESCE(MAX(order_num), 0) + 1 AS next FROM modules WHERE trail_id=$1`,
+        [req.params.id]
+      );
+      orderNum = maxRow[0].next;
+    }
+  }
+
   const id = uuidv4();
   const { rows } = await query(
     `INSERT INTO modules (id,trail_id,title,description,duration_min,order_num,video_s3_key,published)
      VALUES ($1,$2,$3,$4,$5,$6,$7,false) RETURNING id,title,order_num,published`,
-    [id, req.params.id, title, description, durationMin, orderNum, videoS3Key]
+    [id, req.params.id, title, description, durationMin ?? null, Number(orderNum), videoS3Key ?? null]
   );
   res.status(201).json(rows[0]);
 });
 
 exports.updateModule = wrap(async (req, res) => {
-  const { title, description, durationMin, orderNum, videoS3Key } = req.body;
+  const { title, description, durationMin, orderNum, videoS3Key, thumbnailUrl } = req.body;
   const { rows } = await query(
     `UPDATE modules SET title=COALESCE($1,title), description=COALESCE($2,description),
      duration_min=COALESCE($3,duration_min), order_num=COALESCE($4,order_num),
-     video_s3_key=COALESCE($5,video_s3_key) WHERE id=$6 AND trail_id=$7 RETURNING *`,
-    [title, description, durationMin, orderNum, videoS3Key, req.params.moduleId, req.params.id]
+     video_s3_key=COALESCE($5,video_s3_key),
+     thumbnail_url=COALESCE($8,thumbnail_url)
+     WHERE id=$6 AND trail_id=$7 RETURNING *`,
+    [title, description, durationMin, orderNum, videoS3Key, req.params.moduleId, req.params.id, thumbnailUrl ?? null]
   );
   if (!rows[0]) return res.status(404).json({ error: 'Módulo não encontrado.' });
   res.json(rows[0]);

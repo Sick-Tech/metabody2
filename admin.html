@@ -702,6 +702,7 @@
     }
     .te-thumb-zone:hover .te-thumb-overlay { opacity: 1; }
     .te-thumb-zone svg { width: 1.5rem; height: 1.5rem; stroke: currentColor; }
+    .te-thumb-zone--sm { aspect-ratio: 16/9; max-height: 100px; width: 100%; max-width: 200px; }
 
     /* module cards in editor */
     .te-mod-list { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -983,6 +984,71 @@
       border-top: 1px solid var(--border);
       display: flex; align-items: center; justify-content: flex-end; gap: 0.75rem;
     }
+
+    /* ── Modal de Progresso do Aluno ────────────────── */
+    .prog-modal-backdrop {
+      display: none;
+      position: fixed; inset: 0; z-index: 600;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(5px);
+      align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .prog-modal-backdrop.open { display: flex; }
+    .prog-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border-h);
+      border-radius: var(--r-lg);
+      width: 100%; max-width: 620px;
+      max-height: 88vh; overflow-y: auto;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+      animation: modalIn 0.22s ease;
+    }
+    .prog-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: var(--bg-card); z-index: 1;
+    }
+    .prog-modal-title-wrap { display: flex; flex-direction: column; gap: 0.15rem; }
+    .prog-modal-name { font-size: 0.95rem; font-weight: 900; }
+    .prog-modal-sub { font-size: 0.68rem; color: var(--ink-dim); }
+    .prog-modal-body { padding: 1.2rem 1.4rem; display: flex; flex-direction: column; gap: 1.2rem; }
+    .prog-trail-block { display: flex; flex-direction: column; gap: 0.5rem; }
+    .prog-trail-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+    .prog-trail-name { font-size: 0.82rem; font-weight: 800; }
+    .prog-trail-pct-badge {
+      font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.55rem;
+      border-radius: 99px;
+      background: rgba(76,175,80,0.12); border: 1px solid rgba(76,175,80,0.25);
+      color: var(--green);
+    }
+    .prog-trail-bar-wrap { background: rgba(255,255,255,0.06); border-radius: 99px; height: 4px; overflow: hidden; }
+    .prog-trail-bar { height: 100%; background: linear-gradient(90deg, var(--green-m), var(--green)); border-radius: 99px; }
+    .prog-modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.4rem; }
+    .prog-module-row {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.7rem;
+    }
+    .prog-module-row--done { background: rgba(76,175,80,0.07); border-color: rgba(76,175,80,0.18); }
+    .prog-module-icon {
+      width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .prog-module-icon--done { background: rgba(76,175,80,0.2); color: #76C442; }
+    .prog-module-icon--pend { background: rgba(255,255,255,0.05); color: rgba(200,221,232,0.28); }
+    .prog-module-icon svg { width: 9px; height: 9px; stroke: currentColor; stroke-width: 2.8; fill: none; }
+    .prog-module-title { flex: 1; color: var(--ink-muted); line-height: 1.3; }
+    .prog-module-row--done .prog-module-title { color: var(--white); }
+    .prog-module-date { font-size: 0.6rem; color: var(--ink-dim); white-space: nowrap; flex-shrink: 0; }
+    .prog-empty { text-align: center; padding: 2rem; color: var(--ink-dim); font-size: 0.8rem; }
+    .prog-loading { text-align: center; padding: 2rem; color: var(--ink-dim); font-size: 0.8rem; }
+    .progress-mini-wrap { cursor: pointer; border-radius: 6px; padding: 0.2rem 0.3rem; transition: background var(--ease); }
+    .progress-mini-wrap:hover { background: rgba(76,175,80,0.1); }
 
     /* ── EMPTY STATE ───────────────────────────────── */
     .empty-state {
@@ -1350,7 +1416,7 @@
               <h1 class="page-title">Parceiros</h1>
               <p class="page-subtitle">Gerencie parceiros e benefícios do Clube de Vantagens</p>
             </div>
-            <button class="btn-primary" onclick="openModal('partner')">
+            <button class="btn-primary" onclick="openPartnerModal(null)">
               <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               Novo Parceiro
             </button>
@@ -1469,6 +1535,24 @@
     </div>
   </div>
 
+  <!-- ░░ MODAL PROGRESSO DO ALUNO ░░ -->
+  <div class="prog-modal-backdrop" id="progModalBackdrop" onclick="if(event.target===this)closeProgressModal()">
+    <div class="prog-modal" id="progModal">
+      <div class="prog-modal-header">
+        <div class="prog-modal-title-wrap">
+          <span class="prog-modal-name" id="progModalName">—</span>
+          <span class="prog-modal-sub">Progresso por trilha e módulo</span>
+        </div>
+        <button class="btn-modal-close" onclick="closeProgressModal()" title="Fechar">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="prog-modal-body" id="progModalBody">
+        <div class="prog-loading">Carregando progresso…</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast -->
   <div class="toast" id="toast">
     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -1484,10 +1568,54 @@
     }
 
     /* ── Auth guard ──────────────────────────────────── */
-    const _adminToken = localStorage.getItem('mb_access_token');
+    let _adminToken = localStorage.getItem('mb_access_token');
     const _adminUser  = (() => { try { return JSON.parse(localStorage.getItem('mb_user')); } catch { return null; } })();
     if (!_adminToken || !_adminUser || _adminUser.role !== 'admin') {
       window.location.replace('./admin-login.html');
+    }
+
+    /* ── adminFetch: fetch com auto-refresh de token ─── */
+    let _refreshing = null; // promise compartilhada para evitar múltiplos refreshes simultâneos
+    async function adminFetch(url, opts = {}) {
+      // Garante que o token atual está no header
+      opts.headers = { ...opts.headers, 'Authorization': `Bearer ${_adminToken}` };
+      opts.credentials = 'include';
+
+      let res = await fetch(url, opts);
+
+      if (res.status === 401) {
+        const tokenBefore = _adminToken;
+
+        // Só dispara um refresh por vez, mesmo que múltiplas requisições falhem
+        if (!_refreshing) {
+          _refreshing = fetch(`${API}/auth/refresh`, { method: 'POST', credentials: 'include' })
+            .then(async r => {
+              if (!r.ok) throw new Error('refresh_failed');
+              const data = await r.json();
+              if (data.accessToken) {
+                _adminToken = data.accessToken;
+                localStorage.setItem('mb_access_token', _adminToken);
+              }
+            })
+            .catch(() => { /* refresh falhou — _adminToken continua igual */ })
+            .finally(() => { _refreshing = null; });
+        }
+        await _refreshing;
+
+        if (_adminToken === tokenBefore) {
+          // Token não mudou → refresh falhou → redireciona para login
+          localStorage.removeItem('mb_access_token');
+          localStorage.removeItem('mb_user');
+          window.location.replace('./admin-login.html');
+          return res;
+        }
+
+        // Retenta a requisição original com o novo token
+        opts.headers['Authorization'] = `Bearer ${_adminToken}`;
+        res = await fetch(url, opts);
+      }
+
+      return res;
     }
 
     /* ── Dados (preenchidos via API) ─────────────────── */
@@ -1546,12 +1674,15 @@
     const PARTNER_COLORS = ['#76C442','#F59E0B','#29A8D4','#A78BFA','#F97316','#EC4899'];
     function mapPartner(row, idx) {
       return {
-        id:       row.id,
-        name:     row.name,
-        category: row.category || '',
-        discount: row.discount || '',
-        status:   row.active ? 'active' : 'inactive',
-        color:    PARTNER_COLORS[idx % PARTNER_COLORS.length],
+        id:          row.id,
+        name:        row.name,
+        category:    row.category    || '',
+        discount:    row.discount    || '',
+        description: row.description || '',
+        logo_url:    row.logo_url    || '',
+        coupon_url:  row.coupon_url  || '',
+        status:      row.active ? 'active' : 'inactive',
+        color:       PARTNER_COLORS[idx % PARTNER_COLORS.length],
       };
     }
 
@@ -1606,7 +1737,7 @@
             <td>${s.since}</td>
             <td>${s.lastAccess}</td>
             <td>
-              <div class="progress-mini-wrap">
+              <div class="progress-mini-wrap" onclick="openProgressModal('${esc(s.id)}','${esc(s.name)}')" title="Ver progresso detalhado">
                 <div class="progress-mini-bg"><div class="progress-mini-fill" style="width:${s.progress}%"></div></div>
                 <span class="progress-mini-pct">${s.progress}%</span>
               </div>
@@ -1702,7 +1833,7 @@
       if (!confirm('Tem certeza que deseja excluir esta trilha? Esta ação não pode ser desfeita.')) return;
       btn.disabled = true;
       try {
-        const r = await fetch(`${API}/trails/${id}`, {
+        const r = await adminFetch(`${API}/trails/${id}`, {
           method: 'DELETE',
           credentials: 'include',
           headers: { 'Authorization': `Bearer ${_adminToken}` }
@@ -1752,6 +1883,23 @@
       });
     }
 
+    /* ── Preview de capa de módulo ───────────────────── */
+    function _previewModuleCover(inp, mid) {
+      const f = inp.files[0];
+      if (!f) return;
+      const img  = document.getElementById('me-coverimg-' + mid);
+      const zone = document.getElementById('me-coverzone-' + mid);
+      if (img) { img.src = URL.createObjectURL(f); img.style.display = ''; }
+      if (zone) {
+        // Remove placeholder text/icon nodes (keep .te-thumb-overlay)
+        Array.from(zone.childNodes).forEach(n => {
+          if (n.nodeType === 3 || (n !== img && !n.classList?.contains('te-thumb-overlay') && n.tagName !== 'INPUT')) n.remove?.();
+        });
+        const ov = zone.querySelector('.te-thumb-overlay');
+        if (ov) ov.textContent = 'Trocar capa';
+      }
+    }
+
     /* ── Expandir/colapsar form de edição de módulo ──── */
     function toggleModExpand(moduleId) {
       const card   = document.getElementById(`mod-card-${moduleId}`);
@@ -1764,15 +1912,38 @@
 
     /* ── Salvar edição individual de módulo (só metadados) ─── */
     async function saveModuleEdit(trailId, moduleId) {
-      const titleEl = document.getElementById(`me-title-${moduleId}`);
-      const orderEl = document.getElementById(`me-order-${moduleId}`);
-      const durEl   = document.getElementById(`me-dur-${moduleId}`);
-      const descEl  = document.getElementById(`me-desc-${moduleId}`);
-      const saveBtn = document.getElementById(`me-save-${moduleId}`);
+      const titleEl   = document.getElementById(`me-title-${moduleId}`);
+      const orderEl   = document.getElementById(`me-order-${moduleId}`);
+      const durEl     = document.getElementById(`me-dur-${moduleId}`);
+      const descEl    = document.getElementById(`me-desc-${moduleId}`);
+      const saveBtn   = document.getElementById(`me-save-${moduleId}`);
+      const coverInp  = document.getElementById(`me-coverinput-${moduleId}`);
+      const coverProg = document.getElementById(`me-coverprog-${moduleId}`);
+      const coverBar  = document.getElementById(`me-coverbar-${moduleId}`);
+      const coverLbl  = document.getElementById(`me-coverlbl-${moduleId}`);
       const title = titleEl?.value.trim();
       if (!title) { showToast('Título é obrigatório.'); return; }
       saveBtn.disabled = true;
       saveBtn.textContent = 'Salvando…';
+
+      let thumbnailUrl = null;
+
+      // Upload capa se foi selecionada
+      const coverFile = coverInp?.files[0] ?? null;
+      if (coverFile) {
+        coverProg.style.display = '';
+        try {
+          const { publicUrl } = await _teUploadFile(coverFile, 'module-covers', coverFile.type, coverBar, coverLbl);
+          thumbnailUrl = publicUrl;
+        } catch (err) {
+          showToast(err.message || 'Erro ao enviar capa.');
+          coverProg.style.display = 'none';
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:.85rem;height:.85rem"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar informações`;
+          return;
+        }
+      }
+
       try {
         const orderVal = orderEl?.value;
         const payload = {
@@ -1781,7 +1952,8 @@
           durationMin: durEl?.value ? parseInt(durEl.value) : null,
           orderNum:    orderVal !== '' ? parseInt(orderVal) : undefined,
         };
-        const r = await fetch(`${API}/trails/${trailId}/modules/${moduleId}`, {
+        if (thumbnailUrl) payload.thumbnailUrl = thumbnailUrl;
+        const r = await adminFetch(`${API}/trails/${trailId}/modules/${moduleId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
           credentials: 'include',
@@ -1791,11 +1963,13 @@
         if (!r.ok) throw new Error(d.error || 'Erro ao salvar módulo.');
         const ttl2 = document.getElementById(`mod-ttl-${moduleId}`);
         if (ttl2) ttl2.textContent = title;
+        if (coverProg) coverProg.style.display = 'none';
         showToast('Módulo salvo!');
         toggleModExpand(moduleId);
         await loadTrails();
       } catch (err) {
         showToast(err.message || 'Erro ao salvar módulo.');
+        if (coverProg) coverProg.style.display = 'none';
       }
       saveBtn.disabled = false;
       saveBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:.85rem;height:.85rem"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Salvar informações`;
@@ -1810,13 +1984,16 @@
     function _cancelAddVideo(moduleId) {
       const form = document.getElementById(`me-avf-${moduleId}`);
       if (form) form.style.display = 'none';
-      ['me-avp-', 'me-avzone-', 'me-avtitle-', 'me-avdur-', 'me-avfile-', 'me-avvname-'].forEach(pfx => {
+      ['me-avp-', 'me-avzone-', 'me-avtitle-', 'me-avdur-', 'me-avfile-', 'me-avvname-', 'me-avpbar-', 'me-avplbl-', 'me-avbtn-'].forEach(pfx => {
         const el = document.getElementById(pfx + moduleId);
         if (!el) return;
         if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.value = '';
-        if (pfx === 'me-avp-') el.style.display = 'none';
-        if (pfx === 'me-avzone-') el.classList.remove('has-file');
-        if (pfx === 'me-avvname-') el.textContent = 'Selecionar MP4…';
+        if (pfx === 'me-avp-')    { el.style.display = 'none'; }
+        if (pfx === 'me-avpbar-') { el.style.width = '0%'; }
+        if (pfx === 'me-avplbl-') { el.textContent = 'Enviando vídeo…'; }
+        if (pfx === 'me-avzone-') { el.classList.remove('has-file'); }
+        if (pfx === 'me-avvname-'){ el.textContent = 'Selecionar MP4…'; }
+        if (pfx === 'me-avbtn-')  { el.disabled = false; el.textContent = '↑ Enviar e Adicionar'; }
       });
     }
 
@@ -1833,6 +2010,8 @@
       if (!title && !file) { showToast('Informe o título ou selecione um vídeo.'); return; }
       btn.disabled = true; btn.textContent = 'Enviando…';
       let s3Key = null;
+
+      // ── Fase 1: upload do arquivo para S3 ──────────────
       if (file) {
         progEl.style.display = ''; barEl.style.width = '0%';
         try {
@@ -1840,22 +2019,34 @@
           s3Key = key;
         } catch (err) {
           showToast(err.message || 'Erro ao enviar vídeo.');
-          btn.disabled = false; btn.textContent = '↑ Enviar e Adicionar'; return;
+          progEl.style.display = 'none';
+          btn.disabled = false; btn.textContent = '↑ Enviar e Adicionar';
+          return;
         }
       }
+
+      // ── Fase 2: salvar referência no banco ─────────────
+      // Atualiza label para deixar claro que ainda está processando
+      if (progEl.style.display !== 'none') {
+        lblEl.textContent = 'Salvando registro…';
+        barEl.style.width = '100%';
+      }
+      btn.textContent = 'Salvando…';
+
       try {
-        const r = await fetch(`${API}/trails/${trailId}/modules/${moduleId}/videos`, {
+        const r = await adminFetch(`${API}/trails/${trailId}/modules/${moduleId}/videos`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
           credentials: 'include',
-          body: JSON.stringify({ title: title || file?.name || 'Aula', s3Key, durationMin: durEl?.value ? parseInt(durEl.value) : null }),
+          body: JSON.stringify({ title: title || file?.name || 'Aula', s3Key, durationMin: durEl?.value ? parseInt(durEl.value, 10) : null }),
         });
         const d = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(d.error || 'Erro ao adicionar vídeo.');
+
+        // Sucesso — adiciona item à lista sem recarregar tudo
         const listEl = document.getElementById(`me-vidlist-${moduleId}`);
         if (listEl) {
-          const emptyMsg = listEl.querySelector('.te-vid-empty');
-          if (emptyMsg) emptyMsg.remove();
+          listEl.querySelector('.te-vid-empty')?.remove();
           const item = document.createElement('div');
           item.className = 'te-vid-item'; item.id = `vid-item-${d.id}`;
           item.innerHTML = `
@@ -1867,23 +2058,27 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
             </button>`;
           listEl.appendChild(item);
-          // Update counter badge
           const count = listEl.querySelectorAll('.te-vid-item').length;
-          const metaEl = document.getElementById(`mod-meta-${moduleId}`);
-          const badge = metaEl?.querySelector('[data-vid-count]');
+          const badge = document.getElementById(`mod-meta-${moduleId}`)?.querySelector('[data-vid-count]');
           if (badge) badge.textContent = `${count} vídeo${count !== 1 ? 's' : ''}`;
         }
+
         showToast(s3Key ? 'Vídeo enviado e adicionado!' : 'Vídeo adicionado!');
+        // Limpa formulário e esconde tudo (inclui barra de progresso)
         _cancelAddVideo(moduleId);
-      } catch (err) { showToast(err.message || 'Erro ao adicionar vídeo.'); }
-      btn.disabled = false; btn.textContent = '↑ Enviar e Adicionar';
+      } catch (err) {
+        showToast(err.message || 'Erro ao adicionar vídeo.');
+        // Restaura estado visual — mostra form novamente limpo para nova tentativa
+        progEl.style.display = 'none';
+        btn.disabled = false; btn.textContent = '↑ Enviar e Adicionar';
+      }
     }
 
     async function _deleteModuleVideo(trailId, moduleId, videoId, btn) {
       if (!confirm('Remover este vídeo do módulo?')) return;
       btn.disabled = true;
       try {
-        const r = await fetch(`${API}/trails/${trailId}/modules/${moduleId}/videos/${videoId}`, {
+        const r = await adminFetch(`${API}/trails/${trailId}/modules/${moduleId}/videos/${videoId}`, {
           method: 'DELETE', credentials: 'include',
           headers: { 'Authorization': `Bearer ${_adminToken}` },
         });
@@ -1932,7 +2127,7 @@
               <span data-vid-count>${vidCount} vídeo${vidCount !== 1 ? 's' : ''}</span>
             </div>
           </div>
-          <span class="badge badge--${m.published ? 'active' : 'draft'}" style="font-size:0.55rem;flex-shrink:0">${m.published ? 'Pub.' : 'Ras.'}</span>
+          <button class="badge badge--${m.published ? 'active' : 'draft'} mod-pub-badge" style="font-size:0.55rem;flex-shrink:0;cursor:pointer;background:inherit" title="${m.published ? 'Clique para despublicar' : 'Clique para publicar'}" onclick="toggleModulePublish('${trailId}','${mid}',this)">${m.published ? 'Pub.' : 'Ras.'}</button>
           <button class="btn-icon" style="width:1.75rem;height:1.75rem;flex-shrink:0;color:var(--ink-muted)" title="Editar módulo" onclick="toggleModExpand('${mid}')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </button>
@@ -1943,7 +2138,23 @@
           <div class="te-mod-expand" id="mod-expand-${mid}" style="display:none">
 
             <!-- ① Informações do módulo -->
-            <div class="te-section-label">Informações</div>
+            <div class="te-section-label">Capa do Módulo</div>
+            <label class="te-thumb-zone te-thumb-zone--sm" id="me-coverzone-${mid}" style="cursor:pointer">
+              ${m.thumbnail_url ? `<img id="me-coverimg-${mid}" src="${esc(m.thumbnail_url)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit">` : `<img id="me-coverimg-${mid}" src="" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit">`}
+              <div class="te-thumb-overlay">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                ${m.thumbnail_url ? 'Trocar capa' : 'Adicionar capa'}
+              </div>
+              ${!m.thumbnail_url ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="width:1.5rem;height:1.5rem;opacity:.35;position:relative;z-index:1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span style="font-size:0.72rem;position:relative;z-index:1">Imagem da aula</span>` : ''}
+              <input id="me-coverinput-${mid}" type="file" accept="image/jpeg,image/png,image/webp" style="display:none"
+                onchange="_previewModuleCover(this,'${mid}')">
+            </label>
+            <div class="te-progress" id="me-coverprog-${mid}" style="display:none">
+              <div class="te-progress-lbl" id="me-coverlbl-${mid}">Enviando capa…</div>
+              <div class="te-progress-bar-wrap"><div class="te-progress-bar" id="me-coverbar-${mid}"></div></div>
+            </div>
+
+            <div class="te-section-label" style="margin-top:0.25rem">Informações</div>
             <div class="form-row">
               <div class="form-field">
                 <label>Título</label>
@@ -2035,11 +2246,15 @@
       document.getElementById('modalBackdrop').classList.add('open');
 
       async function fetchTrailAdmin() {
-        const r = await fetch(`${API}/trails/admin/${trailId}`, {
+        const r = await adminFetch(`${API}/trails/admin/${trailId}`, {
           credentials: 'include',
           headers: { 'Authorization': `Bearer ${_adminToken}` }
         });
-        return r.ok ? r.json() : { name: '', description: '', thumbnail_url: null, modules: [] };
+        if (!r.ok) {
+          const e = await r.json().catch(() => ({}));
+          throw new Error(e.error || `Erro ao carregar trilha (${r.status}).`);
+        }
+        return r.json();
       }
 
       // Delega ao upload global
@@ -2160,7 +2375,14 @@
           : iconPlus + 'Adicionar Módulo';
       }
 
-      const trail = await fetchTrailAdmin();
+      let trail;
+      try {
+        trail = await fetchTrailAdmin();
+      } catch (err) {
+        showToast(err.message || 'Erro ao carregar trilha.');
+        btn.disabled = false;
+        return;
+      }
       title.textContent = trail.name || 'Editar Trilha';
       renderBody(trail);
       updateSaveBtn('panel-trail');
@@ -2198,7 +2420,7 @@
           try {
             const payload = { name, description: desc };
             if (thumbnailUrl) payload.thumbnailUrl = thumbnailUrl;
-            const r = await fetch(`${API}/trails/${trailId}`, {
+            const r = await adminFetch(`${API}/trails/${trailId}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
               credentials: 'include',
@@ -2224,13 +2446,14 @@
           btn.disabled = true;
 
           try {
+            const orderVal = modOrder !== '' ? parseInt(modOrder, 10) : null;
             const payload = {
               title:       modTitle,
               description: modDesc || null,
-              durationMin: modDuration ? parseInt(modDuration) : null,
-              orderNum:    modOrder !== '' ? parseInt(modOrder) : 0,
+              durationMin: modDuration ? parseInt(modDuration, 10) : null,
+              orderNum:    Number.isFinite(orderVal) ? orderVal : null,
             };
-            const r = await fetch(`${API}/trails/${trailId}/modules`, {
+            const r = await adminFetch(`${API}/trails/${trailId}/modules`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
               credentials: 'include',
@@ -2238,15 +2461,24 @@
             });
             const d = await r.json().catch(() => ({}));
             if (!r.ok) throw new Error(d.error || 'Erro ao adicionar módulo.');
-            showToast('Módulo criado! Clique em ✏️ para adicionar vídeos.');
-            const updated = await fetchTrailAdmin();
-            document.getElementById('moduleList').innerHTML = renderModuleItems(updated.modules || [], trailId);
-            body.querySelector('[data-panel="panel-modules"] .te-section-label').textContent =
-              `${(updated.modules||[]).length} módulo(s) cadastrado(s)`;
+
+            // Módulo criado com sucesso — limpa formulário
             document.getElementById('modTitle').value    = '';
             document.getElementById('modDesc').value     = '';
             document.getElementById('modDuration').value = '';
             document.getElementById('modOrder').value    = '';
+
+            // Tenta recarregar lista (não é crítico — module já foi salvo no DB)
+            try {
+              const updated = await fetchTrailAdmin();
+              document.getElementById('moduleList').innerHTML = renderModuleItems(updated.modules || [], trailId);
+              const lbl = body.querySelector('#panel-modules .te-section-label');
+              if (lbl) lbl.textContent = `${(updated.modules||[]).length} módulo(s) cadastrado(s)`;
+            } catch (reloadErr) {
+              console.warn('Não foi possível recarregar lista de módulos:', reloadErr.message);
+            }
+
+            showToast('Módulo criado! Clique em ✏️ para adicionar vídeos.');
             await loadTrails();
           } catch (err) {
             showToast(err.message || 'Erro ao adicionar módulo.');
@@ -2261,7 +2493,7 @@
       if (!confirm('Excluir este módulo? Esta ação não pode ser desfeita.')) return;
       btn.disabled = true;
       try {
-        const r = await fetch(`${API}/trails/${trailId}/modules/${moduleId}`, {
+        const r = await adminFetch(`${API}/trails/${trailId}/modules/${moduleId}`, {
           method: 'DELETE',
           credentials: 'include',
           headers: { 'Authorization': `Bearer ${_adminToken}` }
@@ -2277,9 +2509,28 @@
     }
 
     /* ── Publicar/Despublicar Trilha ───────────────── */
+    async function toggleModulePublish(trailId, moduleId, el) {
+      try {
+        const r = await adminFetch(`${API}/trails/${trailId}/modules/${moduleId}/publish`, {
+          method: 'PUT',
+          credentials: 'include',
+          headers: { 'Authorization': `Bearer ${_adminToken}` }
+        });
+        if (!r.ok) throw new Error();
+        const data = await r.json();
+        // Atualiza badge visual
+        el.className = `badge badge--${data.published ? 'active' : 'draft'} mod-pub-badge`;
+        el.title = data.published ? 'Clique para despublicar' : 'Clique para publicar';
+        el.textContent = data.published ? 'Pub.' : 'Ras.';
+        showToast(data.published ? 'Módulo publicado.' : 'Módulo ocultado dos alunos.');
+      } catch {
+        showToast('Erro ao atualizar status do módulo.');
+      }
+    }
+
     async function toggleTrailPublish(id, toggleEl) {
       try {
-        const r = await fetch(`${API}/trails/${id}/publish`, {
+        const r = await adminFetch(`${API}/trails/${id}/publish`, {
           method: 'PUT',
           credentials: 'include',
           headers: { 'Authorization': `Bearer ${_adminToken}` }
@@ -2303,7 +2554,7 @@
     /* ── Carregar Trilhas da API ────────────────────── */
     async function loadTrails() {
       try {
-        const r = await fetch(`${API}/trails/admin/all`, {
+        const r = await adminFetch(`${API}/trails/admin/all`, {
           credentials: 'include',
           headers: { 'Authorization': `Bearer ${_adminToken}` }
         });
@@ -2358,7 +2609,7 @@
       if (!confirm('Excluir esta live? Esta ação não pode ser desfeita.')) return;
       btn.disabled = true;
       try {
-        const r = await fetch(`${API}/lives/${id}`, {
+        const r = await adminFetch(`${API}/lives/${id}`, {
           method: 'DELETE',
           credentials: 'include',
           headers: { 'Authorization': `Bearer ${_adminToken}` }
@@ -2382,36 +2633,188 @@
       });
     });
 
-    /* ── Render Parceiros ──────────────────────────── */
+    /* ── Carregar / Renderizar Parceiros ──────────── */
+    async function loadPartners() {
+      try {
+        const r = await adminFetch(`${API}/partners/admin/all`, {
+          headers: { 'Authorization': `Bearer ${_adminToken}` }, credentials: 'include',
+        });
+        if (r.ok) { partnersData = (await r.json()).map((row, i) => mapPartner(row, i)); }
+      } catch {}
+      renderPartners();
+    }
+
     function renderPartners() {
       const grid = document.getElementById('partnersAdminGrid');
+      if (!grid) return;
       grid.innerHTML = '';
+      if (!partnersData.length) {
+        grid.innerHTML = '<div class="empty-state"><p>Nenhum parceiro criado ainda. Clique em "Novo Parceiro" para começar.</p></div>';
+        return;
+      }
       partnersData.forEach(p => {
-        grid.innerHTML += `
-          <div class="partner-admin-card">
-            <div class="partner-admin-icon" style="background:${p.color}18;border:1px solid ${p.color}30;color:${p.color}">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        const logoHtml = p.logo_url
+          ? `<img src="${esc(p.logo_url)}" alt="${esc(p.name)}" style="width:44px;height:44px;border-radius:10px;object-fit:contain;background:rgba(255,255,255,0.05);padding:4px;flex-shrink:0;border:1px solid var(--border)">`
+          : `<div class="partner-admin-icon" style="background:${p.color}18;border:1px solid ${p.color}30;color:${p.color}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>`;
+
+        const card = document.createElement('div');
+        card.className   = 'partner-admin-card';
+        card.dataset.id  = p.id;
+        card.innerHTML = `
+          ${logoHtml}
+          <div class="partner-admin-info">
+            <div class="partner-admin-name">${esc(p.name)}</div>
+            <div class="partner-admin-meta">
+              <span class="partner-admin-cat">${esc(p.category)}</span>
+              <span class="badge badge--${p.status === 'active' ? 'active' : 'draft'}" style="font-size:0.52rem">${p.status === 'active' ? 'Ativo' : 'Inativo'}</span>
             </div>
-            <div class="partner-admin-info">
-              <div class="partner-admin-name">${p.name}</div>
-              <div class="partner-admin-meta">
-                <span class="partner-admin-cat">${p.category}</span>
-                <span class="badge badge--${p.status === 'active' ? 'active' : 'draft'}" style="font-size:0.52rem">${p.status === 'active' ? 'Ativo' : 'Inativo'}</span>
-              </div>
-              <div style="font-size:0.7rem;color:var(--ink);margin-top:0.22rem;font-weight:600;">${p.discount}</div>
-            </div>
-            <div class="partner-admin-side">
-              <div class="btn-toggle ${p.status === 'active' ? 'on' : ''}" title="Ativar/Desativar" onclick="this.classList.toggle('on');showToast('Status do parceiro atualizado.')"></div>
-              <button class="btn-icon" title="Editar" onclick="openModal('partner')">
-                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-              </button>
-              <button class="btn-icon btn-icon--danger" title="Remover">
-                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
-              </button>
+            <div style="font-size:0.7rem;color:var(--ink);margin-top:0.2rem;font-weight:600;">${esc(p.discount)}</div>
+            ${p.description ? `<div style="font-size:0.65rem;color:var(--ink-dim);margin-top:0.12rem;">${esc(p.description)}</div>` : ''}
+          </div>
+          <div class="partner-admin-side">
+            <div class="btn-toggle ${p.status === 'active' ? 'on' : ''}" title="Ativar/Desativar"></div>
+            <button class="btn-icon btn-edit-partner" title="Editar parceiro">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="btn-icon btn-icon--danger btn-del-partner" title="Remover parceiro">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+            </button>
+          </div>`;
+
+        // Toggle ativo/inativo -> API
+        card.querySelector('.btn-toggle').addEventListener('click', async function() {
+          this.classList.toggle('on');
+          try {
+            const r = await adminFetch(`${API}/partners/${p.id}/toggle`, {
+              method: 'PUT', headers: { 'Authorization': `Bearer ${_adminToken}` }, credentials: 'include',
+            });
+            if (!r.ok) throw new Error();
+            const data = await r.json();
+            const idx = partnersData.findIndex(x => x.id === p.id);
+            if (idx >= 0) partnersData[idx].status = data.active ? 'active' : 'inactive';
+            const badge = card.querySelector('.badge');
+            if (badge) { badge.className = `badge badge--${data.active ? 'active' : 'draft'}`; badge.style.fontSize = '0.52rem'; badge.textContent = data.active ? 'Ativo' : 'Inativo'; }
+            showToast(data.active ? 'Parceiro ativado.' : 'Parceiro desativado.');
+          } catch { this.classList.toggle('on'); showToast('Erro ao atualizar status.'); }
+        });
+
+        // Editar
+        card.querySelector('.btn-edit-partner').addEventListener('click', () => openPartnerModal(p.id));
+
+        // Remover
+        card.querySelector('.btn-del-partner').addEventListener('click', async () => {
+          if (!confirm(`Remover o parceiro "${p.name}"? Esta ação não pode ser desfeita.`)) return;
+          try {
+            const r = await adminFetch(`${API}/partners/${p.id}`, {
+              method: 'DELETE', headers: { 'Authorization': `Bearer ${_adminToken}` }, credentials: 'include',
+            });
+            if (!r.ok) throw new Error();
+            showToast('Parceiro removido.');
+            await loadPartners();
+          } catch { showToast('Erro ao remover parceiro.'); }
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    /* ── Modal criar / editar Parceiro ────────────── */
+    function openPartnerModal(partnerId) {
+      const isEdit = !!partnerId;
+      const p      = isEdit ? partnersData.find(x => x.id === partnerId) : null;
+
+      document.getElementById('modalBox').style.maxWidth = '540px';
+      document.getElementById('modalTitle').textContent  = isEdit ? 'Editar Parceiro' : 'Novo Parceiro';
+      document.getElementById('modalBody').innerHTML = `
+        <div class="form-field">
+          <label>Nome do parceiro <span style="color:var(--danger)">*</span></label>
+          <input id="partnerName" type="text" placeholder="Ex: Qadosh Suplementos" autocomplete="off" value="${p ? esc(p.name) : ''}">
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Categoria <span style="color:var(--danger)">*</span></label>
+            <input id="partnerCategory" type="text" placeholder="Ex: Suplementação" autocomplete="off" value="${p ? esc(p.category) : ''}">
+          </div>
+          <div class="form-field">
+            <label>Benefício / Desconto <span style="color:var(--danger)">*</span></label>
+            <input id="partnerDiscount" type="text" placeholder="Ex: 15% de desconto" autocomplete="off" value="${p ? esc(p.discount) : ''}">
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Descrição</label>
+          <textarea id="partnerDesc" placeholder="Descreva o benefício…" rows="2">${p ? esc(p.description || '') : ''}</textarea>
+        </div>
+        <div class="form-field">
+          <label>Link do cupom / site</label>
+          <input id="partnerCouponUrl" type="url" placeholder="https://parceiro.com.br?cupom=META" value="${p && p.coupon_url ? esc(p.coupon_url) : ''}">
+        </div>
+        <div class="form-field">
+          <label>Logo do parceiro <span style="color:var(--ink-muted);font-weight:400">(PNG, SVG ou WebP)</span></label>
+          <img id="partnerLogoPreview" src="${p && p.logo_url ? esc(p.logo_url) : ''}" alt="" style="display:${p && p.logo_url ? 'block' : 'none'};height:52px;object-fit:contain;border-radius:8px;border:1px solid var(--border);padding:6px;background:rgba(255,255,255,0.04);margin-bottom:0.5rem">
+          <label style="display:flex;align-items:center;gap:0.7rem;cursor:pointer;padding:0.6rem 0.875rem;border:1.5px dashed var(--border);border-radius:var(--radius);transition:border-color .2s" onmouseenter="this.style.borderColor='var(--green)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1.1rem;height:1.1rem;flex-shrink:0;color:var(--green)"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span id="partnerLogoName" style="font-size:0.82rem;color:var(--ink-muted)">${p && p.logo_url ? 'Trocar logo…' : 'Selecionar logo…'}</span>
+            <input id="partnerLogo" type="file" accept="image/png,image/svg+xml,image/webp,image/jpeg" style="display:none">
+          </label>
+          <div id="partnerLogoProgress" style="display:none;margin-top:0.5rem">
+            <div id="partnerLogoLbl" style="font-size:0.72rem;color:var(--ink-muted);margin-bottom:0.3rem">Enviando logo…</div>
+            <div style="background:var(--border);border-radius:99px;height:5px;overflow:hidden">
+              <div id="partnerLogoBar" style="height:100%;background:var(--green);border-radius:99px;transition:width .15s;width:0%"></div>
             </div>
           </div>
-        `;
+        </div>`;
+
+      document.getElementById('partnerLogo').addEventListener('change', function() {
+        const f = this.files[0]; if (!f) return;
+        document.getElementById('partnerLogoName').textContent = f.name;
+        document.getElementById('partnerLogoName').style.color = 'var(--ink)';
+        const prev = document.getElementById('partnerLogoPreview');
+        prev.src = URL.createObjectURL(f); prev.style.display = 'block';
       });
+
+      const btn = document.getElementById('modalSaveBtn');
+      btn.disabled = false;
+      btn.onclick  = async () => {
+        const name      = document.getElementById('partnerName')?.value.trim();
+        const category  = document.getElementById('partnerCategory')?.value.trim();
+        const discount  = document.getElementById('partnerDiscount')?.value.trim();
+        const desc      = document.getElementById('partnerDesc')?.value.trim();
+        const couponUrl = document.getElementById('partnerCouponUrl')?.value.trim();
+        const logoFile  = document.getElementById('partnerLogo')?.files[0];
+        if (!name || !category || !discount) { showToast('Nome, categoria e benefício são obrigatórios.'); return; }
+        btn.disabled = true;
+
+        let logoUrl = isEdit ? (p.logo_url || null) : null;
+        if (logoFile) {
+          const bar = document.getElementById('partnerLogoBar');
+          const lbl = document.getElementById('partnerLogoLbl');
+          document.getElementById('partnerLogoProgress').style.display = '';
+          try {
+            const { publicUrl } = await _teUploadFile(logoFile, 'partners', logoFile.type, bar, lbl);
+            logoUrl = publicUrl;
+          } catch (err) { showToast(err.message || 'Erro ao enviar logo.'); btn.disabled = false; return; }
+        }
+
+        const payload = { name, category, discount, description: desc || null, couponUrl: couponUrl || null, logoUrl };
+        try {
+          const r = await adminFetch(
+            isEdit ? `${API}/partners/${partnerId}` : `${API}/partners`,
+            {
+              method: isEdit ? 'PUT' : 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
+              credentials: 'include',
+              body: JSON.stringify(payload),
+            }
+          );
+          const data = await r.json().catch(() => ({}));
+          if (!r.ok) throw new Error(data.error || 'Erro ao salvar parceiro.');
+          closeModal();
+          showToast(isEdit ? 'Parceiro atualizado!' : 'Parceiro criado!');
+          await loadPartners();
+        } catch (err) { showToast(err.message || 'Erro ao salvar parceiro.'); btn.disabled = false; }
+      };
+
+      document.getElementById('modalBackdrop').classList.add('open');
     }
 
     /* ── Navegação entre seções ────────────────────── */
@@ -2564,44 +2967,14 @@
 
           // Upload da capa para S3 (se selecionada)
           if (thumbFile) {
-            const mimeType = thumbFile.type;
             const progressWrap = document.getElementById('trailUploadProgress');
             const progressBar  = document.getElementById('trailProgressBar');
             const progressLbl  = document.getElementById('trailUploadLabel');
             progressWrap.style.display = '';
             progressBar.style.width = '0%';
             try {
-              progressLbl.textContent = 'Obtendo URL de upload…';
-              const urlResp = await fetch(`${API}/media/upload/image`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
-                credentials: 'include',
-                body: JSON.stringify({ mimeType, folder: 'thumbnails' }),
-              });
-              if (!urlResp.ok) {
-                const e = await urlResp.json().catch(() => ({}));
-                throw new Error(e.error || 'Erro ao obter URL de upload.');
-              }
-              const { uploadUrl, publicUrl } = await urlResp.json();
-              progressLbl.textContent = 'Enviando imagem…';
-              await new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open('PUT', uploadUrl);
-                xhr.setRequestHeader('Content-Type', mimeType);
-                xhr.upload.onprogress = (e) => {
-                  if (e.lengthComputable) {
-                    const pct = Math.round((e.loaded / e.total) * 100);
-                    progressBar.style.width = pct + '%';
-                    progressLbl.textContent = `Enviando imagem… ${pct}%`;
-                  }
-                };
-                xhr.onload  = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error('Falha no upload para S3.'));
-                xhr.onerror = () => reject(new Error('Erro de conexão durante o upload.'));
-                xhr.send(thumbFile);
-              });
+              const { publicUrl } = await _teUploadFile(thumbFile, 'thumbnails', thumbFile.type, progressBar, progressLbl);
               thumbnailUrl = publicUrl;
-              progressBar.style.width = '100%';
-              progressLbl.textContent = 'Imagem enviada!';
             } catch (err) {
               showToast(err.message || 'Erro ao enviar imagem.');
               btn.disabled = false;
@@ -2610,7 +2983,7 @@
           }
 
           try {
-            const r = await fetch(`${API}/trails`, {
+            const r = await adminFetch(`${API}/trails`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
               credentials: 'include',
@@ -2637,7 +3010,7 @@
           if (!name || !email || !password) { showToast('Nome, e-mail e senha são obrigatórios.'); return; }
           btn.disabled = true;
           try {
-            const r = await fetch(`${API}/admin/students`, {
+            const r = await adminFetch(`${API}/admin/students`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
               credentials: 'include',
@@ -2647,7 +3020,7 @@
             if (!r.ok) throw new Error(data.error || 'Erro ao criar aluno.');
             closeModal();
             showToast('Aluno criado com sucesso!');
-            const listR = await fetch(`${API}/admin/students?limit=100`, { headers: { 'Authorization': `Bearer ${_adminToken}` }, credentials: 'include' });
+            const listR = await adminFetch(`${API}/admin/students?limit=100`, { headers: { 'Authorization': `Bearer ${_adminToken}` }, credentials: 'include' });
             if (listR.ok) {
               const listData = await listR.json();
               if (Array.isArray(listData.data)) {
@@ -2674,7 +3047,7 @@
           const scheduledAt = new Date(`${liveDate}T${liveTime}:00`).toISOString();
           btn.disabled = true;
           try {
-            const r = await fetch(`${API}/lives`, {
+            const r = await adminFetch(`${API}/lives`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${_adminToken}` },
               credentials: 'include',
@@ -2684,7 +3057,7 @@
             if (!r.ok) throw new Error(data.error || 'Erro ao criar live.');
             closeModal();
             showToast('Live criada com sucesso!');
-            const listR = await fetch(`${API}/lives`, { headers: { 'Authorization': `Bearer ${_adminToken}` }, credentials: 'include' });
+            const listR = await adminFetch(`${API}/lives`, { headers: { 'Authorization': `Bearer ${_adminToken}` }, credentials: 'include' });
             if (listR.ok) {
               livesData = (await listR.json()).map(mapLive);
               renderLives();
@@ -2724,7 +3097,7 @@
 
     /* ── Logout ────────────────────────────────────── */
     async function confirmLogout() {
-      try { await fetch(`${API}/auth/logout`, { method: 'POST', credentials: 'include', headers: { 'Authorization': `Bearer ${_adminToken}` } }); } catch {}
+      try { await adminFetch(`${API}/auth/logout`, { method: 'POST', credentials: 'include', headers: { 'Authorization': `Bearer ${_adminToken}` } }); } catch {}
       localStorage.removeItem('mb_user');
       localStorage.removeItem('mb_access_token');
       window.location.href = './admin-login.html';
@@ -2748,7 +3121,7 @@
 
       const hdrs = { 'Authorization': `Bearer ${_adminToken}` };
       const apiFetch = async (path) => {
-        const r = await fetch(`${API}${path}`, { headers: hdrs, credentials: 'include' });
+        const r = await adminFetch(`${API}${path}`, { headers: hdrs, credentials: 'include' });
         if (r.status === 401) { window.location.replace('./admin-login.html'); return null; }
         return r.ok ? r.json() : null;
       };
@@ -2808,6 +3181,58 @@
         applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
       });
     })();
+
+    /* ── Modal de Progresso do Aluno ─────────────────── */
+    function closeProgressModal() {
+      document.getElementById('progModalBackdrop').classList.remove('open');
+    }
+
+    async function openProgressModal(studentId, studentName) {
+      const backdrop = document.getElementById('progModalBackdrop');
+      const nameEl   = document.getElementById('progModalName');
+      const bodyEl   = document.getElementById('progModalBody');
+      nameEl.textContent = studentName;
+      bodyEl.innerHTML   = '<div class="prog-loading">Carregando progresso…</div>';
+      backdrop.classList.add('open');
+      try {
+        const res = await adminFetch(`${API}/admin/students/${studentId}/progress`);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const trails = await res.json();
+        if (!trails.length) {
+          bodyEl.innerHTML = '<div class="prog-empty">Nenhuma trilha publicada ou nenhum progresso registrado.</div>';
+          return;
+        }
+        bodyEl.innerHTML = trails.map(trail => {
+          const moduleRows = trail.modules.map(m => {
+            const dateStr = m.watched_at
+              ? new Date(m.watched_at).toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'2-digit' })
+              : '';
+            return `
+              <div class="prog-module-row${m.completed ? ' prog-module-row--done' : ''}">
+                <div class="prog-module-icon ${m.completed ? 'prog-module-icon--done' : 'prog-module-icon--pend'}">
+                  <svg viewBox="0 0 24 24">${m.completed ? '<polyline points="20 6 9 17 4 12"/>' : '<circle cx="12" cy="12" r="4"/>'}</svg>
+                </div>
+                <span class="prog-module-title">${esc(m.title)}</span>
+                ${dateStr ? `<span class="prog-module-date">${dateStr}</span>` : ''}
+              </div>`;
+          }).join('');
+          return `
+            <div class="prog-trail-block">
+              <div class="prog-trail-head">
+                <span class="prog-trail-name">${esc(trail.trail_name)}</span>
+                <span class="prog-trail-pct-badge">${trail.completed_count}/${trail.total} — ${trail.percent}%</span>
+              </div>
+              <div class="prog-trail-bar-wrap">
+                <div class="prog-trail-bar" style="width:${trail.percent}%"></div>
+              </div>
+              <div class="prog-modules-grid">${moduleRows}</div>
+            </div>`;
+        }).join('');
+      } catch (err) {
+        console.error('Erro ao carregar progresso:', err);
+        bodyEl.innerHTML = '<div class="prog-empty">Erro ao carregar progresso. Tente novamente.</div>';
+      }
+    }
   </script>
 
 </body>

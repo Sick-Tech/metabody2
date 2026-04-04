@@ -1340,28 +1340,26 @@
         <div class="plan-card">
           <span class="plan-card-label">Seu plano</span>
           <div class="plan-card-header">
-            <span class="plan-card-name">Pro</span>
-            <span class="plan-card-period-badge">Anual</span>
+            <span class="plan-card-name" id="planName">—</span>
+            <span class="plan-card-period-badge" id="planPeriod"></span>
           </div>
-          <span class="plan-card-price">
-            <strong>R$ 179,90</strong>/mês
-          </span>
-          <span class="plan-card-renew">12 meses · Válido até 28/03/2027</span>
+          <span class="plan-card-price" id="planPrice"></span>
+          <span class="plan-card-renew" id="planRenew"></span>
         </div>
       </div>
 
       <div class="welcome-stats">
         <div class="stat-item">
-          <span class="stat-value">14 <span>dias</span></span>
+          <span class="stat-value" id="statDays">—</span>
           <span class="stat-label">Na plataforma</span>
         </div>
         <div class="stat-item">
-          <span class="stat-value">8</span>
-          <span class="stat-label">Aulas assistidas</span>
+          <span class="stat-value" id="statModules">—</span>
+          <span class="stat-label">Módulos concluídos</span>
         </div>
         <div class="stat-item">
-          <span class="stat-value">3</span>
-          <span class="stat-label">Lives assistidas</span>
+          <span class="stat-value" id="statTrails">—</span>
+          <span class="stat-label">Trilhas em andamento</span>
         </div>
       </div>
 
@@ -1376,117 +1374,7 @@
         </div>
       </div>
 
-      <div class="partners-grid">
-
-        <!-- 1 — Cursos & Lives -->
-        <div class="partner-card partner-card--featured">
-          <div class="partner-logo-area">
-            <!-- Substituir pelo <img> da marca: <img src="/images/parceiros/logo.svg" alt="Nome"> -->
-            <div class="partner-logo-placeholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-              <span>Logo aqui</span>
-            </div>
-          </div>
-          <div class="partner-body">
-            <div class="partner-tags">
-              <span class="partner-tag partner-tag--green">Exclusivo Pro</span>
-              <span class="partner-tag partner-tag--cyan">Lives</span>
-            </div>
-            <h3 class="partner-name">Cursos & Lives Exclusivos</h3>
-            <p class="partner-desc">Acesso ilimitado a todos os cursos da plataforma e todas as lives interativas com os especialistas MetaBody.</p>
-            <div class="partner-discount">
-              <span class="partner-discount-value">Incluso</span>
-              <span class="partner-discount-label">no seu plano Pro</span>
-            </div>
-            <button class="btn-redeem">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-              Acessar conteúdo
-            </button>
-          </div>
-        </div>
-
-        <!-- 2 — Qadosh Suplementos -->
-        <div class="partner-card">
-          <div class="partner-logo-area">
-            <!-- <img src="/images/parceiros/logo-qadosh.svg" alt="Qadosh Suplementos"> -->
-            <div class="partner-logo-placeholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
-              <span>Logo Qadosh</span>
-            </div>
-          </div>
-          <div class="partner-body">
-            <div class="partner-tags">
-              <span class="partner-tag partner-tag--gold">Desconto 15%</span>
-              <span class="partner-tag partner-tag--green">Suplementos</span>
-            </div>
-            <h3 class="partner-name">Qadosh Suplementos</h3>
-            <p class="partner-desc">Suplementação de alta qualidade para potencializar seus resultados com desconto exclusivo para membros MetaBody Pro.</p>
-            <div class="partner-discount">
-              <span class="partner-discount-value">15%</span>
-              <span class="partner-discount-label">de desconto em<br>toda a loja</span>
-            </div>
-            <button class="btn-redeem">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              Resgatar desconto
-            </button>
-          </div>
-        </div>
-
-        <!-- 3 — OLinocar -->
-        <div class="partner-card">
-          <div class="partner-logo-area">
-            <!-- <img src="/images/parceiros/logo-olinocar.svg" alt="OLinocar"> -->
-            <div class="partner-logo-placeholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
-              <span>Logo OLinocar</span>
-            </div>
-          </div>
-          <div class="partner-body">
-            <div class="partner-tags">
-              <span class="partner-tag partner-tag--cyan">Automóvel</span>
-              <span class="partner-tag partner-tag--purple">Doc. Isenta</span>
-            </div>
-            <h3 class="partner-name">OLinocar</h3>
-            <p class="partner-desc">Documentação isenta na compra de qualquer veículo. Benefício exclusivo para alunos Pro MetaBody — economia real na sua próxima aquisição.</p>
-            <div class="partner-discount">
-              <span class="partner-discount-value">Isento</span>
-              <span class="partner-discount-label">documentação na<br>compra do veículo</span>
-            </div>
-            <button class="btn-redeem">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              Resgatar benefício
-            </button>
-          </div>
-        </div>
-
-        <!-- 4 — Anna Lash -->
-        <div class="partner-card">
-          <div class="partner-logo-area">
-            <!-- <img src="/images/parceiros/logo-annalash.svg" alt="Anna Lash"> -->
-            <div class="partner-logo-placeholder">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
-              <span>Logo Anna Lash</span>
-            </div>
-          </div>
-          <div class="partner-body">
-            <div class="partner-tags">
-              <span class="partner-tag partner-tag--red">Beleza</span>
-              <span class="partner-tag partner-tag--gold">Desconto 15%</span>
-            </div>
-            <h3 class="partner-name">Anna Lash</h3>
-            <p class="partner-desc">Cílios e serviços de estética com desconto especial. Cuide da sua beleza com quem entende, e ainda economize sendo membro Pro.</p>
-            <div class="partner-discount">
-              <span class="partner-discount-value">15%</span>
-              <span class="partner-discount-label">de desconto em<br>cílios &amp; estética</span>
-            </div>
-            <button class="btn-redeem">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              Resgatar desconto
-            </button>
-          </div>
-        </div>
-
-      </div>
+      <div class="partners-grid" id="partnersGrid"></div>
     </section>
 
     <!-- ③ MENTORIAS / VÍDEOS ────────────────────── -->
@@ -1538,117 +1426,11 @@
       </div>
 
       <!-- Banner principal -->
-      <div class="live-featured">
-        <div class="live-featured-thumb">
-          <div class="live-thumb-content">
-            <div class="live-thumb-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="23 7 16 12 23 17 23 7"/>
-                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-              </svg>
-            </div>
-            <span class="live-thumb-status">Próxima sessão ao vivo</span>
-          </div>
-        </div>
-        <div class="live-featured-body">
-          <h3 class="live-featured-title">Mentoria ao vivo: Ajuste de treino e dieta — Perguntas & Respostas</h3>
-          <p class="live-featured-desc">
-            Sessão interativa exclusiva para alunos Pro. Traga suas dúvidas sobre treino, alimentação
-            e evolução. Lucas e Rafael respondem ao vivo com dicas personalizadas para você.
-          </p>
-          <div class="live-featured-meta">
-            <div class="live-meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
-              Quinta-feira, 09 de Abril
-            </div>
-            <div class="live-meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              20h00 (Brasília)
-            </div>
-            <div class="live-meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg>
-              Vagas limitadas
-            </div>
-          </div>
-          <a href="#" class="btn-notify">
-            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
-            Quero ser notificado
-          </a>
-        </div>
-      </div>
+      <div id="liveFeatured"></div>
 
       <!-- Próximas lives -->
-      <p class="section-label" style="margin-bottom: 0.85rem; margin-top: 0.25rem;">Agenda do mês</p>
-      <div class="live-schedule-grid">
-
-        <div class="live-schedule-card">
-          <div class="live-date-box">
-            <div class="live-date-day">15</div>
-            <div class="live-date-month">Abr</div>
-          </div>
-          <div class="live-schedule-info">
-            <h4 class="live-schedule-title">Treino funcional ao vivo</h4>
-            <span class="live-schedule-time">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              19h30 · ~60 min
-            </span>
-          </div>
-        </div>
-
-        <div class="live-schedule-card">
-          <div class="live-date-box">
-            <div class="live-date-day">22</div>
-            <div class="live-date-month">Abr</div>
-          </div>
-          <div class="live-schedule-info">
-            <h4 class="live-schedule-title">Q&A Nutrição esportiva</h4>
-            <span class="live-schedule-time">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              20h00 · ~50 min
-            </span>
-          </div>
-        </div>
-
-        <div class="live-schedule-card">
-          <div class="live-date-box">
-            <div class="live-date-day">29</div>
-            <div class="live-date-month">Abr</div>
-          </div>
-          <div class="live-schedule-info">
-            <h4 class="live-schedule-title">Encerramento mensal com avaliações</h4>
-            <span class="live-schedule-time">
-              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              20h00 · ~90 min
-            </span>
-          </div>
-        </div>
-
-      </div>
+      <p class="section-label" id="liveScheduleLabel" style="display:none;margin-bottom:0.85rem;margin-top:0.25rem;">Agenda do mês</p>
+      <div class="live-schedule-grid" id="liveScheduleGrid"></div>
 
 
     </section>
@@ -1662,27 +1444,246 @@
     const _user = (() => { try { return JSON.parse(localStorage.getItem('mb_user')); } catch { return null; } })();
     if (!_user) { window.location.replace('./login.html'); }
 
-    // ── Carrega dados do usuário ──
+    // ── Helpers ──────────────────────────────────────
+    function esc(s) {
+      return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    const MONTHS_SHORT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    const MONTHS_LONG  = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    const WEEK_DAYS    = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+
+    function fmtDate(iso) {
+      const d = new Date(iso);
+      return `${WEEK_DAYS[d.getDay()]}, ${d.getDate()} de ${MONTHS_LONG[d.getMonth()]}`;
+    }
+    function fmtTime(iso) {
+      const d = new Date(iso);
+      const h = String(d.getHours()).padStart(2,'0');
+      const m = String(d.getMinutes()).padStart(2,'0');
+      return `${h}h${m} (Brasília)`;
+    }
+    function daysSince(iso) {
+      return Math.floor((Date.now() - new Date(iso)) / 86400000);
+    }
+
+    // ── Carrega dados do usuário + plano ──
     async function loadUser() {
       try {
-        const res = await fetch(`${API}/users/me`, {
-          credentials: 'include',
-        });
-        if (res.status === 401) { window.location.replace('./login.html'); return; }
-        const user = await res.json();
+        const [userRes, subRes] = await Promise.all([
+          fetch(`${API}/users/me`, { credentials: 'include' }),
+          fetch(`${API}/users/me/subscription`, { credentials: 'include' }),
+        ]);
+        if (userRes.status === 401) { window.location.replace('./login.html'); return; }
+
+        const user = await userRes.json();
         const firstName = user.name.split(' ')[0];
         const initials  = user.name.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase();
-        const welcomeNameEl = document.getElementById('welcomeName');
-        const userNameEl    = document.getElementById('userName');
-        const userAvatarEl  = document.getElementById('userAvatar');
-        if (welcomeNameEl) welcomeNameEl.textContent = firstName + '!';
-        if (userNameEl)    userNameEl.textContent    = user.name;
-        if (userAvatarEl)  userAvatarEl.textContent  = initials;
+        document.getElementById('welcomeName')?.textContent && (document.getElementById('welcomeName').textContent = firstName + '!');
+        document.getElementById('userName') && (document.getElementById('userName').textContent = user.name);
+        document.getElementById('userAvatar') && (document.getElementById('userAvatar').textContent = initials);
+
+        // Dias na plataforma
+        const days = daysSince(user.created_at);
+        const statDays = document.getElementById('statDays');
+        if (statDays) statDays.innerHTML = `${days} <span>dias</span>`;
+
+        // Plano
+        if (subRes.ok) {
+          const sub = await subRes.json();
+          if (sub) {
+            document.getElementById('planName')   && (document.getElementById('planName').textContent   = sub.plan || '—');
+            document.getElementById('planPeriod') && (document.getElementById('planPeriod').textContent = sub.period === 'annual' ? 'Anual' : sub.period === 'monthly' ? 'Mensal' : (sub.period || ''));
+            if (sub.price_paid != null) {
+              const price = Number(sub.price_paid).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+              document.getElementById('planPrice') && (document.getElementById('planPrice').innerHTML = `<strong>${price}</strong>/mês`);
+            }
+            if (sub.expires_at) {
+              const exp = new Date(sub.expires_at).toLocaleDateString('pt-BR');
+              document.getElementById('planRenew') && (document.getElementById('planRenew').textContent = `Válido até ${exp}`);
+            }
+          }
+        }
       } catch (err) {
         console.error('Erro ao carregar dados do usuário:', err);
       }
     }
     loadUser();
+
+    // ── Carrega progresso → atualiza estatísticas ──
+    async function loadProgress() {
+      try {
+        const res = await fetch(`${API}/progress`, { credentials: 'include' });
+        if (!res.ok) return;
+        const data = await res.json(); // [{ trail_id, trail_name, total_modules, completed_modules, percent }]
+        const totalCompleted   = data.reduce((s, t) => s + Number(t.completed_modules || 0), 0);
+        const trailsInProgress = data.filter(t => Number(t.percent || 0) > 0 && Number(t.percent || 0) < 100).length;
+        document.getElementById('statModules') && (document.getElementById('statModules').textContent = totalCompleted);
+        document.getElementById('statTrails')  && (document.getElementById('statTrails').textContent  = trailsInProgress);
+      } catch (err) {
+        console.error('Erro ao carregar progresso:', err);
+      }
+    }
+    loadProgress();
+
+    // ── Carrega parceiros da API ──
+    async function loadPartners() {
+      const grid = document.getElementById('partnersGrid');
+      if (!grid) return;
+      try {
+        const res = await fetch(`${API}/partners`, { credentials: 'include' });
+        if (!res.ok) return;
+        const partners = await res.json();
+        grid.innerHTML = '';
+        if (!partners.length) {
+          grid.innerHTML = '<p style="padding:40px 0;color:rgba(200,221,232,0.35);font-size:14px;">Nenhum parceiro disponível no momento.</p>';
+          return;
+        }
+        partners.forEach(p => {
+          const logoHtml = p.logo_url
+            ? `<img src="${esc(p.logo_url)}" alt="${esc(p.name)}" style="max-height:64px;max-width:120px;object-fit:contain;">`
+            : `<div class="partner-logo-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+                <span>${esc(p.name)}</span>
+               </div>`;
+
+          const btnHtml = p.coupon_url
+            ? `<a href="${esc(p.coupon_url)}" target="_blank" rel="noopener noreferrer" class="btn-redeem">
+                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                Resgatar benefício
+               </a>`
+            : `<button class="btn-redeem" onclick="this.textContent='Link em breve!'" style="opacity:.6;cursor:default;">
+                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                Resgatar benefício
+               </button>`;
+
+          const card = document.createElement('div');
+          card.className = 'partner-card';
+          card.innerHTML = `
+            <div class="partner-logo-area">${logoHtml}</div>
+            <div class="partner-body">
+              <div class="partner-tags">
+                <span class="partner-tag partner-tag--green">${esc(p.category)}</span>
+                <span class="partner-tag partner-tag--gold">${esc(p.discount)}</span>
+              </div>
+              <h3 class="partner-name">${esc(p.name)}</h3>
+              ${p.description ? `<p class="partner-desc">${esc(p.description)}</p>` : ''}
+              <div class="partner-discount">
+                <span class="partner-discount-value">${esc(p.discount)}</span>
+                <span class="partner-discount-label">benefício exclusivo</span>
+              </div>
+              ${btnHtml}
+            </div>`;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Erro ao carregar parceiros:', err);
+      }
+    }
+    loadPartners();
+
+    // ── Carrega lives da API ──
+    async function loadLives() {
+      const featuredEl   = document.getElementById('liveFeatured');
+      const scheduleGrid = document.getElementById('liveScheduleGrid');
+      const scheduleLabel= document.getElementById('liveScheduleLabel');
+      if (!featuredEl) return;
+      try {
+        const res = await fetch(`${API}/lives`, { credentials: 'include' });
+        if (!res.ok) return;
+        const lives = await res.json();
+
+        const now      = Date.now();
+        const upcoming = lives
+          .filter(l => l.status !== 'finished' || new Date(l.scheduled_at).getTime() > now)
+          .sort((a, b) => new Date(a.scheduled_at) - new Date(b.scheduled_at));
+        const featured  = upcoming[0] || null;
+        const remaining = upcoming.slice(1, 7);
+
+        if (!featured) {
+          featuredEl.innerHTML = '<p style="padding:40px 0;color:rgba(200,221,232,0.35);font-size:14px;">Nenhuma live agendada no momento.</p>';
+          return;
+        }
+
+        const isLive = featured.status === 'live';
+        featuredEl.innerHTML = `
+          <div class="live-featured">
+            <div class="live-featured-thumb">
+              <div class="live-thumb-content">
+                <div class="live-thumb-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="23 7 16 12 23 17 23 7"/>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                  </svg>
+                </div>
+                <span class="live-thumb-status">${isLive ? '🔴 Ao vivo agora' : 'Próxima sessão ao vivo'}</span>
+              </div>
+            </div>
+            <div class="live-featured-body">
+              <h3 class="live-featured-title">${esc(featured.title)}</h3>
+              ${featured.description ? `<p class="live-featured-desc">${esc(featured.description)}</p>` : ''}
+              <div class="live-featured-meta">
+                <div class="live-meta-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  ${fmtDate(featured.scheduled_at)}
+                </div>
+                <div class="live-meta-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  ${fmtTime(featured.scheduled_at)}${featured.duration_min ? ` · ~${featured.duration_min} min` : ''}
+                </div>
+                ${featured.instructor ? `
+                <div class="live-meta-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  ${esc(featured.instructor)}
+                </div>` : ''}
+              </div>
+              <button class="btn-notify" style="background:none;border:none;cursor:pointer;">
+                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                Quero ser notificado
+              </button>
+            </div>
+          </div>`;
+
+        if (remaining.length && scheduleGrid) {
+          scheduleLabel && (scheduleLabel.style.display = '');
+          scheduleGrid.innerHTML = '';
+          remaining.forEach(l => {
+            const d = new Date(l.scheduled_at);
+            const card = document.createElement('div');
+            card.className = 'live-schedule-card';
+            card.innerHTML = `
+              <div class="live-date-box">
+                <div class="live-date-day">${d.getDate()}</div>
+                <div class="live-date-month">${MONTHS_SHORT[d.getMonth()]}</div>
+              </div>
+              <div class="live-schedule-info">
+                <h4 class="live-schedule-title">${esc(l.title)}</h4>
+                <span class="live-schedule-time">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  ${String(d.getHours()).padStart(2,'0')}h${String(d.getMinutes()).padStart(2,'0')}${l.duration_min ? ` · ~${l.duration_min} min` : ''}
+                </span>
+              </div>`;
+            scheduleGrid.appendChild(card);
+          });
+        }
+      } catch (err) {
+        console.error('Erro ao carregar lives:', err);
+      }
+    }
+    loadLives();
 
     // ── Botão de logout ──
     document.getElementById('btnLogout')?.addEventListener('click', async () => {

@@ -1,7 +1,10 @@
 const { query } = require('../config/database');
 
 const wrap = fn => async (req, res) => {
-  try { await fn(req, res); } catch (err) { res.status(500).json({ error: 'Erro interno.' }); }
+  try { await fn(req, res); } catch (err) {
+    console.error('progress error:', err.message);
+    res.status(500).json({ error: 'Erro interno.' });
+  }
 };
 
 exports.getAllProgress = wrap(async (req, res) => {
@@ -35,49 +38,19 @@ exports.getTrailProgress = wrap(async (req, res) => {
 
 exports.completeModule = wrap(async (req, res) => {
   await query(
-    `INSERT INTO module_progress (user_id, module_id, completed, watched_at)
-     VALUES ($1,$2,true,NOW())
+    `INSERT INTO module_progress (user_id, module_id, trail_id, completed, watched_at)
+     VALUES ($1, $2, $3, true, NOW())
      ON CONFLICT (user_id, module_id) DO UPDATE SET completed=true, watched_at=NOW()`,
-    [req.user.id, req.params.moduleId]
+    [req.user.id, req.params.moduleId, req.params.trailId]
   );
   res.json({ message: 'Módulo marcado como concluído.' });
 });
 
 exports.uncompleteModule = wrap(async (req, res) => {
   await query(
-    `UPDATE module_progress SET completed=false WHERE user_id=$1 AND module_id=$2`,
+    `UPDATE module_progress SET completed=false, watched_at=NULL
+     WHERE user_id=$1 AND module_id=$2`,
     [req.user.id, req.params.moduleId]
   );
   res.json({ message: 'Progresso removido.' });
 });
-
-exports.getTrailProgress = async (req, res) => {
-  const { rows } = await query(
-    `SELECT m.id module_id, m.title, m.order_num,
-            p.completed, p.watched_at
-     FROM modules m
-     LEFT JOIN module_progress p ON p.module_id = m.id AND p.user_id = $1
-     WHERE m.trail_id = $2 AND m.published = true
-     ORDER BY m.order_num`,
-    [req.user.id, req.params.trailId]
-  );
-  res.json(rows);
-};
-
-exports.completeModule = async (req, res) => {
-  await query(
-    `INSERT INTO module_progress (user_id, module_id, completed, watched_at)
-     VALUES ($1,$2,true,NOW())
-     ON CONFLICT (user_id, module_id) DO UPDATE SET completed=true, watched_at=NOW()`,
-    [req.user.id, req.params.moduleId]
-  );
-  res.json({ message: 'Módulo marcado como concluído.' });
-};
-
-exports.uncompleteModule = async (req, res) => {
-  await query(
-    `UPDATE module_progress SET completed=false WHERE user_id=$1 AND module_id=$2`,
-    [req.user.id, req.params.moduleId]
-  );
-  res.json({ message: 'Progresso removido.' });
-};

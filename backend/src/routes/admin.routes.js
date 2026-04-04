@@ -41,6 +41,7 @@ router.get   ('/students/:id',       ctrl.getStudent);
 router.put   ('/students/:id',       ctrl.updateStudent);
 router.delete('/students/:id',       ctrl.deleteStudent);
 router.put   ('/students/:id/subscription', ctrl.updateSubscription);
+router.get   ('/students/:id/progress',      ctrl.getStudentProgress);
 
 // Configurações
 router.get('/settings',          ctrl.getSettings);

@@ -110,7 +110,7 @@ exports.refresh = async (req, res) => {
     const newRefresh = signRefreshToken({ id: user.id, role: user.role });
     await query(`UPDATE users SET refresh_token = $1 WHERE id = $2`, [hashToken(newRefresh), user.id]);
     setAuthCookies(res, newAccess, newRefresh);
-    res.json({ message: 'Token renovado.' });
+    res.json({ message: 'Token renovado.', accessToken: newAccess });
   } catch {
     clearAuthCookies(res);
     res.status(401).json({ error: 'Refresh token expirado.' });

@@ -92,6 +92,7 @@ CREATE TABLE IF NOT EXISTS module_videos (
 CREATE TABLE IF NOT EXISTS module_progress (
   user_id    UUID    NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   module_id  UUID    NOT NULL REFERENCES modules(id) ON DELETE CASCADE,
+  trail_id   UUID    NOT NULL REFERENCES trails(id) ON DELETE CASCADE,
   completed  BOOLEAN NOT NULL DEFAULT false,
   watched_at TIMESTAMPTZ,
   PRIMARY KEY (user_id, module_id)
